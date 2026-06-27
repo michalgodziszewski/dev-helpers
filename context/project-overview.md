@@ -30,7 +30,7 @@ Flow: load branch -> start -> test -> review -> publish -> GitHub merge -> compl
 
 | Action | Purpose |
 |---|---|
-| load | Load a Markdown spec or inline description, then record workflow, type, base, and goals |
+| load | Load a Markdown spec or inline description, then record its source, workflow, type, base, and goals |
 | start | Fetch origin, fast-forward the base, verify SHAs, then create the work branch |
 | test | Discover and run relevant repository checks |
 | review | Review goals and the merge-base diff |
@@ -44,7 +44,7 @@ Flow: load branch -> start -> test -> review -> publish -> GitHub merge -> compl
 - Never branch from stale local state.
 - Never guess a base branch, release branch, or cherry-pick SHA.
 - Never auto-stash, force-pull, force-push, or push directly to trunk or release.
-- Treat context/current-feature.md as runtime state, but stop on any other dirty file, divergence, failed synchronization, conflicts, or failed required checks.
+- Allow context/current-feature.md and its exact local Markdown Source Spec to be dirty before start; stop on any other dirty file, divergence, failed synchronization, conflicts, or failed required checks.
 - Ask before commits, pushes, cherry-picks, and branch deletion.
 - GitHub is the merge point.
 

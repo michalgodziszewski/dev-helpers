@@ -21,6 +21,7 @@ Accept feature, bugfix, hotfix, or chore as <type>.
 3. When no matching file exists and the source contains multiple words, treat it as an inline description.
 4. When a filename-like value cannot be found, stop and report every path checked.
 5. Never modify or move the source specification file.
+6. Store a resolved file as a repository-relative Source Spec path. Store inline for an inline description.
 
 ## Resolve Git metadata
 
@@ -39,6 +40,7 @@ After the specification and Git metadata are complete:
    - Set the H1 to # Current Feature: <work name>.
    - Set Status to Not Started.
    - Set Workflow, Work Type, and Base Branch.
+   - Set Source Spec to the resolved repository-relative Markdown path or inline.
    - Leave Work Branch empty until start.
    - Clear Backport fields.
    - Copy or derive concrete Goals and Notes from the specification.

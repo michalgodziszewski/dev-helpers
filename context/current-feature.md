@@ -12,6 +12,7 @@
 - **Work Type:** <!-- feature | bugfix | hotfix | chore -->
 - **Base Branch:** <!-- trunk or explicit base branch -->
 - **Work Branch:** <!-- populated by /feature start -->
+- **Source Spec:** <!-- repo-relative Markdown path or inline -->
 - **Backport Release Branch:** <!-- optional -->
 - **Backport Commit SHA:** <!-- optional -->
 - **Backport Branch:** <!-- optional -->

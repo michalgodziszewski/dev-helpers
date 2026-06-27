@@ -15,7 +15,7 @@ Use one of two workflows for every work item.
 ### Trunk workflow
 
 1. Document the work and choose its type.
-2. Require a clean working tree except for context/current-feature.md runtime state.
+2. Require a clean working tree except for context/current-feature.md runtime state and its exact local Markdown Source Spec.
 3. Fetch origin, switch to trunk, and pull with fast-forward only.
 4. Verify local trunk equals origin/trunk.
 5. Create the work branch and implement the Goals.
@@ -31,7 +31,7 @@ Use one of two workflows for every work item.
 ### Explicit-base workflow
 
 1. Document the work, type, and exact base branch.
-2. Require a clean working tree except for context/current-feature.md runtime state.
+2. Require a clean working tree except for context/current-feature.md runtime state and its exact local Markdown Source Spec.
 3. Fetch origin, switch to the base, and pull with fast-forward only.
 4. Verify the local base equals origin/base.
 5. Create the work branch and implement the Goals.

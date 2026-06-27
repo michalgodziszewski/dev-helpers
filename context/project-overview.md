@@ -6,8 +6,8 @@ Custok Workflow is a collection of reusable developer automations and AI skills.
 
 Each skill uses:
 
-- skills/<name>/SKILL.md as its entry point and action router.
-- skills/<name>/actions/<action>.md for concrete procedures.
+- .claude/skills/<name>/SKILL.md as its Claude Code entry point and action router.
+- .claude/skills/<name>/actions/<action>.md for concrete procedures.
 - context/current-feature.md for active runtime state.
 
 ## Feature skill

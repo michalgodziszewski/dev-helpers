@@ -18,10 +18,15 @@ if ($LASTEXITCODE -ne 0 -or "$insideWorkTree" -ne 'true') {
 
 $ErrorActionPreference = 'Stop'
 
+# Detect unborn HEAD (initialized repo with no commits)
+$ErrorActionPreference = 'SilentlyContinue'
+git rev-parse HEAD 2>&1 | Out-Null
+$ErrorActionPreference = 'Stop'
+if ($LASTEXITCODE -ne 0) {
+    Write-Host 'No commits found.'
+    exit 0
+}
+
 # Retrieve and display HEAD commit summary
 $logOutput = git log --pretty=format:'%h  %an  %ad  %s' --date=short -n 1
-if ([string]::IsNullOrWhiteSpace($logOutput)) {
-    Write-Host 'No commits found.'
-} else {
-    Write-Host $logOutput
-}
+Write-Host $logOutput

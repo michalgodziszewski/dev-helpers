@@ -1,6 +1,6 @@
 ---
 name: feature
-description: Manage feature, bugfix, hotfix, and chore branches in trunk-based and explicit-base Git workflows. Use for loading work, synchronizing the base, implementing, testing, reviewing, publishing, clearing published work into a local pending-review queue, backporting merged work, and completing reviewed branches without blocking the next task.
+description: Manage feature, bugfix, hotfix, and chore branches in trunk-based and explicit-base Git workflows. Use for loading work, synchronizing the base, implementing, testing, reviewing, publishing, clearing published work into a local pending-review queue, abandoning cancelled work safely, backporting merged work, and completing reviewed branches without blocking the next task.
 ---
 
 # Feature Workflow
@@ -49,6 +49,9 @@ Stop if synchronization cannot be completed. Never branch from a stale base, aut
 | explain | explain | Explain changed files and flow |
 | publish | publish | Commit with permission and push to origin |
 | clear | clear | Move published work to Pending Reviews and free the active slot |
+| abandon | abandon | Abandon active work without discarding local changes |
+| abandon | abandon --discard | Explicitly discard active work and delete its local branch |
+| abandon | abandon <work-branch> | Remove one exact pending item from local workflow tracking |
 | backport | backport <release> <sha> | Backport the active trunk item |
 | backport | backport <work-branch> <release> <sha> | Backport a pending trunk item |
 | complete | complete | Complete active work using ancestry verification |

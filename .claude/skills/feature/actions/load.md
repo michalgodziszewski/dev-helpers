@@ -43,7 +43,7 @@ Accept feature, bugfix, hotfix, or chore as <type>.
 
 After the specification and Git metadata are complete:
 
-1. Require the active slot to be Idle or an empty legacy Completed state. If active work is Not Started, In Progress, Published, or Merged, stop and tell the user to finish or clear it first.
+1. Require the active slot to be Idle or an empty legacy Completed state. If active work is Not Started, In Progress, Published, or Merged, stop and tell the user to finish, clear, or abandon it first.
 2. Derive a short kebab-case work name.
 3. Update context/current-feature.md:
    - Set the H1 to # Current Feature: <work name>.

@@ -1,19 +1,14 @@
-# Current Feature: repository-status
-
-## Status
-
-In Progress
+# Repository Status
 
 ## Git Workflow
 
 - **Workflow:** branch
 - **Work Type:** feature
 - **Base Branch:** main
-- **Work Branch:** feature/repository-status
-- **Source Spec:** context/features/repository-status.md
-- **Backport Release Branch:** <!-- optional -->
-- **Backport Commit SHA:** <!-- optional -->
-- **Backport Branch:** <!-- optional -->
+
+## Description
+
+Create a small read-only PowerShell automation that summarizes the current Git repository status.
 
 ## Goals
 
@@ -24,12 +19,15 @@ In Progress
 - Show whether the local branch is ahead of or behind its upstream.
 - Return a clear message when the current directory is not a Git repository.
 
-## Notes
+## Constraints
 
 - Do not modify files, branches, commits, remotes, or the Git index.
 - Do not run fetch, pull, push, reset, checkout, switch, clean, or stash.
 - Use standard Git and PowerShell commands without additional dependencies.
-- Must work on Windows PowerShell, exit non-zero outside a Git repo, and leave git status unchanged.
 
-## History
+## Acceptance Criteria
 
+- The script works from a Git repository on Windows PowerShell.
+- The output is concise and readable.
+- The script exits with a non-zero status outside a Git repository.
+- Running the script does not change git status.

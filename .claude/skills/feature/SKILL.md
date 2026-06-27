@@ -36,6 +36,17 @@ Before creating any work or backport branch:
 
 Stop if synchronization cannot be completed. Never branch from a stale base, auto-stash, force-pull, reset, or silently resolve divergence.
 
+## Documentation
+
+Additional user-facing documentation lives in docs/:
+
+- docs/README.md for the documentation map and quick start
+- docs/use-cases.md for practical scenarios and recommended flows
+- docs/workflow-guide.md for the full lifecycle
+- docs/action-reference.md for command-by-command guidance
+- docs/backport.md for detailed backport verification and cherry-pick flow
+- docs/safety-rules.md for branch, state, and commit safety rules
+
 ## Actions
 
 | Action | Usage | Purpose |

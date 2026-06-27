@@ -43,8 +43,9 @@ Accept feature, bugfix, hotfix, or chore as <type>.
 
 After the specification and Git metadata are complete:
 
-1. Derive a short kebab-case work name.
-2. Update context/current-feature.md:
+1. Require the active slot to be Idle or an empty legacy Completed state. If active work is Not Started, In Progress, Published, or Merged, stop and tell the user to finish or clear it first.
+2. Derive a short kebab-case work name.
+3. Update context/current-feature.md:
    - Set the H1 to # Current Feature: <work name>.
    - Set Status to Not Started.
    - Set Workflow, Work Type, and Base Branch.
@@ -53,6 +54,7 @@ After the specification and Git metadata are complete:
    - Clear Backport fields.
    - Copy or derive concrete Goals and Notes from the specification.
    - Preserve History unchanged.
-3. Show the source file when used, workflow, base branch, proposed <type>/<work-name> branch, and goals.
+4. Preserve Pending Reviews and History unchanged.
+5. Show the source file when used, workflow, base branch, proposed <type>/<work-name> branch, and goals.
 
 Loading state must not run Git commands or change branches. Never stage or commit context/.

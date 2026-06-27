@@ -4,7 +4,7 @@
 
 ## Status
 
-<!-- Not Started | In Progress | Published | Merged | Completed -->
+Idle
 
 ## Git Workflow
 
@@ -24,6 +24,10 @@
 ## Notes
 
 <!-- Additional context and constraints -->
+
+## Pending Reviews
+
+<!-- Published work waiting for GitHub review or merge -->
 
 ## History
 

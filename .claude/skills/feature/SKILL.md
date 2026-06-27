@@ -1,31 +1,33 @@
 ---
 name: feature
-description: Manage feature, bugfix, hotfix, and chore branches in two Git workflows: branches created from trunk with optional release backports, or branches created from an explicitly selected base branch. Use for loading work, starting from a freshly synchronized base, testing, reviewing, publishing to origin, cherry-picking merged work to a release branch, and completing the workflow after a GitHub merge.
+description: Manage feature, bugfix, hotfix, and chore branches in trunk-based and explicit-base Git workflows. Use for loading work, synchronizing the base, implementing, testing, reviewing, publishing, clearing published work into a local pending-review queue, backporting merged work, and completing reviewed branches without blocking the next task.
 ---
 
 # Feature Workflow
 
-Manage one work item from description through GitHub merge and optional release backport.
+Manage one active work item plus any number of published items awaiting review.
 
-## State file
+## Local state
 
-Use context/current-feature.md as ignored local runtime state. If it does not exist, create it from assets/current-feature-template.md before loading work. Keep these fields current:
+Use context/current-feature.md as ignored personal runtime state. If it does not exist, create it from assets/current-feature-template.md.
 
-- Status: Not Started, In Progress, Published, Merged, or Completed
+The state contains:
+
+- One active slot with Status: Idle, Not Started, In Progress, Published, or Merged
 - Workflow: trunk or branch
 - Work Type: feature, bugfix, hotfix, or chore
-- Base Branch: trunk or an explicit branch
-- Work Branch: generated during start
-- Source Spec: repository-relative Markdown path or inline
-- Backport: release branch and commit SHA when applicable
+- Base Branch, Work Branch, and Source Spec
+- Optional backport metadata
+- Pending Reviews entries for published work no longer occupying the active slot
+- Local completed History
 
-Never stage or commit anything under context/. Never infer an unspecified base branch, release branch, or commit SHA.
+Never stage or commit anything under context/. Never overwrite an active item with load. Never infer an unspecified base branch, release branch, or commit SHA.
 
 ## Base synchronization invariant
 
 Before creating any work or backport branch:
 
-1. Ignore context/ completely. Outside it, require a clean working tree except for the exact Markdown Source Spec recorded in local state.
+1. Ignore context/ completely. Outside it, require a clean working tree except for an explicitly recorded Source Spec outside context/.
 2. Run git fetch origin --prune.
 3. Switch to the selected local base, creating it as a tracking branch when absent.
 4. Run git pull --ff-only origin <base-branch>.
@@ -46,7 +48,11 @@ Stop if synchronization cannot be completed. Never branch from a stale base, aut
 | review | review | Review goals, diff, and branch safety |
 | explain | explain | Explain changed files and flow |
 | publish | publish | Commit with permission and push to origin |
-| backport | backport <release-branch> <commit-sha> | Synchronize release, then cherry-pick merged work |
-| complete | complete | Verify merge, clean up locally, and reset state |
+| clear | clear | Move published work to Pending Reviews and free the active slot |
+| backport | backport <release> <sha> | Backport the active trunk item |
+| backport | backport <work-branch> <release> <sha> | Backport a pending trunk item |
+| complete | complete | Complete active work using ancestry verification |
+| complete | complete active <merge-sha> [backport-merge-sha] | Complete squash-merged active work |
+| complete | complete <work-branch> [merge-sha] [backport-merge-sha] | Complete an exact pending item |
 
 Read and execute only the matching file under actions/. If no action is provided, show the action table and examples. Do not commit, push, merge, cherry-pick, delete a branch, or reset state unless the matching action explicitly authorizes it.

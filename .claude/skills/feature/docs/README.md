@@ -7,6 +7,7 @@ This documentation explains when to use the `feature` skill and how to operate i
 - [Use cases](use-cases.md) describes the practical scenarios the skill supports.
 - [Workflow guide](workflow-guide.md) explains the end-to-end lifecycle from loading work to completion.
 - [Action reference](action-reference.md) summarizes each supported command and when to use it.
+- [Backport guide](backport.md) explains how release backports are verified, created, cherry-picked, and completed.
 - [Safety rules](safety-rules.md) documents the invariants that protect branches, commits, and local runtime state.
 
 ## Quick start

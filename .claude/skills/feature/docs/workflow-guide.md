@@ -48,6 +48,8 @@ Run `backport` only for trunk work that has recorded Published Commits and has b
 
 The skill cherry-picks each recorded atomic commit separately with `-x`, records the resulting Backport Commits, pushes a backport branch, and builds a pull request URL targeting the selected release branch.
 
+For a detailed step-by-step explanation, see [Backport guide](backport.md).
+
 ## 8. Complete reviewed work
 
 Run `complete` after the primary work, and any backport, have been merged. The skill verifies ancestry or explicit merge SHAs before moving the item into local History and removing only the selected active or pending entry.

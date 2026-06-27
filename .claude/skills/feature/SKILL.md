@@ -44,6 +44,7 @@ Additional user-facing documentation lives in docs/:
 - docs/use-cases.md for practical scenarios and recommended flows
 - docs/workflow-guide.md for the full lifecycle
 - docs/action-reference.md for command-by-command guidance
+- docs/backport.md for detailed backport verification and cherry-pick flow
 - docs/safety-rules.md for branch, state, and commit safety rules
 
 ## Actions

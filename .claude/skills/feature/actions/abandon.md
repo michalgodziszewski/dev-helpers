@@ -93,4 +93,4 @@ Do not automatically delete name-only legacy History lines that lack Work Branch
 
 ## Reset active slot
 
-Restore the generic H1, clear active Workflow, Work Type, Base Branch, Work Branch, Source Spec, backport fields, Goals, and Notes. Never stage or commit context/.
+Restore the generic H1, clear active Workflow, Work Type, Base Branch, Work Branch, Source Spec, Published Commits, backport fields, Goals, and Notes. Never stage or commit context/.

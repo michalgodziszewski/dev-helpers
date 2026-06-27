@@ -13,8 +13,9 @@ Idle
 - **Base Branch:** <!-- trunk or explicit base branch -->
 - **Work Branch:** <!-- populated by /feature start -->
 - **Source Spec:** <!-- repo-relative Markdown path or inline -->
+- **Published Commits:** <!-- ordered atomic SHAs, space-separated -->
 - **Backport Release Branch:** <!-- optional -->
-- **Backport Commit SHA:** <!-- optional -->
+- **Backport Commits:** <!-- ordered backport SHAs, space-separated -->
 - **Backport Branch:** <!-- optional -->
 
 ## Goals

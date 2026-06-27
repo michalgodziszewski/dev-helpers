@@ -75,7 +75,7 @@ After the specification and Git metadata are complete:
    - Set Workflow, Work Type, and Base Branch.
    - Set Source Spec to the resolved repository-relative Markdown path or inline.
    - Leave Work Branch empty until start.
-   - Clear Backport fields.
+   - Clear Published Commits and all backport fields.
    - Copy or derive concrete Goals and Notes from the specification.
    - Preserve History unchanged.
 4. Preserve Pending Reviews and History unchanged.

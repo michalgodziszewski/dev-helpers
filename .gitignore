@@ -9,6 +9,9 @@ Desktop.ini
 *.swp
 *~
 
+# Claude Code local settings
+.claude/settings.local.json
+
 # Local environment and secrets
 .env
 .env.*

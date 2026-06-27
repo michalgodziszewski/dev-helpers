@@ -33,11 +33,35 @@ Accept feature, bugfix, hotfix, or chore as <type>.
 
 ## Resolve Git metadata
 
-1. For load trunk, set Workflow to trunk and Base Branch to trunk.
-2. For load branch, require the explicit base branch.
-3. For load <spec-file-or-name>, read Workflow, Work Type, and Base Branch from the specification when present.
-4. If a file-only invocation does not define all required Git metadata, show the loaded specification and ask only for the missing values before updating current-feature.md.
-5. Never guess the base branch. Work Type may be inferred from an unambiguous specification heading or from context/fixes for bugfix; otherwise ask.
+Resolve all metadata before writing current-feature.md.
+
+1. Parse Markdown metadata from exact list fields under Git Workflow:
+   - **Workflow:** <value>
+   - **Work Type:** <value>
+   - **Base Branch:** <value>
+2. Trim Markdown formatting and whitespace from values. Preserve branch spelling exactly.
+3. Apply this precedence:
+   - Explicit command arguments
+   - Values parsed from the specification
+   - Ask the user
+4. Never use the current branch, repository default branch, origin/HEAD, main, or trunk as an implicit fallback.
+5. For load trunk:
+   - Set Workflow to trunk.
+   - Set Base Branch to trunk.
+   - If a specification explicitly contains conflicting values, stop and report the conflict.
+6. For load branch:
+   - Set Workflow to branch.
+   - Require the explicit base branch argument.
+   - If a specification explicitly contains conflicting values, stop and report the conflict.
+7. For load <spec-file-or-name>:
+   - Use Workflow, Work Type, and Base Branch exactly as parsed from the specification.
+   - Do not override parsed values with repository conventions.
+8. Enforce invariants:
+   - Workflow trunk requires Base Branch trunk.
+   - Workflow branch requires a non-empty explicit Base Branch.
+   - Work Type must be feature, bugfix, hotfix, or chore.
+9. If any required value is absent or inconsistent, show the parsed values and ask only for the missing or conflicting value before updating state.
+10. Work Type may be inferred from context/fixes only when the specification omits it; otherwise preserve the explicit value.
 
 ## Update state
 
@@ -51,10 +75,16 @@ After the specification and Git metadata are complete:
    - Set Workflow, Work Type, and Base Branch.
    - Set Source Spec to the resolved repository-relative Markdown path or inline.
    - Leave Work Branch empty until start.
-   - Clear Backport fields.
+   - Clear Published Commits and all backport fields.
    - Copy or derive concrete Goals and Notes from the specification.
    - Preserve History unchanged.
 4. Preserve Pending Reviews and History unchanged.
-5. Show the source file when used, workflow, base branch, proposed <type>/<work-name> branch, and goals.
+5. Re-read current-feature.md after writing it and verify:
+   - Stored Workflow equals the resolved Workflow.
+   - Stored Work Type equals the resolved Work Type.
+   - Stored Base Branch equals the resolved Base Branch.
+   - Stored Source Spec equals the resolved source.
+6. If any stored value differs, correct it immediately, re-read the file, and stop if the second verification still fails.
+7. Show the source file, resolved workflow, resolved base branch, proposed <type>/<work-name> branch, and goals.
 
 Loading state must not run Git commands or change branches. Never stage or commit context/.

@@ -27,3 +27,6 @@ out/
 *.tmp
 tmp/
 temp/
+
+# Personal feature workflow state and specifications
+/context/

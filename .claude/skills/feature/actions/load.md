@@ -2,6 +2,14 @@
 
 Support both Markdown specifications and inline descriptions.
 
+## Initialize local state
+
+1. Treat context/ as ignored personal runtime data.
+2. If context/current-feature.md does not exist:
+   - Create context/ when necessary.
+   - Copy the structure from ../assets/current-feature-template.md.
+3. Never stage or commit the created directory or any file under context/.
+
 ## Accepted forms
 
 - load <spec-file-or-name>
@@ -47,4 +55,4 @@ After the specification and Git metadata are complete:
    - Preserve History unchanged.
 3. Show the source file when used, workflow, base branch, proposed <type>/<work-name> branch, and goals.
 
-Loading state must not run Git commands or change branches.
+Loading state must not run Git commands or change branches. Never stage or commit context/.

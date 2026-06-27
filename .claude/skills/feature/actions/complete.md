@@ -13,7 +13,7 @@ Use only after the work pull request has been merged on GitHub. For trunk work r
 7. Verify the local Base Branch SHA equals its remote SHA.
 8. Show local branches proposed for deletion. Ask for permission before deleting them.
 9. Delete only confirmed, merged local Work Branch and Backport Branch. Never delete remote branches; GitHub policy owns remote cleanup.
-10. Append a concise completion entry to History.
+10. Append a concise completion entry to the local History.
 11. Reset all active feature fields to their placeholders and set Status to Completed.
 
-Do not create a reset commit automatically. Leave the state-file change for the next authorized commit.
+Do not stage or commit context/. Resetting local state must never create a Git change.

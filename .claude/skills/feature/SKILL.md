@@ -9,7 +9,7 @@ Manage one work item from description through GitHub merge and optional release 
 
 ## State file
 
-Use @context/current-feature.md. Keep these fields current:
+Use context/current-feature.md as ignored local runtime state. If it does not exist, create it from assets/current-feature-template.md before loading work. Keep these fields current:
 
 - Status: Not Started, In Progress, Published, Merged, or Completed
 - Workflow: trunk or branch
@@ -19,13 +19,13 @@ Use @context/current-feature.md. Keep these fields current:
 - Source Spec: repository-relative Markdown path or inline
 - Backport: release branch and commit SHA when applicable
 
-Never infer an unspecified base branch, release branch, or commit SHA.
+Never stage or commit anything under context/. Never infer an unspecified base branch, release branch, or commit SHA.
 
 ## Base synchronization invariant
 
 Before creating any work or backport branch:
 
-1. Require a clean working tree except for context/current-feature.md and the exact Markdown Source Spec recorded in it.
+1. Ignore context/ completely. Outside it, require a clean working tree except for the exact Markdown Source Spec recorded in local state.
 2. Run git fetch origin --prune.
 3. Switch to the selected local base, creating it as a tracking branch when absent.
 4. Run git pull --ff-only origin <base-branch>.

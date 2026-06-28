@@ -13,4 +13,5 @@ The context/ directory contains personal, ignored workflow state and may not exi
 - @context/project-overview.md
 - @context/coding-standards.md
 - @context/ai-interaction.md
+- @context/feature-config.md
 - @context/current-feature.md

@@ -38,6 +38,22 @@ Jira configuration supports:
 
 When Jira mode is disabled, preserve legacy branch and commit naming. When it is optional, apply Jira formats only when a ticket is supplied. When it is required, stop load until a valid ticket is resolved.
 
+## Context templates
+
+Assets include:
+
+- assets/ai-interaction-template.md for context/ai-interaction.md
+- assets/coding-standards-nextjs-template.md as the Next.js option for context/coding-standards.md
+- assets/project-overview-template.md for context/project-overview.md
+
+A future context initialization action must:
+
+1. Copy ai-interaction-template.md.
+2. Discover every assets/coding-standards-<stack>-template.md option, such as nextjs or a future angular variant, and ask the user which one to use. Never infer the stack or silently select a default.
+3. Copy the selected coding standards template to context/coding-standards.md.
+4. Inspect the repository and replace all placeholders in project-overview-template.md.
+5. Ensure /context/ is present in .gitignore.
+6. Never stage generated context files.
 ## Base synchronization invariant
 
 Before creating any work or backport branch:

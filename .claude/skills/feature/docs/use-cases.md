@@ -17,17 +17,18 @@ Typical flow:
 7. `clear` if you need to start another task while the pull request is awaiting review.
 8. `complete` after merge verification succeeds.
 
-## Bugfix, hotfix, or chore from trunk
+## Bugfix, fix, hotfix, or chore from trunk
 
 Use the same trunk flow when the work type is not a feature but still targets `trunk`.
 
 Examples:
 
 - `load trunk bugfix "Fix incorrect validation message"`
+- `load trunk fix "Correct malformed API response"`
 - `load trunk hotfix context/fixes/production-timeout.md`
 - `load trunk chore "Refresh generated CLI documentation"`
 
-The work type becomes part of the branch name, for example `bugfix/fix-incorrect-validation-message`.
+The work type becomes part of the branch name, for example `bugfix/fix-incorrect-validation-message` or `fix/correct-malformed-api-response`.
 
 ## Work against an explicit base branch
 

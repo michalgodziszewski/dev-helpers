@@ -9,7 +9,7 @@ Idle
 ## Git Workflow
 
 - **Workflow:** <!-- trunk | branch -->
-- **Work Type:** <!-- feature | bugfix | hotfix | chore -->
+- **Work Type:** <!-- feature | bugfix | fix | hotfix | chore -->
 - **Base Branch:** <!-- trunk or explicit base branch -->
 - **Work Branch:** <!-- populated by /feature start -->
 - **Source Spec:** <!-- repo-relative Markdown path or inline -->

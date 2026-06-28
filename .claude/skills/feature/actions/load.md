@@ -16,7 +16,7 @@ Support both Markdown specifications and inline descriptions.
 - load trunk <type> <spec-file-or-description>
 - load branch <base-branch> <type> <spec-file-or-description>
 
-Accept feature, bugfix, hotfix, or chore as <type>.
+Accept feature, bugfix, fix, hotfix, or chore as <type>.
 
 ## Resolve the specification
 
@@ -59,7 +59,7 @@ Resolve all metadata before writing current-feature.md.
 8. Enforce invariants:
    - Workflow trunk requires Base Branch trunk.
    - Workflow branch requires a non-empty explicit Base Branch.
-   - Work Type must be feature, bugfix, hotfix, or chore.
+   - Work Type must be feature, bugfix, fix, hotfix, or chore.
 9. If any required value is absent or inconsistent, show the parsed values and ask only for the missing or conflicting value before updating state.
 10. Work Type may be inferred from context/fixes only when the specification omits it; otherwise preserve the explicit value.
 

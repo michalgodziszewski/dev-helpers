@@ -1,6 +1,6 @@
 ---
 name: feature
-description: Manage feature, bugfix, hotfix, and chore branches in trunk-based and explicit-base Git workflows. Use for loading work, synchronizing the base, implementing, testing, reviewing, publishing, clearing published work into a local pending-review queue, abandoning cancelled work safely, backporting merged work, and completing reviewed branches without blocking the next task.
+description: Manage feature, bugfix, fix, hotfix, and chore branches in trunk-based and explicit-base Git workflows. Use for loading work, synchronizing the base, implementing, testing, reviewing, publishing, clearing published work into a local pending-review queue, abandoning cancelled work safely, backporting merged work, and completing reviewed branches without blocking the next task.
 ---
 
 # Feature Workflow
@@ -15,7 +15,7 @@ The state contains:
 
 - One active slot with Status: Idle, Not Started, In Progress, Published, or Merged
 - Workflow: trunk or branch
-- Work Type: feature, bugfix, hotfix, or chore
+- Work Type: feature, bugfix, fix, hotfix, or chore
 - Base Branch, Work Branch, Source Spec, and ordered atomic Published Commits
 - Optional release branch, backport branch, and ordered Backport Commits
 - Pending Reviews entries for published work no longer occupying the active slot

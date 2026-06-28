@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 
 import { run as startCommand } from "../src/cli/commands/start.js";
+import { run as featureSkillInstallCommand } from "../src/cli/commands/feature-skill-install.js";
 import { CliError } from "../src/cli/utils/errors.js";
 import { getCommandNames } from "../src/cli/command-registry.js";
 import { renderTopLevelHelp } from "../src/cli/help/render-help.js";
 
 const handlers: Record<string, (args: string[]) => Promise<void>> = {
   start: startCommand,
+  "feature-skill-install": featureSkillInstallCommand,
 };
 
 async function main(): Promise<void> {

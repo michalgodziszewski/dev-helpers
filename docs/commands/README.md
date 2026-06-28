@@ -10,3 +10,4 @@ Version: 0.1.0
 | Command | Description |
 |---|---|
 | [`dev start`](start.md) | Create a Git work branch from a synchronized base |
+| [`dev feature-skill-install`](feature-skill-install.md) | Install the feature skill and initialize project context |

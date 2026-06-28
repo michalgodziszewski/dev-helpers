@@ -9,6 +9,8 @@ import {
 import type { WorkType } from "../naming/branch-name.js";
 import { GitClient, GitError } from "../git/git-client.js";
 import { DEFAULT_BASE_BRANCH } from "../config/git.js";
+import { getCommand } from "../command-registry.js";
+import { renderCommandHelp } from "../help/render-help.js";
 
 const CONTEXT_PREFIX = "context/";
 
@@ -21,20 +23,8 @@ interface ParsedArgs {
 
 function parseArgs(args: string[]): ParsedArgs {
   if (args.length === 0) {
-    throw new CliError(
-      [
-        "Usage: dev start <TICKET> [description] [--type <type>] [--base <branch>]",
-        "",
-        "Examples:",
-        "  dev start LSG-12345",
-        '  dev start LSG-12345 "add user search"',
-        "  dev start LSG-12346 --base release-1.78.0",
-        '  dev start LSG-12347 "fix release behavior" --base release-1.78.0',
-        '  dev start LSG-12348 "fix timeout" --type fix --base release-1.78.0',
-        "",
-        `Allowed types: ${WORK_TYPES.join(", ")}`,
-      ].join("\n")
-    );
+    const cmd = getCommand("start");
+    throw new CliError(cmd ? renderCommandHelp(cmd) : "Usage: dev start <TICKET>");
   }
 
   let baseBranch = DEFAULT_BASE_BRANCH;

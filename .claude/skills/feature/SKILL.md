@@ -61,8 +61,9 @@ Additional user-facing documentation lives in docs/:
 | publish | publish | Commit with permission and push to origin |
 | clear | clear | Move published work to Pending Reviews and free the active slot |
 | abandon | abandon | Abandon active work without discarding local changes |
-| abandon | abandon --discard | Explicitly discard active work and delete its local branch |
+| abandon | abandon --discard | Explicitly discard active work and its local work/backport branches |
 | abandon | abandon <work-branch> | Remove one exact pending item from local workflow tracking |
+| abandon | abandon --discard <work-branch> | Discard one exact pending item and its local work/backport branches |
 | backport | backport <release> [merge-sha] | Atomically backport the active trunk item |
 | backport | backport <work-branch> <release> [merge-sha] | Atomically backport a pending trunk item |
 | complete | complete | Complete active work using ancestry verification |

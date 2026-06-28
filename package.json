@@ -9,7 +9,10 @@
   "scripts": {
     "build": "tsc",
     "dev": "node dist/bin/dev.js",
-    "test": "vitest run"
+    "test": "vitest run",
+    "docs:generate": "node dist/bin/generate-cli-docs.js",
+    "docs:check": "node dist/bin/generate-cli-docs.js --check",
+    "verify": "npm run build && npm test && npm run docs:check"
   },
   "engines": {
     "node": ">=18.0.0"

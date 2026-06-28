@@ -2,37 +2,26 @@
 
 import { run as startCommand } from "../src/cli/commands/start.js";
 import { CliError } from "../src/cli/utils/errors.js";
+import { getCommandNames } from "../src/cli/command-registry.js";
+import { renderTopLevelHelp } from "../src/cli/help/render-help.js";
 
-const commands: Record<string, (args: string[]) => Promise<void>> = {
+const handlers: Record<string, (args: string[]) => Promise<void>> = {
   start: startCommand,
 };
-
-function showHelp(): void {
-  console.log(
-    [
-      "Usage: dev <command> [options]",
-      "",
-      "Commands:",
-      "  start <TICKET> [description] [--type <type>] [--base <branch>]   Create a branch",
-      "",
-      "Run `dev <command>` with no arguments for command-specific help.",
-    ].join("\n")
-  );
-}
 
 async function main(): Promise<void> {
   const [commandName, ...args] = process.argv.slice(2);
 
-  if (!commandName) {
-    showHelp();
+  if (!commandName || commandName === "--help" || commandName === "-h") {
+    console.log(renderTopLevelHelp());
     process.exit(0);
   }
 
-  const handler = commands[commandName];
+  const handler = handlers[commandName];
 
   if (!handler) {
     console.error(`Unknown command: ${commandName}\n`);
-    showHelp();
+    console.log(renderTopLevelHelp());
     process.exit(1);
   }
 
@@ -44,6 +33,20 @@ async function main(): Promise<void> {
       process.exit(1);
     }
     throw err;
+  }
+}
+
+// Verify registry and handlers are in sync
+const registryNames = new Set(getCommandNames());
+const handlerNames = new Set(Object.keys(handlers));
+for (const name of registryNames) {
+  if (!handlerNames.has(name)) {
+    throw new Error(`Command "${name}" is in registry but has no handler.`);
+  }
+}
+for (const name of handlerNames) {
+  if (!registryNames.has(name)) {
+    throw new Error(`Handler "${name}" exists but is not in the registry.`);
   }
 }
 

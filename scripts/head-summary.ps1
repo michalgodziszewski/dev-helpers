@@ -16,12 +16,8 @@ if ($LASTEXITCODE -ne 0 -or "$insideWorkTree" -ne 'true') {
     exit 1
 }
 
-$ErrorActionPreference = 'Stop'
-
 # Detect unborn HEAD (initialized repo with no commits)
-$ErrorActionPreference = 'SilentlyContinue'
-git rev-parse HEAD 2>&1 | Out-Null
-$ErrorActionPreference = 'Stop'
+git rev-parse HEAD 2>$null | Out-Null
 if ($LASTEXITCODE -ne 0) {
     Write-Host 'No commits found.'
     exit 0

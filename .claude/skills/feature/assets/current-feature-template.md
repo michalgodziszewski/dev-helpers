@@ -10,6 +10,7 @@ Idle
 
 - **Workflow:** <!-- trunk | branch -->
 - **Work Type:** <!-- feature | bugfix | fix | hotfix | chore -->
+- **Jira Ticket:** <!-- optional unless local Jira mode requires it -->
 - **Base Branch:** <!-- trunk or explicit base branch -->
 - **Work Branch:** <!-- populated by /feature start -->
 - **Source Spec:** <!-- repo-relative Markdown path or inline -->

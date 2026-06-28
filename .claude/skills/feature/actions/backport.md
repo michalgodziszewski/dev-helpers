@@ -27,7 +27,13 @@ When the active slot is Idle, require an exact Pending Reviews Work Branch. Neve
 3. Switch to the local release branch, creating its tracking branch when absent.
 4. Run git pull --ff-only origin <release-branch>.
 5. Verify local release equals origin/<release-branch>.
-6. Create backport/<work-name>-<release-branch>.
+6. Derive the backport branch:
+   - Read Jira Ticket from the selected item and Jira configuration from context/feature-config.md.
+   - Jira naming is active when Mode is required, or when Mode is optional and the selected item has a ticket.
+   - In required mode, when a legacy selected item has no Jira Ticket, ask only for the ticket, validate it, and persist it on that exact item before creating a branch.
+   - When Jira naming is active, validate the stored ticket and render Branch Format with <type> = backport, <ticket> = the stored ticket, and <name> = <work-name>-<release-branch>.
+   - When Mode is disabled or optional without a ticket, use backport/<work-name>-<release-branch>.
+   - Require the result to pass git check-ref-format --branch, then create it.
 7. Immediately store Backport Release Branch and Backport Branch on the selected item and initialize Backport Commits as empty. Persist this metadata before asking or cherry-picking so conflict cleanup can identify the exact branch. Preserve every unrelated active and pending item.
 8. Show the exact ordered Published Commits with subjects and ask before cherry-picking and pushing.
 9. Cherry-pick each Published Commit separately and in order:

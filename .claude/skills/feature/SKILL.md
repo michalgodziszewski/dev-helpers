@@ -1,6 +1,6 @@
 ---
 name: feature
-description: Manage feature, bugfix, fix, hotfix, and chore branches in trunk-based and explicit-base Git workflows. Use for loading work, synchronizing the base, implementing, testing, reviewing, publishing, clearing published work into a local pending-review queue, abandoning cancelled work safely, backporting merged work, and completing reviewed branches without blocking the next task.
+description: Manage feature, bugfix, fix, hotfix, and chore branches with optional Jira-configured branch and commit naming in trunk-based and explicit-base Git workflows. Use for loading work, synchronizing the base, implementing, testing, reviewing, publishing, clearing published work into a local pending-review queue, abandoning cancelled work safely, backporting merged work, and completing reviewed branches without blocking the next task.
 ---
 
 # Feature Workflow
@@ -16,12 +16,27 @@ The state contains:
 - One active slot with Status: Idle, Not Started, In Progress, Published, or Merged
 - Workflow: trunk or branch
 - Work Type: feature, bugfix, fix, hotfix, or chore
+- Optional Jira Ticket with configurable validation and naming
 - Base Branch, Work Branch, Source Spec, and ordered atomic Published Commits
 - Optional release branch, backport branch, and ordered Backport Commits
 - Pending Reviews entries for published work no longer occupying the active slot
 - Local completed History
 
 Never stage or commit anything under context/. Never overwrite an active item with load. Never infer an unspecified base branch, release branch, or commit SHA.
+
+## Local configuration
+
+Use context/feature-config.md as ignored personal configuration. If it does not exist, copy assets/feature-config-template.md. Never stage or commit it.
+
+Jira configuration supports:
+
+- Mode: disabled, optional, or required
+- A comma-separated allowlist of project keys such as LSG, BOL; an empty list accepts any key matching Ticket Pattern
+- Ticket Pattern for validation
+- Branch Format tokens: <type>, <ticket>, and <name>
+- Commit Format tokens: <commit-type>, <ticket>, and <message>
+
+When Jira mode is disabled, preserve legacy branch and commit naming. When it is optional, apply Jira formats only when a ticket is supplied. When it is required, stop load until a valid ticket is resolved.
 
 ## Base synchronization invariant
 
@@ -51,9 +66,9 @@ Additional user-facing documentation lives in docs/:
 
 | Action | Usage | Purpose |
 |---|---|---|
-| load | load <spec-file-or-name> | Load a Markdown spec and resolve its Git metadata |
-| load | load trunk <type> <spec-file-or-description> | Prepare work based on trunk |
-| load | load branch <base> <type> <spec-file-or-description> | Prepare work based on a specific branch |
+| load | load [--ticket <ticket>] <spec-file-or-name> | Load a Markdown spec and resolve Git/Jira metadata |
+| load | load trunk <type> [--ticket <ticket>] <spec-file-or-description> | Prepare work based on trunk |
+| load | load branch <base> <type> [--ticket <ticket>] <spec-file-or-description> | Prepare work based on a specific branch |
 | start | start | Synchronize the base and create the work branch |
 | test | test | Run relevant tests and build checks |
 | review | review | Review goals, diff, and branch safety |

@@ -1,18 +1,44 @@
 # Publish Action
 
+## Verify work and Jira policy
+
 1. Read local state and require Status In Progress.
-2. Verify the current branch equals Work Branch and is not Base Branch.
-3. Run test.md and review.md. Stop on any failure or non-ready verdict.
-4. Show git status --short and a concise diff summary.
-5. Exclude context/ completely from staging.
-6. Propose a conventional commit message and ask before committing and pushing.
-7. After permission:
+2. Read context/feature-config.md using the exact Jira fields defined by load.md.
+3. Determine whether Jira naming is active:
+   - active when Mode is required
+   - active when Mode is optional and Jira Ticket is populated
+   - inactive when Mode is disabled or optional without a ticket
+4. When Jira naming is active:
+   - Require the stored Jira Ticket to pass Ticket Pattern and the configured Project Keys allowlist.
+   - Render Branch Format from Work Type, Jira Ticket, and work name.
+   - Require Work Branch and the current branch to equal that exact rendered branch.
+5. When Jira naming is inactive, require the current branch to equal Work Branch and require Work Branch not to equal Base Branch.
+6. Run test.md and review.md. Stop on any failure or non-ready verdict.
+7. Show git status --short and a concise diff summary.
+8. Exclude context/ completely from staging.
+
+## Create a compliant commit
+
+1. Map Work Type to the conventional commit type:
+   - feature -> feat
+   - bugfix -> fix
+   - fix -> fix
+   - hotfix -> fix
+   - chore -> chore
+2. Propose a concise commit message.
+3. When Jira naming is active, render Commit Format with:
+   - <commit-type> = mapped conventional type
+   - <ticket> = stored normalized Jira Ticket
+   - <message> = concise message without a duplicate ticket
+4. When Jira naming is inactive, use the normal conventional commit format.
+5. Show the exact message and ask before committing and pushing.
+6. After permission:
    - Stage only work-item files outside context/.
-   - Commit once with the approved message when uncommitted work exists.
+   - Commit once with the approved exact message when uncommitted work exists.
    - Run git fetch origin --prune.
    - Verify origin/<base-branch> exists.
 
-## Capture atomic commits
+## Capture and validate atomic commits
 
 1. Compute the ordered feature-only commit list:
 
@@ -25,12 +51,14 @@
    - Verify it resolves.
    - Verify it is not a merge commit.
    - Show SHA and subject.
-6. Also show ignored merge commits on the work branch so synchronization merges are visible.
-7. Ask the user to confirm the exact ordered commit list before push.
-8. Store the ordered SHAs as Published Commits in local state.
-9. Run git push -u origin <work-branch>.
-10. Verify origin/<work-branch> equals the local Work Branch commit.
-11. Set Status to Published.
+   - When Jira naming is active, require the subject to match Commit Format exactly around the <message> placeholder, use the mapped commit type, contain the exact stored ticket once, and contain a non-empty message.
+6. If any selected commit violates Jira policy, stop before storing Published Commits or pushing. List each invalid SHA and expected subject shape. Never amend, rebase, or force-rewrite commits automatically.
+7. Also show ignored merge commits on the work branch so synchronization merges are visible.
+8. Ask the user to confirm the exact ordered commit list before push.
+9. Store the ordered SHAs as Published Commits in local state.
+10. Run git push -u origin <work-branch>.
+11. Verify origin/<work-branch> equals the local Work Branch commit.
+12. Set Status to Published.
 
 ## Pull request target
 

@@ -11,11 +11,11 @@ Free the active slot after publication without waiting for review or merge.
    - Show and require confirmation of the exact list.
 6. Append one Pending Reviews entry containing:
    - Work name and Status Awaiting Review
-   - Workflow and Work Type
+   - Workflow, Work Type, and Jira Ticket
    - Base Branch and Work Branch
    - Ordered Published Commits
    - Backport Release Branch, ordered Backport Commits, and Backport Branch when populated
-7. Reset only the active slot to Idle, including Published Commits and all backport fields.
+7. Reset only the active slot to Idle, including Jira Ticket, Published Commits, and all backport fields.
 8. Preserve all existing Pending Reviews and History entries.
 9. Do not switch or delete branches.
 

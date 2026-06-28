@@ -69,14 +69,17 @@ Stop if synchronization cannot be completed. Never branch from a stale base, aut
 
 ## Documentation
 
-Additional user-facing documentation lives in docs/:
+Detailed English documentation lives in docs/:
 
-- docs/README.md for the documentation map and quick start
-- docs/use-cases.md for practical scenarios and recommended flows
-- docs/workflow-guide.md for the full lifecycle
-- docs/action-reference.md for command-by-command guidance
-- docs/backport.md for detailed backport verification and cherry-pick flow
-- docs/safety-rules.md for branch, state, and commit safety rules
+- docs/README.md for the documentation map, guarantees, prerequisites, and quick start
+- docs/configuration.md for local context, Jira policy, templates, and specification metadata
+- docs/state-model.md for active statuses, Pending Reviews, History, and atomic metadata
+- docs/workflows.md for trunk, explicit-base, review queue, completion, and backport flows
+- docs/action-reference.md for exact syntax, preconditions, effects, and stop conditions
+- docs/jira-naming.md for ticket validation and branch/commit rendering
+- docs/scenarios.md for end-to-end examples across common and failure situations
+- docs/safety-and-recovery.md for destructive boundaries, conflicts, and recovery
+- docs/troubleshooting.md for symptom-driven diagnostics
 
 ## Actions
 

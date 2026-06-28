@@ -2,14 +2,7 @@ import { CliError } from "./errors.js";
 
 const TICKET_PATTERN = /^[A-Z][A-Z0-9]*-[1-9][0-9]*$/;
 
-/**
- * Normalize a ticket string to uppercase and validate its format.
- *
- * @param {string} raw
- * @returns {string} Normalized uppercase ticket
- * @throws {CliError} When the ticket format is invalid
- */
-export function validateTicket(raw) {
+export function validateTicket(raw: string): string {
   const ticket = raw.toUpperCase();
   if (!TICKET_PATTERN.test(ticket)) {
     throw new CliError(

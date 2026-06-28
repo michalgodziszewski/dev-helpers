@@ -45,6 +45,9 @@ Assets include:
 - assets/ai-interaction-template.md for context/ai-interaction.md
 - assets/coding-standards-nextjs-template.md as the Next.js option for context/coding-standards.md
 - assets/project-overview-template.md for context/project-overview.md
+- assets/feature-spec-template.md as the starting structure for new feature and fix specifications
+
+When creating a new Markdown specification, copy assets/feature-spec-template.md into context/features/ or context/fixes/ and replace every placeholder. Never edit the asset for a single work item.
 
 A future context initialization action must:
 

@@ -233,6 +233,7 @@ The skill currently contains:
 - `assets/project-overview-template.md`
 - `assets/current-feature-template.md`
 - `assets/feature-config-template.md`
+- `assets/feature-spec-template.md`
 
 A future context initialization action is planned to:
 

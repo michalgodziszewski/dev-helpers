@@ -6,7 +6,7 @@ export interface PositionalArg {
 
 export interface CommandOption {
   flag: string;
-  valueName: string;
+  valueName?: string;
   description: string;
   required: boolean;
   allowedValues?: readonly string[];

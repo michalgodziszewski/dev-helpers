@@ -2,11 +2,13 @@ import { describe, it, expect } from "vitest";
 import { getCommandNames } from "../../src/cli/command-registry.js";
 import { run as startCommand } from "../../src/cli/commands/start.js";
 import { run as featureSkillInstallCommand } from "../../src/cli/commands/feature-skill-install.js";
+import { run as statusCommand } from "../../src/cli/commands/status.js";
 
 // Mirror the handler map from bin/dev.ts
 const handlers: Record<string, unknown> = {
   start: startCommand,
   "feature-skill-install": featureSkillInstallCommand,
+  status: statusCommand,
 };
 
 describe("registry and handler sync", () => {

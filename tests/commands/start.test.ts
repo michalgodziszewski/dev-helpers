@@ -1,6 +1,19 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { CliError } from "../../src/cli/utils/errors.js";
 
+// Mock the env config before importing start
+vi.mock("../../src/cli/config/env.js", () => {
+  return {
+    FALLBACK_BASE_BRANCH: "trunk",
+    loadDevEnv: vi.fn().mockReturnValue({ defaultBaseBranch: "main" }),
+    resolveBaseBranch: vi.fn().mockImplementation(
+      (cliValue: string | undefined, env: { defaultBaseBranch: string }) =>
+        cliValue ?? env.defaultBaseBranch,
+    ),
+    resetDevEnvCache: vi.fn(),
+  };
+});
+
 // Mock the git client before importing start
 const mockClient = {
   status: vi.fn().mockResolvedValue(""),

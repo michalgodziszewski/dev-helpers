@@ -1,6 +1,6 @@
 import type { CommandDefinition } from "./command-definition.js";
 import { WORK_TYPES, DEFAULT_WORK_TYPE } from "./naming/branch-name.js";
-import { DEFAULT_BASE_BRANCH } from "./config/git.js";
+import { FALLBACK_BASE_BRANCH } from "./config/env.js";
 
 const startCommand: CommandDefinition = {
   name: "start",
@@ -39,19 +39,24 @@ const startCommand: CommandDefinition = {
       valueName: "branch",
       description:
         "Base branch to synchronize and branch from. Validated with " +
-        "`git check-ref-format --branch`. Must exist on origin.",
+        "`git check-ref-format --branch`. Must exist on origin. " +
+        "When omitted, uses `DEV_DEFAULT_BASE_BRANCH` from the " +
+        "environment or `.env` file, falling back to `trunk`.",
       required: false,
-      defaultValue: DEFAULT_BASE_BRANCH,
+      defaultValue: FALLBACK_BASE_BRANCH,
     },
   ],
   examples: [
     {
       command: "dev start LSG-12345",
-      description: "Creates `feature/LSG-12345` from `main`.",
+      description:
+        "Creates `feature/LSG-12345` from the default base branch " +
+        "(`DEV_DEFAULT_BASE_BRANCH` or `trunk`).",
     },
     {
       command: 'dev start LSG-12345 "add user search"',
-      description: "Creates `feature/LSG-12345-add-user-search` from `main`.",
+      description:
+        "Creates `feature/LSG-12345-add-user-search` from the default base branch.",
     },
     {
       command: "dev start LSG-12346 --base release-1.78.0",

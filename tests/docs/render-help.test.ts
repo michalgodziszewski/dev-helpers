@@ -40,7 +40,7 @@ describe("renderCommandHelp", () => {
 
   it("includes option defaults", () => {
     const help = renderCommandHelp(cmd);
-    expect(help).toContain("default: main");
+    expect(help).toContain("default: trunk");
     expect(help).toContain("default: feature");
   });
 });

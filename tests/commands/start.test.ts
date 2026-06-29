@@ -1,5 +1,13 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { CliError } from "../../src/cli/utils/errors.js";
+
+// Disable colors in tests for predictable assertions
+const originalNoColor = process.env["NO_COLOR"];
+beforeEach(() => { process.env["NO_COLOR"] = "1"; });
+afterEach(() => {
+  if (originalNoColor === undefined) delete process.env["NO_COLOR"];
+  else process.env["NO_COLOR"] = originalNoColor;
+});
 
 // Mock the env config before importing start
 vi.mock("../../src/cli/config/env.js", () => {
@@ -106,7 +114,7 @@ describe("start command", () => {
   it("stops when working tree has changes outside context/", async () => {
     mock.status.mockResolvedValue(" M src/index.ts\n");
     await expect(run(["LSG-12345"])).rejects.toThrow(
-      /Working tree is not clean/
+      /has uncommitted changes/
     );
     expect(mock.fetchAndPrune).not.toHaveBeenCalled();
   });
@@ -120,13 +128,13 @@ describe("start command", () => {
 
   it("stops when local branch already exists", async () => {
     mock.hasLocalBranch.mockResolvedValue(true);
-    await expect(run(["LSG-12345"])).rejects.toThrow(/already exists locally/);
+    await expect(run(["LSG-12345"])).rejects.toThrow(/Branch exists locally/);
   });
 
   it("stops when remote branch already exists", async () => {
     mock.hasRemoteBranch.mockResolvedValue(true); // all branches exist on remote
     await expect(run(["LSG-12345"])).rejects.toThrow(
-      /already exists on origin/
+      /Branch exists on origin/
     );
   });
 
@@ -149,7 +157,7 @@ describe("start command", () => {
     mock.revParse
       .mockResolvedValueOnce("aaa1111")
       .mockResolvedValueOnce("bbb2222");
-    await expect(run(["LSG-12345"])).rejects.toThrow(/does not match/);
+    await expect(run(["LSG-12345"])).rejects.toThrow(/is out of sync/);
     expect(mock.createBranch).not.toHaveBeenCalled();
   });
 
@@ -192,7 +200,7 @@ describe("start command", () => {
   it("stops when base branch does not exist on origin", async () => {
     mock.hasRemoteBranch.mockResolvedValue(false); // nothing exists on remote
     await expect(run(["LSG-12345", "--base", "nonexistent"])).rejects.toThrow(
-      /does not exist on origin/
+      /Base branch not found/
     );
   });
 

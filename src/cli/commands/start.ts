@@ -11,6 +11,13 @@ import { GitClient, GitError } from "../git/git-client.js";
 import { loadDevEnv, resolveBaseBranch } from "../config/env.js";
 import { getCommand } from "../command-registry.js";
 import { renderCommandHelp } from "../help/render-help.js";
+import {
+  formatSuccess,
+  formatError,
+  formatKeyValue,
+  formatBranch,
+  formatHint,
+} from "../format/console.js";
 
 const CONTEXT_PREFIX = "context/";
 
@@ -93,7 +100,7 @@ export async function run(args: string[]): Promise<void> {
   if (dirtyPaths.length > 0) {
     throw new CliError(
       [
-        "Working tree is not clean. The following paths block branch creation:",
+        formatError("Working tree", "has uncommitted changes"),
         ...dirtyPaths.map((p) => `  ${p}`),
         "",
         "Commit, stash, or remove these changes before running this command.",
@@ -104,29 +111,29 @@ export async function run(args: string[]): Promise<void> {
   // Check if target branch already exists
   if (await git.hasLocalBranch(branchName)) {
     throw new CliError(
-      `Branch "${branchName}" already exists locally. Remove it or choose a different name.`
+      `${formatError("Branch exists locally", formatBranch(branchName))}\nRemove it or choose a different name.`
     );
   }
 
   // Fetch and prune origin
-  console.log("Fetching origin...");
+  console.log(formatHint("Fetching origin..."));
   await git.fetchAndPrune();
 
   if (await git.hasRemoteBranch(branchName)) {
     throw new CliError(
-      `Branch "${branchName}" already exists on origin. It was detected via origin/${branchName}.`
+      `${formatError("Branch exists on origin", formatBranch(branchName))}\nDetected via ${formatBranch(`origin/${branchName}`)}.`
     );
   }
 
   // Verify base branch exists on origin
   if (!(await git.hasRemoteBranch(baseBranch))) {
     throw new CliError(
-      `Base branch "${baseBranch}" does not exist on origin. Cannot create a feature branch from a non-existent base.`
+      `${formatError("Base branch not found", formatBranch(baseBranch))}\nCannot create a feature branch from a non-existent base.`
     );
   }
 
   // Switch to base branch and fast-forward
-  console.log(`Switching to ${baseBranch}...`);
+  console.log(formatHint(`Switching to ${baseBranch}...`));
   try {
     if (await git.hasLocalBranch(baseBranch)) {
       await git.switchBranch(baseBranch);
@@ -140,7 +147,7 @@ export async function run(args: string[]): Promise<void> {
     throw err;
   }
 
-  console.log(`Pulling ${baseBranch} (fast-forward only)...`);
+  console.log(formatHint(`Pulling ${baseBranch} (fast-forward only)...`));
   try {
     await git.pullFastForward(baseBranch);
   } catch (err) {
@@ -158,24 +165,33 @@ export async function run(args: string[]): Promise<void> {
   const remoteSha = await git.revParse(`origin/${baseBranch}`);
   if (localSha !== remoteSha) {
     throw new CliError(
-      `Local ${baseBranch} (${localSha.slice(0, 8)}) does not match ` +
-      `origin/${baseBranch} (${remoteSha.slice(0, 8)}). Cannot create branch from stale base.`
+      [
+        formatError("Base branch", `${baseBranch} is out of sync`),
+        `  Local:  ${localSha.slice(0, 8)}`,
+        `  Origin: ${remoteSha.slice(0, 8)}`,
+        "",
+        "Cannot create branch from stale base.",
+      ].join("\n")
     );
   }
 
+  console.log(formatSuccess("Base branch resolved", formatBranch(baseBranch)));
+
   // Create the feature branch
-  console.log(`Creating branch ${branchName}...`);
+  console.log(formatHint(`Creating branch ${branchName}...`));
   await git.createBranch(branchName);
 
   // Verify we're on the new branch
   const current = await git.currentBranch();
   if (current !== branchName) {
     throw new CliError(
-      `Expected to be on ${branchName} but ended up on ${current}.`
+      `Expected to be on ${formatBranch(branchName)} but ended up on ${formatBranch(current)}.`
     );
   }
 
+  console.log(formatSuccess("Work branch created", formatBranch(branchName)));
   console.log("");
-  console.log(`Base branch: ${baseBranch} (${localSha.slice(0, 8)})`);
-  console.log(`Created branch: ${branchName}`);
+  console.log(formatKeyValue("Ticket", ticket));
+  console.log(formatKeyValue("Base branch", `${formatBranch(baseBranch)} ${formatHint(`(${localSha.slice(0, 8)})`)}`));
+  console.log(formatKeyValue("Work branch", formatBranch(branchName)));
 }

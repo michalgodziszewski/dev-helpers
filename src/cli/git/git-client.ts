@@ -97,4 +97,45 @@ export class GitClient {
     const result = await this.run(["check-ref-format", "--branch", name]);
     return result.exitCode === 0;
   }
+
+  async trackingBranch(localBranch: string): Promise<string | undefined> {
+    const result = await this.run([
+      "config", "--get", `branch.${localBranch}.remote`,
+    ]);
+    if (result.exitCode !== 0) return undefined;
+
+    const remote = result.stdout.trimEnd();
+    const mergeResult = await this.run([
+      "config", "--get", `branch.${localBranch}.merge`,
+    ]);
+    if (mergeResult.exitCode !== 0) return undefined;
+
+    const mergeRef = mergeResult.stdout.trimEnd();
+    const shortRef = mergeRef.replace(/^refs\/heads\//, "");
+    return `${remote}/${shortRef}`;
+  }
+
+  async aheadBehind(local: string, remote: string): Promise<{ ahead: number; behind: number }> {
+    const result = await this.run([
+      "rev-list", "--left-right", "--count", `${local}...${remote}`,
+    ]);
+    if (result.exitCode !== 0) {
+      return { ahead: 0, behind: 0 };
+    }
+    const [ahead, behind] = result.stdout.trimEnd().split("\t").map(Number);
+    return { ahead, behind };
+  }
+
+  async isInsideWorkTree(): Promise<boolean> {
+    const result = await this.run(["rev-parse", "--is-inside-work-tree"]);
+    return result.exitCode === 0 && result.stdout.trimEnd() === "true";
+  }
+
+  async repositoryName(): Promise<string> {
+    const result = await this.runOrThrow("top-level", [
+      "rev-parse", "--show-toplevel",
+    ]);
+    const parts = result.replace(/\\/g, "/").split("/");
+    return parts[parts.length - 1];
+  }
 }

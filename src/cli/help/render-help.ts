@@ -36,7 +36,9 @@ export function renderCommandHelp(cmd: CommandDefinition): string {
     lines.push("");
     lines.push("Options:");
     for (const opt of cmd.options) {
-      let line = `  ${opt.flag} <${opt.valueName}>`;
+      let line = opt.valueName
+        ? `  ${opt.flag} <${opt.valueName}>`
+        : `  ${opt.flag}`;
       if (opt.defaultValue) {
         line += `  (default: ${opt.defaultValue})`;
       }

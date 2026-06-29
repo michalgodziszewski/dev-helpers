@@ -49,8 +49,11 @@ export function renderCommandMarkdown(
       const allowed = opt.allowedValues
         ? ` Allowed values: ${opt.allowedValues.map((v) => `\`${v}\``).join(", ")}.`
         : "";
+      const optLabel = opt.valueName
+        ? `${opt.flag} <${opt.valueName}>`
+        : opt.flag;
       lines.push(
-        `| \`${opt.flag} <${opt.valueName}>\` | ${opt.required ? "Yes" : "No"} | \`${opt.defaultValue ?? "—"}\` | ${opt.description}${allowed} |`,
+        `| \`${optLabel}\` | ${opt.required ? "Yes" : "No"} | \`${opt.defaultValue ?? "—"}\` | ${opt.description}${allowed} |`,
       );
     }
     lines.push("");

@@ -23,7 +23,7 @@ dev start <TICKET> [description] [--type <type>] [--base <branch>]
 | Option | Required | Default | Description |
 |---|---|---|---|
 | `--type <type>` | No | `feature` | Work type used as the branch prefix. Allowed values: `feature`, `bugfix`, `fix`, `hotfix`, `chore`. |
-| `--base <branch>` | No | `main` | Base branch to synchronize and branch from. Validated with `git check-ref-format --branch`. Must exist on origin. |
+| `--base <branch>` | No | `trunk` | Base branch to synchronize and branch from. Validated with `git check-ref-format --branch`. Must exist on origin. When omitted, uses `DEV_DEFAULT_BASE_BRANCH` from the environment or `.env` file, falling back to `trunk`. |
 
 ## Examples
 
@@ -31,13 +31,13 @@ dev start <TICKET> [description] [--type <type>] [--base <branch>]
 dev start LSG-12345
 ```
 
-Creates `feature/LSG-12345` from `main`.
+Creates `feature/LSG-12345` from the default base branch (`DEV_DEFAULT_BASE_BRANCH` or `trunk`).
 
 ```bash
 dev start LSG-12345 "add user search"
 ```
 
-Creates `feature/LSG-12345-add-user-search` from `main`.
+Creates `feature/LSG-12345-add-user-search` from the default base branch.
 
 ```bash
 dev start LSG-12346 --base release-1.78.0

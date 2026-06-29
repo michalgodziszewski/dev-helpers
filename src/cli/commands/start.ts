@@ -8,7 +8,7 @@ import {
 } from "../naming/branch-name.js";
 import type { WorkType } from "../naming/branch-name.js";
 import { GitClient, GitError } from "../git/git-client.js";
-import { DEFAULT_BASE_BRANCH } from "../config/git.js";
+import { loadDevEnv, resolveBaseBranch } from "../config/env.js";
 import { getCommand } from "../command-registry.js";
 import { renderCommandHelp } from "../help/render-help.js";
 
@@ -18,7 +18,7 @@ interface ParsedArgs {
   ticket: string;
   description: string[] | undefined;
   workType: WorkType;
-  baseBranch: string;
+  cliBaseBranch: string | undefined;
 }
 
 function parseArgs(args: string[]): ParsedArgs {
@@ -27,7 +27,7 @@ function parseArgs(args: string[]): ParsedArgs {
     throw new CliError(cmd ? renderCommandHelp(cmd) : "Usage: dev start <TICKET>");
   }
 
-  let baseBranch = DEFAULT_BASE_BRANCH;
+  let cliBaseBranch: string | undefined;
   let workType: WorkType = DEFAULT_WORK_TYPE;
   const remaining: string[] = [];
 
@@ -36,7 +36,7 @@ function parseArgs(args: string[]): ParsedArgs {
       if (i + 1 >= args.length) {
         throw new CliError("--base requires a branch name argument.");
       }
-      baseBranch = args[i + 1];
+      cliBaseBranch = args[i + 1];
       i++;
     } else if (args[i] === "--type") {
       if (i + 1 >= args.length) {
@@ -62,7 +62,7 @@ function parseArgs(args: string[]): ParsedArgs {
   const ticket = validateTicket(remaining[0]);
   const description = remaining.length > 1 ? remaining.slice(1) : undefined;
 
-  return { ticket, description, workType, baseBranch };
+  return { ticket, description, workType, cliBaseBranch };
 }
 
 function filterDirtyPaths(statusOutput: string): string[] {
@@ -76,7 +76,9 @@ function filterDirtyPaths(statusOutput: string): string[] {
 }
 
 export async function run(args: string[]): Promise<void> {
-  const { ticket, description, workType, baseBranch } = parseArgs(args);
+  const { ticket, description, workType, cliBaseBranch } = parseArgs(args);
+  const env = loadDevEnv();
+  const baseBranch = resolveBaseBranch(cliBaseBranch, env);
   const branchName = buildBranchName(workType, ticket, description);
   const git = new GitClient();
 

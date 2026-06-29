@@ -5,7 +5,7 @@ import {
   getCommandNames,
 } from "../../src/cli/command-registry.js";
 import { WORK_TYPES, DEFAULT_WORK_TYPE } from "../../src/cli/naming/branch-name.js";
-import { DEFAULT_BASE_BRANCH } from "../../src/cli/config/git.js";
+import { FALLBACK_BASE_BRANCH } from "../../src/cli/config/env.js";
 
 describe("command registry", () => {
   it("returns the start command by name", () => {
@@ -42,11 +42,11 @@ describe("command registry", () => {
     expect(typeOption!.defaultValue).toBe(DEFAULT_WORK_TYPE);
   });
 
-  it("start command references runtime DEFAULT_BASE_BRANCH constant", () => {
+  it("start command references runtime FALLBACK_BASE_BRANCH constant", () => {
     const cmd = getCommand("start")!;
     const baseOption = cmd.options.find((o) => o.flag === "--base");
     expect(baseOption).toBeDefined();
-    expect(baseOption!.defaultValue).toBe(DEFAULT_BASE_BRANCH);
+    expect(baseOption!.defaultValue).toBe(FALLBACK_BASE_BRANCH);
   });
 
   it("every command has required metadata fields", () => {

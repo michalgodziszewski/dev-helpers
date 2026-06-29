@@ -139,7 +139,7 @@ describe("start command documentation content", () => {
   });
 
   it("documents default base branch", () => {
-    expect(md).toContain("`main`");
+    expect(md).toContain("`trunk`");
   });
 
   it("documents context/ exception", () => {

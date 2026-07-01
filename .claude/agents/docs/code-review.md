@@ -1,6 +1,6 @@
 # Code Review Subagent
 
-A specialized Claude Code subagent that reviews code changes against project conventions, architecture patterns, safety invariants, and quality gates. It is read-only and never modifies files or performs git write operations.
+A minimal, read-only Claude Code subagent that reviews changed files in the working tree and reports practical issues only. It never modifies files or performs git write operations.
 
 **Definition:** `.claude/agents/code-review.md`
 
@@ -9,8 +9,8 @@ A specialized Claude Code subagent that reviews code changes against project con
 Spawn this subagent:
 
 - After implementing changes, before `/feature publish`.
-- When you want a deeper structural review beyond `/feature review` (which checks goal completeness and diff scope).
-- When you want an independent convention check on a specific set of changes.
+- When you want an independent, practical review of the current working-tree changes.
+- When you want a quick check for debug leftovers, unused code, or unsafe shell patterns.
 
 ## How to spawn
 
@@ -20,18 +20,11 @@ Use the Agent tool with `subagent_type: "code-review"`:
 Agent({
   description: "Code review of current changes",
   subagent_type: "code-review",
-  prompt: "Review the work branch feature/my-branch against base branch main. Goals: ..."
+  prompt: "Review the current working-tree changes and report practical issues."
 })
 ```
 
-The prompt must include:
-
-| Field | Required | Source |
-|---|---|---|
-| Base branch | Yes | `context/current-feature.md` or user input |
-| Work branch | Yes | `context/current-feature.md` or user input |
-| Goals | Yes | `context/current-feature.md` or user input |
-| Scope filter | No | User input — limits review to specific categories |
+The subagent reviews the local diff. No branch or goal metadata is required — it inspects the working tree directly with read-only git commands.
 
 ## Model
 
@@ -44,79 +37,71 @@ Uses the **Sonnet** model (`model: "sonnet"`) for cost efficiency. Code review d
 | Read | Read full file contents for context beyond the diff |
 | Grep | Search for patterns across the codebase |
 | Glob | Find files by name patterns |
-| Bash | **Read-only git commands only** — `git fetch`, `git diff`, `git log`, `git status`, `git rev-parse`, `git check-ref-format`, `git show`, `git branch --list` |
+| Bash | **Read-only inspection only** — see the allowed commands below |
 
 The subagent cannot use Edit, Write, NotebookEdit, or Agent.
 
+### Allowed Bash commands
+
+```bash
+git status --short
+git diff --stat
+git diff
+git diff --cached --stat
+git diff --cached
+git ls-files
+grep -R "console\.\|debugger\|TODO\|FIXME\|HACK\|XXX" . --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=dist
+```
+
+No other Bash commands are run.
+
 ## Constraints
 
-- Strictly read-only — never modifies files.
-- Never commits, pushes, merges, cherry-picks, deletes branches, or resets state.
-- Bash usage limited to read-only git commands listed above.
+- Strictly read-only — never modifies, creates, or deletes files.
+- Never commits, pushes, merges, cherry-picks, checks out, resets, or cleans state.
+- Bash usage limited to the read-only inspection commands listed above.
 - Reports issues with concrete fix suggestions but does not apply them.
 - Does not run tests (handled by `/feature test`).
 - Does not check goal completeness (handled by `/feature review`).
-- Focuses on conventions, patterns, safety, and code quality — not functional correctness.
+
+## Scope
+
+Focuses on:
+
+- TypeScript / JavaScript correctness and obvious runtime bugs
+- simple code quality
+- unused code and unused imports
+- debug leftovers
+- unsafe shell script patterns
+- confusing Markdown/spec issues
+
+Does not review:
+
+- feature goal completeness
+- business logic correctness
+- release readiness
+- test execution
+- full architecture
+- documentation generation
+- git workflow correctness unless the changed code directly touches git behavior
 
 ## Review procedure
 
-1. **Determine the diff** — Fetches origin, diffs the work branch against the base using three-dot syntax. If the work branch is not yet pushed, uses the local branch and flags this in the report.
-2. **Classify changes** — Partitions changed files into categories (CLI commands, infrastructure, skill definitions, tests, documentation, configuration, etc.).
-3. **Run applicable checks** — Executes every relevant check from a 17-item checklist. Skips checks for categories with no changed files.
-
-## Review checklist
-
-| # | Check | Triggered by |
-|---|---|---|
-| 1 | Registry and handler sync | `src/cli/commands/**`, `command-registry.ts`, `bin/dev.ts` |
-| 2 | Command implementation pattern | `src/cli/commands/**` |
-| 3 | Argument parsing | `src/cli/commands/**` |
-| 4 | Error handling | Any `src/**` file |
-| 5 | Console output formatting | Any file producing terminal output |
-| 6 | Git client usage | `src/cli/git/git-client.ts` or callers |
-| 7 | Naming and validation | `src/cli/naming/**`, `src/cli/utils/**` |
-| 8 | Environment and configuration | `src/cli/config/**`, `.env` |
-| 9 | Test quality | `tests/**` or new source files without tests |
-| 10 | Documentation sync | `command-registry.ts`, `src/cli/commands/**`, `docs/**` |
-| 11 | TypeScript strictness | Any `.ts` file |
-| 12 | Safety invariants | Git operation or workflow state code |
-| 13 | Skill definition quality | `.claude/skills/**`, `.claude/agents/**` |
-| 14 | Feature skill installer | `src/cli/feature-skill-install/**` |
-| 15 | Code quality and hygiene | Always |
-| 16 | Scope and intent | Always |
-| 17 | Dependencies and configuration | `package.json`, `tsconfig.json` |
+1. Inspect changed files using `git status --short`.
+2. Inspect the diff using `git diff` and, if needed, `git diff --cached`.
+3. Read changed files when the diff alone is not enough.
+4. Report only concrete issues.
+5. Keep the review short, and avoid suggesting large rewrites unless there is a real problem.
 
 ## Output format
 
-The subagent produces a structured report:
+Findings are grouped by severity:
 
-```
-## Code Review Report
+- 🔴 **Blocker** — must be fixed before merge
+- 🟡 **Warning** — should be fixed or consciously accepted
+- 🟢 **Nit** — optional or cosmetic improvement
 
-### Summary
-<one paragraph: what the changes do, overall assessment>
-
-### Verdict: <Ready to publish | Needs changes>
-
-### Findings
-
-#### Critical (must fix before publish)
-- [ ] <finding with file:line reference>
-
-#### Warnings (should fix, judgment call)
-- [ ] <finding with file:line reference>
-
-#### Notes (informational, no action required)
-- <observation>
-
-### Checks passed
-- <list of checks that passed cleanly>
-```
-
-### Verdict rules
-
-- **Ready to publish** — Zero critical findings. Warnings are acceptable.
-- **Needs changes** — One or more critical findings, each with a concrete fix suggestion.
+Each finding includes a file path and line (when possible), a short explanation, and a concrete suggestion. The report ends with a 1–2 sentence summary. If there are no findings, the subagent says so directly.
 
 ## Relationship to other actions
 
@@ -124,4 +109,4 @@ The subagent produces a structured report:
 |---|---|---|
 | `/feature review` | Goal completeness, diff scope, branch safety | None — complementary |
 | `/feature test` | Run tests, lint, type checks, build | None — subagent does not run tests |
-| Code review subagent | Convention enforcement, code quality, safety patterns | Deeper structural analysis |
+| Code review subagent | Practical code quality, debug leftovers, unused code, shell/Markdown safety | Independent quality check |

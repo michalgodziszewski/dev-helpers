@@ -20,6 +20,7 @@ This documentation describes the behavior implemented by `.claude/skills/feature
 
 | Document | Use it for |
 |---|---|
+| [Planning](planning.md) | Iterative `plan` workflow, preview specs, numbering, screenshots, and finalization |
 | [Configuration](configuration.md) | Local context files, Jira modes, templates, work types, and specification metadata |
 | [State model](state-model.md) | Active statuses, Pending Reviews, History, and lifecycle transitions |
 | [Workflows](workflows.md) | End-to-end trunk, explicit-base, review queue, and backport flows |

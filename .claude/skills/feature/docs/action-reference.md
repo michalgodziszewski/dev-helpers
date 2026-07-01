@@ -6,6 +6,7 @@ Invoke actions through `/feature <action> ...`. Each action reads only its match
 
 | Action | Primary state | Main effect |
 |---|---|---|
+| `plan` | No active work required | Iteratively plan a spec and write a preview file, finalized in place |
 | `load` | Idle | Resolve a spec and write Not Started state |
 | `start` | Not Started | Synchronize base, create branch, begin implementation |
 | `test` | In Progress or reviewable work | Run relevant repository checks |
@@ -16,6 +17,53 @@ Invoke actions through `/feature <action> ...`. Each action reads only its match
 | `backport` | Merged trunk evidence available | Cherry-pick recorded commits to release branch |
 | `complete` | Published/Merged or pending | Verify remote merge and record History |
 | `abandon` | Active or exact pending item | Remove one cancelled item safely |
+
+## plan
+
+### Syntax
+
+```text
+/feature plan [<work-type>] [<name-or-description>]
+/feature plan status
+/feature plan cancel
+/feature plan done
+```
+
+See [Planning](planning.md) for the full workflow.
+
+### Preconditions
+
+- `plan` (start/refine): a resolvable work type or target folder, feature/fix name, and short description. Ask when missing.
+- `plan done`: all finalization-required fields present — target collection, work type, name, short description, workflow, base branch, goals, and scope.
+- `plan status` and `plan cancel`: require an active planning session to report meaningful state.
+
+### Behavior
+
+- Infers the target folder from work type (`fix`/`bugfix`/`hotfix` → `context/fixes/`; `feature`/`docs`/`refactor`/`chore`/`tooling`/`config`/`test`/`ci`/`research` → `context/features/`).
+- Resolves the next four-digit number independently per folder and a slug from the name.
+- Creates a real preview spec file from `assets/current-feature-template.md` with a removable preview marker block.
+- Refines the same preview file as requirements arrive, including screenshots under `context/screenshots/` and optional Jira/MCP context.
+- `plan status` reports the session and a missing-fields checklist without writing.
+- `plan cancel` clears the session and, only for a still-preview file, optionally deletes it.
+- `plan done` finalizes in place: removes the preview block, fills placeholders, keeps `## History` skill-managed, then suggests `/feature load <path>`.
+
+### Git side effects
+
+None. `plan` never fetches, pulls, branches, commits, or pushes.
+
+### Stops when
+
+- required-to-create inputs are missing (asks instead of guessing);
+- the composed filename already exists and cannot be safely adjusted without confirmation;
+- `plan done` is missing finalization-required fields (shows the checklist and keeps the preview);
+- no active planning session exists for `plan status`, `plan cancel`, or `plan done`.
+
+### Does not
+
+- modify the active slot in `context/current-feature.md` unless explicitly asked;
+- delete finalized specs, unrelated preview files, or screenshots;
+- run `/feature load` automatically;
+- generate or edit History.
 
 ## load
 

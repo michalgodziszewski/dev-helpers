@@ -1,6 +1,8 @@
 # Current Feature
 
-<!-- Feature name and short description -->
+{{title}} — {{short_description}}
+
+{{preview_notice}}
 
 ## Status
 
@@ -8,29 +10,41 @@ Idle
 
 ## Git Workflow
 
-- **Workflow:** <!-- trunk | branch -->
-- **Work Type:** <!-- feature | bugfix | fix | hotfix | chore -->
-- **Jira Ticket:** <!-- optional unless local Jira mode requires it -->
-- **Base Branch:** <!-- trunk or explicit base branch -->
-- **Work Branch:** <!-- populated by /feature start -->
-- **Source Spec:** <!-- repo-relative Markdown path or inline -->
-- **Published Commits:** <!-- ordered atomic SHAs, space-separated -->
-- **Backport Release Branch:** <!-- optional -->
-- **Backport Commits:** <!-- ordered backport SHAs, space-separated -->
-- **Backport Branch:** <!-- optional -->
+- **Workflow:** {{workflow}}
+- **Work Type:** {{work_type}}
+- **Jira Ticket:** {{jira_ticket}}
+- **Base Branch:** {{base_branch}}
+- **Work Branch:** {{work_branch}}
+- **Source Spec:** {{source_spec}}
+- **Published Commits:**
+- **Backport Release Branch:**
+- **Backport Commits:**
+- **Backport Branch:**
 
 ## Goals
 
-<!-- Goals and requirements -->
+{{goals}}
+
+## References
+
+{{references}}
+
+## Scope
+
+{{scope}}
+
+## Documentation Requirements
+
+{{documentation_requirements}}
 
 ## Notes
 
-<!-- Additional context and constraints -->
+{{notes}}
 
 ## Pending Reviews
 
-<!-- Published work waiting for GitHub review or merge -->
+None.
 
 ## History
 
-<!-- Local history, earliest to latest -->
+<!-- Managed by skill -->

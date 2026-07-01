@@ -8,6 +8,7 @@ Support both Markdown specifications and inline descriptions.
 2. If context/current-feature.md does not exist:
    - Create context/ when necessary.
    - Copy the structure from ../assets/current-feature-template.md.
+   - Because the template is placeholder-based, replace every remaining {{...}} placeholder with an empty value, remove the {{preview_notice}} line, and drop the optional planning-only sections (## References, ## Scope, ## Documentation Requirements) so the runtime state file keeps only Status, Git Workflow, Goals, Notes, Pending Reviews, and History.
 3. If context/feature-config.md does not exist, copy ../assets/feature-config-template.md.
 4. If current-feature.md is a legacy file without Jira Ticket, add the field after Work Type without changing other state.
 5. Never stage or commit anything under context/.

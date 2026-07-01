@@ -8,8 +8,8 @@ A minimal, read-only Claude Code subagent that reviews changed files in the work
 
 Spawn this subagent:
 
-- After implementing changes, before `/feature publish`.
-- When you want an independent, practical review of the current working-tree changes.
+- Automatically as the delegated code-quality pass of `/feature review` (and therefore `/feature publish`, which runs `review.md` before committing). The `review` action spawns it as a stack-agnostic black box and folds its findings into the single verdict.
+- Directly, after implementing changes, when you want an independent practical review of the current working-tree changes.
 - When you want a quick check for debug leftovers, unused code, or unsafe shell patterns.
 
 ## How to spawn
@@ -105,8 +105,11 @@ Each finding includes a file path and line (when possible), a short explanation,
 
 ## Relationship to other actions
 
-| Action | Purpose | Overlap |
+| Action | Purpose | Relationship |
 |---|---|---|
-| `/feature review` | Goal completeness, diff scope, branch safety | None — complementary |
+| `/feature review` | Goal completeness, diff scope, branch safety, and the delegated code-quality pass | Delegates the code-quality pass to this subagent and folds its findings into the verdict |
+| `/feature publish` | Commit and push | Runs `review.md` before committing, inheriting the delegated pass without a separate spawn |
 | `/feature test` | Run tests, lint, type checks, build | None — subagent does not run tests |
-| Code review subagent | Practical code quality, debug leftovers, unused code, shell/Markdown safety | Independent quality check |
+| Code review subagent | Practical code quality, debug leftovers, unused code, shell/Markdown safety | Delegated by `review`; can also be spawned directly |
+
+`review` inspects the committed branch diff (`origin/<base>...<work-branch>`) for goals and scope, while this subagent inspects the working tree (uncommitted changes). When everything is already committed and the tree is clean, the subagent returns no findings. If no `code-review` agent is installed in the project, `review` skips the delegated pass with a note instead of failing. The checklist itself is technology-dependent and owned by the installed agent template, so `review` stays stack-agnostic.

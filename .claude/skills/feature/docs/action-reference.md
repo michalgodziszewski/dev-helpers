@@ -179,11 +179,12 @@ None. `plan` never fetches, pulls, branches, commits, or pushes.
 ### Behavior
 
 - Fetches origin.
-- Reviews `git diff origin/<base-branch>...<work-branch>`.
-- Checks goal coverage, unrelated scope, security, validation, error handling, tests, merge commits, secrets, generated artifacts, and debug code.
-- Returns exactly one verdict: `Ready to publish` or `Needs changes`.
+- Reviews `git diff origin/<base-branch>...<work-branch>` for goal coverage, unrelated scope, security, validation, error handling, tests, merge commits, secrets, generated artifacts, and debug code.
+- Delegates the practical code-quality pass to the `code-review` subagent (spawned via the Agent tool with `subagent_type: "code-review"`). The subagent is treated as a stack-agnostic black box: its checklist is technology-dependent (Angular, Next.js, .NET, …) and owned by the installed agent template, so the action never restates stack-specific checks.
+- The subagent inspects the working tree (uncommitted changes); the committed branch diff is covered by the action's own analysis. If no `code-review` agent is installed, the delegated pass is skipped with a note and the review does not fail.
+- Folds the subagent's findings into its own analysis and returns exactly one verdict: `Ready to publish` or `Needs changes`.
 
-A Needs changes verdict blocks `publish`.
+A Needs changes verdict blocks `publish`. `publish` runs `review.md` before creating a commit, so it inherits the delegated code-quality pass without spawning the subagent separately.
 
 ## explain
 

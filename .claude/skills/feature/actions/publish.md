@@ -13,7 +13,7 @@
    - Render Branch Format from Work Type, Jira Ticket, and work name.
    - Require Work Branch and the current branch to equal that exact rendered branch.
 5. When Jira naming is inactive, require the current branch to equal Work Branch and require Work Branch not to equal Base Branch.
-6. Run test.md and review.md. Stop on any failure or non-ready verdict.
+6. Run test.md and review.md. Stop on any failure or non-ready verdict. Because review.md delegates the code-quality pass to the code-review subagent, publish inherits that check here; do not spawn the subagent separately.
 7. Show git status --short and a concise diff summary.
 8. Exclude context/ completely from staging.
 

@@ -99,7 +99,7 @@ Detailed English documentation lives in docs/:
 | load | load branch <base> <type> [--ticket <ticket>] <spec-file-or-description> | Prepare work based on a specific branch |
 | start | start | Synchronize the base and create the work branch |
 | test | test | Run relevant tests and build checks |
-| review | review | Review goals, diff, and branch safety |
+| review | review | Review goals, diff, and branch safety; delegate the code-quality pass to the code-review subagent |
 | explain | explain | Explain changed files and flow |
 | publish | publish | Commit with permission and push to origin |
 | clear | clear | Move published work to Pending Reviews and free the active slot |

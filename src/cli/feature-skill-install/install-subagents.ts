@@ -1,6 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { StatusEntry } from "./types.js";
+import type { ModelOverride } from "./model-override.js";
+import { applyModelOverride } from "./model-override.js";
 
 export interface SubagentStackChoice {
   label: string;
@@ -38,6 +40,7 @@ function copyAgent(
   sourcePath: string,
   agentsDir: string,
   agentFilename: string,
+  modelOverride: ModelOverride | null,
   detail?: string,
 ): StatusEntry {
   const target = `.claude/agents/${agentFilename}`;
@@ -46,7 +49,12 @@ function copyAgent(
   if (fs.existsSync(targetPath)) {
     return { status: "exists", path: target };
   }
-  fs.copyFileSync(sourcePath, targetPath);
+  if (modelOverride === null) {
+    fs.copyFileSync(sourcePath, targetPath);
+  } else {
+    const content = fs.readFileSync(sourcePath, "utf-8");
+    fs.writeFileSync(targetPath, applyModelOverride(content, modelOverride), "utf-8");
+  }
   return { status: "copied", path: target, detail };
 }
 
@@ -54,6 +62,7 @@ export function installSubagents(
   projectRoot: string,
   subagentsDir: string,
   codeReview: SubagentStackChoice | null,
+  modelOverride: ModelOverride | null = null,
 ): StatusEntry[] {
   const entries: StatusEntry[] = [];
 
@@ -76,7 +85,7 @@ export function installSubagents(
     const match = TEMPLATE_PATTERN.exec(file);
     if (!match) continue;
     entries.push(
-      copyAgent(path.join(subagentsDir, file), agentsDir, `${match[1]}.md`),
+      copyAgent(path.join(subagentsDir, file), agentsDir, `${match[1]}.md`, modelOverride),
     );
   }
 
@@ -96,6 +105,7 @@ export function installSubagents(
         path.join(subagentsDir, codeReview.assetFilename),
         agentsDir,
         "code-review.md",
+        modelOverride,
         codeReview.label,
       ),
     );

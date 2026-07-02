@@ -14,13 +14,13 @@ let subagentsDir: string;
 function setupSubagents(dir: string): string {
   const subagents = path.join(dir, "assets", "subagents");
   fs.mkdirSync(subagents, { recursive: true });
-  fs.writeFileSync(path.join(subagents, "code-review-nextjs-template.md"), "# Next.js Review\n");
-  fs.writeFileSync(path.join(subagents, "code-review-angular-template.md"), "# Angular Review\n");
-  fs.writeFileSync(path.join(subagents, "test-template.md"), "# Test\n");
-  fs.writeFileSync(path.join(subagents, "explain-template.md"), "# Explain\n");
-  fs.writeFileSync(path.join(subagents, "git-verify-template.md"), "# Git Verify\n");
-  fs.writeFileSync(path.join(subagents, "plan-research-template.md"), "# Plan Research\n");
-  fs.writeFileSync(path.join(subagents, "docs-sync-template.md"), "# Docs Sync\n");
+  fs.writeFileSync(path.join(subagents, "code-review-nextjs-template.md"), "---\nmodel: sonnet\n---\n# Next.js Review\n");
+  fs.writeFileSync(path.join(subagents, "code-review-angular-template.md"), "---\nmodel: sonnet\n---\n# Angular Review\n");
+  fs.writeFileSync(path.join(subagents, "test-template.md"), "---\nmodel: sonnet\n---\n# Test\n");
+  fs.writeFileSync(path.join(subagents, "explain-template.md"), "---\nmodel: sonnet\n---\n# Explain\n");
+  fs.writeFileSync(path.join(subagents, "git-verify-template.md"), "---\nmodel: haiku\n---\n# Git Verify\n");
+  fs.writeFileSync(path.join(subagents, "plan-research-template.md"), "---\nmodel: sonnet\n---\n# Plan Research\n");
+  fs.writeFileSync(path.join(subagents, "docs-sync-template.md"), "---\nmodel: sonnet\n---\n# Docs Sync\n");
   return subagents;
 }
 
@@ -68,7 +68,9 @@ describe("installSubagents", () => {
     for (const agent of ["test.md", "explain.md", "git-verify.md", "plan-research.md", "docs-sync.md", "code-review.md"]) {
       expect(fs.existsSync(path.join(agentsDir, agent))).toBe(true);
     }
-    expect(fs.readFileSync(path.join(agentsDir, "code-review.md"), "utf-8")).toBe("# Angular Review\n");
+    expect(fs.readFileSync(path.join(agentsDir, "code-review.md"), "utf-8")).toBe(
+      "---\nmodel: sonnet\n---\n# Angular Review\n",
+    );
   });
 
   it("declines code-review when no stack is selected", () => {
@@ -104,5 +106,20 @@ describe("installSubagents", () => {
 
     expect(entries).toHaveLength(1);
     expect(entries[0].status).toBe("blocked");
+  });
+
+  it("applies a model override while copying new agent files", () => {
+    installSubagents(projectRoot, subagentsDir, null, {
+      sonnet: "eu.anthropic.claude-sonnet-4-6",
+      haiku: "eu.anthropic.claude-haiku-4-5-20251001-v1:0",
+    });
+
+    const agentsDir = path.join(projectRoot, ".claude", "agents");
+    expect(fs.readFileSync(path.join(agentsDir, "test.md"), "utf-8")).toContain(
+      "model: eu.anthropic.claude-sonnet-4-6",
+    );
+    expect(fs.readFileSync(path.join(agentsDir, "git-verify.md"), "utf-8")).toContain(
+      "model: eu.anthropic.claude-haiku-4-5-20251001-v1:0",
+    );
   });
 });

@@ -9,6 +9,7 @@ tools:
   - Grep
   - Glob
   - Bash
+  - PowerShell
 ---
 
 # Code Review Agent

@@ -14,7 +14,7 @@
    - Require Work Branch and the current branch to equal that exact rendered branch.
 5. When Jira naming is inactive, require the current branch to equal Work Branch and require Work Branch not to equal Base Branch.
 6. Run git fetch origin --prune once and verify origin/<base-branch> exists. This is the only fetch in the publish chain; test.md and review.md executed as part of publish reuse it and must not fetch again.
-7. Run test.md and review.md. Stop on any failure or non-ready verdict. Because review.md delegates the code-quality pass to the code-review subagent, publish inherits that check here; do not spawn the subagent separately. Neither action asks the user anything.
+7. Run test.md and review.md. test.md here uses the same changed-file-scoped run as a standalone `/feature test` call — not the complete suite or full build; the pushed branch's CI (e.g. GitHub Actions) is responsible for the whole-repository pass. Stop on any failure or non-ready verdict. Because review.md delegates the code-quality pass to the code-review subagent, publish inherits that check here; do not spawn the subagent separately. Neither action asks the user anything.
 8. Show git status --short and a concise diff summary. Exclude context/ completely from staging.
 
 ## Prepare the commit and atomic list

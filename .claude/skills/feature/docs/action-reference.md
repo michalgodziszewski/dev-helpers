@@ -157,7 +157,7 @@ None. `plan` never fetches, pulls, branches, commits, or pushes.
 
 - Reads Goals and the diff against the remote base, skipping a redundant fetch when one already ran in the current action chain.
 - Delegates check discovery and execution to the `test` subagent (Agent tool, `subagent_type: "test"`); runs the same procedure inline when the agent is not installed.
-- Discovers checks from repository files, running the narrowest relevant unit or integration tests first, then required lint, type-check, and build commands when available.
+- Discovers checks from repository files and scopes them to the tests exercising changed files rather than running the entire suite — both standalone and inside `/feature publish`. A full, whole-repository run is left to CI (e.g. a GitHub Actions workflow triggered by the push), not reproduced locally.
 - Adds tests when goals and repository patterns require them (in the main conversation, not the subagent).
 - Relays every command and result.
 

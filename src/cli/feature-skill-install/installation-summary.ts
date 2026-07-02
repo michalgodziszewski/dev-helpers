@@ -1,8 +1,25 @@
-import type { InstallResult, StatusEntry } from "./types.js";
+import type { InstallResult, StatusEntry, ItemStatus } from "./types.js";
+import { bold, dim, green, yellow, red, formatKeyValue } from "../format/console.js";
+
+function colorTag(status: ItemStatus, tag: string): string {
+  switch (status) {
+    case "created":
+    case "copied":
+    case "merged":
+      return green(tag);
+    case "exists":
+      return dim(tag);
+    case "skipped":
+    case "declined":
+      return yellow(tag);
+    case "blocked":
+      return red(tag);
+  }
+}
 
 function formatEntry(entry: StatusEntry): string {
-  const tag = `[${entry.status}]`.padEnd(10);
-  const detail = entry.detail ? ` — ${entry.detail}` : "";
+  const tag = colorTag(entry.status, `[${entry.status}]`.padEnd(10));
+  const detail = entry.detail ? dim(` — ${entry.detail}`) : "";
   return `${tag}${entry.path}${detail}`;
 }
 
@@ -10,11 +27,11 @@ export function renderSummary(result: InstallResult): string {
   const lines: string[] = [];
 
   lines.push("");
-  lines.push("Feature Skill Installer — Summary");
-  lines.push("=".repeat(40));
+  lines.push(bold("Feature Skill Installer — Summary"));
+  lines.push(dim("=".repeat(40)));
   lines.push("");
-  lines.push(`Skill scope:       ${result.skillScope}`);
-  lines.push(`Skill destination: ${result.skillDestination}`);
+  lines.push(formatKeyValue("Skill scope", result.skillScope));
+  lines.push(formatKeyValue("Skill destination", result.skillDestination));
   lines.push("");
 
   for (const entry of result.entries) {
@@ -23,12 +40,12 @@ export function renderSummary(result: InstallResult): string {
 
   if (result.codingStandards !== null) {
     lines.push("");
-    lines.push(`Coding standards:  ${result.codingStandards}`);
+    lines.push(formatKeyValue("Coding standards", result.codingStandards));
   }
 
   if (result.incomplete) {
     lines.push("");
-    lines.push("⚠ Installation incomplete. See blocked or skipped items above.");
+    lines.push(yellow("⚠ Installation incomplete. See blocked or skipped items above."));
   }
 
   lines.push("");

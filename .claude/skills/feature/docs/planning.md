@@ -109,6 +109,8 @@ Requirements can be gathered iteratively from multiple sources:
 
 External sources are optional and environment-dependent. If a source is unavailable, planning continues with user-provided context. The skill extracts practical requirements instead of dumping raw text and summarizes any external or Jira context before finalization. When requirements come from Jira and the ticket key is known, the generated `Jira Ticket` is set to that key.
 
+Repository exploration during planning (locating relevant files, existing patterns, constraints, and impact) is delegated to the `plan-research` subagent when it is installed, keeping file contents out of the planning conversation. Without the agent, exploration happens inline.
+
 ## Visual references and screenshots
 
 - Screenshot paths under `context/screenshots/` are treated as required planning inputs and inspected when preparing the plan.

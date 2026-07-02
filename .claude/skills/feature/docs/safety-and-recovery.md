@@ -12,23 +12,23 @@ The skill is conservative by design. It prioritizes correct branch ancestry, exp
 6. Never stage local context.
 7. Never delete remote branches or pull requests.
 8. Never clear unrelated active, pending, or historical state.
-9. Require confirmation before commit, push, cherry-pick, destructive restore, clean, or branch deletion.
+9. Ask the user only at the defined confirmation boundaries: the single combined publish approval (commit message + atomic commit list + push), and one explicit confirmation per destructive operation — the combined backport cherry-pick + push, local branch deletion, and destructive abandon. Read-only Git commands (status, fetch, diff, log, show, rev-list, rev-parse, merge-base, check-ref-format) never ask a question or wait for acknowledgement.
 
 ## Operation matrix
 
-| Operation | Read-only | Requires confirmation | Remote effect |
+| Operation | Read-only | Asks the user | Remote effect |
 |---|---:|---:|---:|
-| `load` | Mostly; writes local context | No after complete metadata resolution | None |
-| `start` | No | Branch creation follows loaded request | Fetch/pull only |
-| `test` | Usually | Dependency/config changes require permission | None |
-| `review` | Yes except fetch | No | Fetch only |
-| `explain` | Yes | No | None |
-| `publish` | No | Commit/push and atomic list | Push work branch |
-| `clear` | Local state | No destructive Git effect | Fetch only |
-| `backport` | No | Cherry-pick and push | Push backport branch |
-| `complete` | Local state | Separate confirmation for branch deletion | Fetch only |
-| `abandon` | No | State and local branch deletion | Never deletes remote |
-| `abandon --discard` | Destructive | Explicit consequence confirmation | Never deletes remote |
+| `load` | Mostly; writes local context | Only missing/conflicting required metadata | None |
+| `start` | No | Never | Fetch/pull only |
+| `test` | Usually | Never (dependency/config changes still require permission) | None |
+| `review` | Yes except fetch | Never | Fetch only |
+| `explain` | Yes | Never | None |
+| `publish` | No | Once: combined commit message + atomic list + push | Push work branch |
+| `clear` | Local state | Never | Fetch only |
+| `backport` | No | Once: combined cherry-pick list + push | Push backport branch |
+| `complete` | Local state | One confirmation per local branch deletion | Fetch only |
+| `abandon` | No | One confirmation per local branch deletion | Never deletes remote |
+| `abandon --discard` | Destructive | One explicit consequence confirmation | Never deletes remote |
 
 ## Working-tree cleanliness
 

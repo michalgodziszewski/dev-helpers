@@ -296,21 +296,19 @@ Verify `.gitignore` contains:
 
 If context files were previously tracked, adding ignore does not untrack them automatically. Resolve tracked state deliberately. Never force-add personal context.
 
-## context templates exist but initialization command is missing
+## context files are missing after installing the skill
 
-This is expected in the current version. The assets are prepared, but no supported action generates the full context directory yet.
-
-Current assets:
+Context initialization is handled by the `dev feature-skill-install` CLI command, not by a skill action. It scaffolds `context/` from the package-root templates:
 
 ```text
 assets/ai-interaction-template.md
-assets/coding-standards-nextjs-template.md
+assets/coding-standards-<stack>-template.md
 assets/project-overview-template.md
-assets/current-feature-template.md
 assets/feature-config-template.md
+assets/feature-spec-template.md
 ```
 
-Until an initialization action is implemented, create or copy local context files manually without staging them.
+The skill itself ships only `current-feature-template.md`. If `context/current-feature.md` or `context/feature-config.md` is missing, `load` bootstraps it automatically; recreate the remaining context files by re-running `dev feature-skill-install` or copying them manually without staging them.
 
 ## Escalation checklist
 

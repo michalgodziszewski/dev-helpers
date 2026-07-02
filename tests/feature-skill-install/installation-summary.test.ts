@@ -28,7 +28,7 @@ describe("renderSummary", () => {
     const result: InstallResult = {
       skillScope: "global",
       skillDestination: "/home/.claude/skills/feature",
-      entries: [{ status: "skipped", path: "CLAUDE.md", detail: "Creation declined" }],
+      entries: [{ status: "skipped", path: "context/coding-standards.md", detail: "Selection cancelled" }],
       codingStandards: null,
       incomplete: true,
     };

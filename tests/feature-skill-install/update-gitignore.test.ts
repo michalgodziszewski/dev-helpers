@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import fs from "node:fs";
 import path from "node:path";
 import os from "node:os";
-import { updateGitignore } from "../../src/cli/feature-skill-install/update-gitignore.js";
+import { updateGitignore, hasClaudeRule, addClaudeRule } from "../../src/cli/feature-skill-install/update-gitignore.js";
 
 let tmpDir: string;
 
@@ -67,5 +67,56 @@ describe("updateGitignore", () => {
     expect(content).toContain("node_modules/");
     expect(content).toContain(".env");
     expect(content).toContain("/context/");
+  });
+});
+
+describe("hasClaudeRule", () => {
+  it("returns false when .gitignore is missing", () => {
+    expect(hasClaudeRule(tmpDir)).toBe(false);
+  });
+
+  it("returns false when .claude is not ignored", () => {
+    fs.writeFileSync(path.join(tmpDir, ".gitignore"), "node_modules/\n/context/\n");
+    expect(hasClaudeRule(tmpDir)).toBe(false);
+  });
+
+  it("detects /.claude/ and pattern variants", () => {
+    for (const rule of ["/.claude/", ".claude/", "/.claude", ".claude"]) {
+      fs.writeFileSync(path.join(tmpDir, ".gitignore"), `${rule}\n`);
+      expect(hasClaudeRule(tmpDir)).toBe(true);
+    }
+  });
+
+  it("ignores commented lines", () => {
+    fs.writeFileSync(path.join(tmpDir, ".gitignore"), "# .claude/\n");
+    expect(hasClaudeRule(tmpDir)).toBe(false);
+  });
+});
+
+describe("addClaudeRule", () => {
+  it("creates .gitignore with /.claude/ when missing", () => {
+    const entry = addClaudeRule(tmpDir);
+
+    expect(entry.status).toBe("created");
+    const content = fs.readFileSync(path.join(tmpDir, ".gitignore"), "utf-8");
+    expect(content).toBe("/.claude/\n");
+  });
+
+  it("appends /.claude/ preserving existing rules", () => {
+    fs.writeFileSync(path.join(tmpDir, ".gitignore"), "node_modules/\n/context/\n");
+    const entry = addClaudeRule(tmpDir);
+
+    expect(entry.status).toBe("created");
+    const content = fs.readFileSync(path.join(tmpDir, ".gitignore"), "utf-8");
+    expect(content).toBe("node_modules/\n/context/\n/.claude/\n");
+    expect(hasClaudeRule(tmpDir)).toBe(true);
+  });
+
+  it("handles missing terminal newline", () => {
+    fs.writeFileSync(path.join(tmpDir, ".gitignore"), "node_modules/");
+    addClaudeRule(tmpDir);
+
+    const content = fs.readFileSync(path.join(tmpDir, ".gitignore"), "utf-8");
+    expect(content).toBe("node_modules/\n/.claude/\n");
   });
 });

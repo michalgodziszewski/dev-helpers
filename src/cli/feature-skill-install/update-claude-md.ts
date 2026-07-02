@@ -31,7 +31,7 @@ export function updateClaudeMd(
 
   if (!fs.existsSync(claudeMdPath)) {
     if (!createIfMissing) {
-      return { status: "skipped", path: "CLAUDE.md", detail: "Creation declined" };
+      return { status: "declined", path: "CLAUDE.md", detail: "Creation declined" };
     }
     fs.writeFileSync(claudeMdPath, "# CLAUDE.md\n\n" + FULL_SECTION + "\n", "utf-8");
     return { status: "created", path: "CLAUDE.md" };

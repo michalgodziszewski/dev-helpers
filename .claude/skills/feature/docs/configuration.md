@@ -19,13 +19,13 @@ The repository should ignore `/context/`. The skill must never stage or commit a
 
 ## Configuration bootstrap
 
-When `load` runs and `context/feature-config.md` does not exist, it copies:
+`dev feature-skill-install` normally installs `context/feature-config.md` from the package-root template:
 
 ```text
-.claude/skills/feature/assets/feature-config-template.md
+assets/feature-config-template.md
 ```
 
-The current tracked template is:
+When `load` runs and `context/feature-config.md` still does not exist, it creates the file with the same default content inline (the installed skill does not carry the template). The current default is:
 
 ```md
 # Feature Configuration
@@ -226,25 +226,21 @@ Correct timeout handling for payment status polling.
 
 ## Context templates
 
-The skill currently contains:
+The skill itself ships only:
+
+- `.claude/skills/feature/assets/current-feature-template.md` — used at runtime by `plan` (spec generation) and `load` (state bootstrap).
+
+Every other template lives in the custok-workflow package root under `assets/`:
 
 - `assets/ai-interaction-template.md`
 - `assets/coding-standards-nextjs-template.md`
+- `assets/coding-standards-angular-template.md`
 - `assets/project-overview-template.md`
-- `assets/current-feature-template.md`
 - `assets/feature-config-template.md`
 - `assets/feature-spec-template.md`
+- `assets/subagents/` — subagent templates installed into `.claude/agents/` (per-stack `code-review`, stack-agnostic `test`, `explain`, `git-verify`, `plan-research`, `docs-sync`)
 
-A future context initialization action is planned to:
-
-1. copy the AI interaction template;
-2. discover `coding-standards-<stack>-template.md` variants;
-3. ask the user which coding standards variant to use;
-4. copy it to `context/coding-standards.md`;
-5. inspect the repository and fill the project overview;
-6. ensure `/context/` is in `.gitignore`.
-
-This initialization action is not currently listed as a supported command. Do not assume it exists.
+Context initialization is performed by the `dev feature-skill-install` CLI command. It copies the context templates, asks which coding-standards and code-review stack variant to use (never inferring a default), installs the subagents, and ensures `/context/` is in `.gitignore`. Installed projects rely on these scaffolded files; the skill does not read the package-root `assets/` at runtime.
 
 ## Recommended local configurations
 
@@ -271,3 +267,30 @@ This initialization action is not currently listed as a supported command. Do no
 ### Mixed repository
 
 Use `optional` when some branches require tickets and others do not. A supplied ticket activates both branch and commit templates; an omitted ticket preserves legacy names.
+
+## Recommended permission allowlist
+
+The skill's confirmation policy removes its own questions for read-only Git commands, but the Claude Code harness still prompts for Bash permissions unless they are allowlisted. `dev feature-skill-install` installs this allowlist automatically: it copies the packaged `.claude/settings.json` into the project, or — when the project already has one — merges the missing `permissions.allow` rules into it without touching other settings. The installed rules:
+
+```json
+{
+  "permissions": {
+    "allow": [
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Bash(git fetch origin:*)",
+      "Bash(git rev-parse:*)",
+      "Bash(git rev-list:*)",
+      "Bash(git merge-base:*)",
+      "Bash(git ls-files:*)",
+      "Bash(git cat-file:*)",
+      "Bash(git check-ref-format:*)",
+      "Bash(git branch --show-current)"
+    ]
+  }
+}
+```
+
+Deliberately not allowlisted: `git branch` (would cover `-D` deletion), `git add`, `git commit`, `git push`, `git switch`, `git pull`, `git cherry-pick`, and every other state-changing command — those stay behind harness prompts and the skill's own confirmation boundaries. The packaged `.claude/settings.json` additionally ships the same rules with the `PowerShell(...)` prefix, so PowerShell-based setups are covered out of the box; the snippet above shows only the `Bash(...)` half for brevity.

@@ -1,5 +1,6 @@
 import readline from "node:readline";
 import type { SkillScope } from "./types.js";
+import { bold, cyan, dim } from "../format/console.js";
 
 function createInterface(): readline.Interface {
   return readline.createInterface({
@@ -14,6 +15,16 @@ function ask(rl: readline.Interface, question: string): Promise<string> {
       resolve(answer.trim());
     });
   });
+}
+
+/** Format a prompt title so consecutive questions are visually separated. */
+function promptTitle(text: string): string {
+  return `\n${cyan("?")} ${bold(text)}\n`;
+}
+
+/** Format one numbered option line. */
+function option(index: number, label: string): string {
+  return `  ${cyan(String(index) + ".")} ${label}\n`;
 }
 
 export async function promptSkillScope(
@@ -31,10 +42,10 @@ export async function promptSkillScope(
     });
 
   const question =
-    "\nWhere should the feature skill be installed?\n" +
-    "  1. Global Claude configuration\n" +
-    "  2. Current project\n" +
-    "\nChoice [1/2]: ";
+    promptTitle("Where should the feature skill be installed?") +
+    option(1, "Global Claude configuration") +
+    option(2, "Current project") +
+    `Choice ${dim("[1/2]")}: `;
 
   while (true) {
     const answer = await doAsk(question);
@@ -64,13 +75,12 @@ export async function promptCodingStandards(
       }
     });
 
-  const lines = ["\nSelect coding standards template:"];
+  let question = promptTitle("Select coding standards template:");
   for (let i = 0; i < choices.length; i++) {
-    lines.push(`  ${i + 1}. ${choices[i].label}`);
+    question += option(i + 1, choices[i].label);
   }
-  lines.push(`  ${choices.length + 1}. Empty file`);
-  lines.push("");
-  const question = lines.join("\n") + `Choice [1-${choices.length + 1}] (or "c" to cancel): `;
+  question += option(choices.length + 1, "Empty file");
+  question += `Choice ${dim(`[1-${choices.length + 1}]`)} ${dim('(or "c" to cancel)')}: `;
 
   while (true) {
     const answer = await doAsk(question);
@@ -80,6 +90,58 @@ export async function promptCodingStandards(
     if (num === choices.length + 1) return { label: "Empty file", assetFilename: null };
     console.log(`Invalid choice. Enter 1-${choices.length + 1} or "c" to cancel.`);
   }
+}
+
+export async function promptCodeReviewStack(
+  choices: Array<{ label: string; assetFilename: string | null }>,
+  promptFn?: (question: string) => Promise<string>,
+): Promise<{ label: string; assetFilename: string | null } | null> {
+  const doAsk =
+    promptFn ??
+    (async (q: string) => {
+      const rl = createInterface();
+      try {
+        return await ask(rl, q);
+      } finally {
+        rl.close();
+      }
+    });
+
+  let question = promptTitle("Select code-review subagent template:");
+  for (let i = 0; i < choices.length; i++) {
+    question += option(i + 1, choices[i].label);
+  }
+  question += option(choices.length + 1, "Skip");
+  question += `Choice ${dim(`[1-${choices.length + 1}]`)}: `;
+
+  while (true) {
+    const answer = await doAsk(question);
+    const num = parseInt(answer, 10);
+    if (num >= 1 && num <= choices.length) return choices[num - 1];
+    if (num === choices.length + 1) return null;
+    console.log(`Invalid choice. Enter 1-${choices.length + 1}.`);
+  }
+}
+
+export async function promptIgnoreClaudeDir(
+  promptFn?: (question: string) => Promise<string>,
+): Promise<boolean> {
+  const doAsk =
+    promptFn ??
+    (async (q: string) => {
+      const rl = createInterface();
+      try {
+        return await ask(rl, q);
+      } finally {
+        rl.close();
+      }
+    });
+
+  const answer = await doAsk(
+    promptTitle("Should the .claude/ directory be ignored by Git (added to .gitignore)?") +
+      `Confirm ${dim("[Y/n]")}: `,
+  );
+  return answer === "" || answer.toLowerCase() === "y" || answer.toLowerCase() === "yes";
 }
 
 export async function promptCreateClaudeMd(
@@ -97,7 +159,8 @@ export async function promptCreateClaudeMd(
     });
 
   const answer = await doAsk(
-    "CLAUDE.md does not exist. Create it with Local Context Files references? [Y/n] ",
+    promptTitle("CLAUDE.md does not exist. Create it with Local Context Files references?") +
+      `Confirm ${dim("[Y/n]")}: `,
   );
   return answer === "" || answer.toLowerCase() === "y" || answer.toLowerCase() === "yes";
 }

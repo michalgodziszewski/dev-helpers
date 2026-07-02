@@ -1,4 +1,11 @@
-export type ItemStatus = "created" | "copied" | "exists" | "skipped" | "blocked";
+export type ItemStatus =
+  | "created"
+  | "copied"
+  | "merged"
+  | "exists"
+  | "skipped"
+  | "declined"
+  | "blocked";
 
 export interface StatusEntry {
   status: ItemStatus;

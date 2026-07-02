@@ -14,6 +14,8 @@ This documentation describes the behavior implemented by `.claude/skills/feature
 - Backports cherry-pick those atomic commits individually and in order.
 - Pull requests target the recorded base branch, not the repository default by assumption.
 - Destructive cleanup requires explicit confirmation.
+- Routine interaction is minimal: publish asks once (commit message + atomic commit list + push target), backport asks once (cherry-pick list + push), and read-only Git commands never prompt.
+- Read-only or self-contained work is delegated to installed subagents (code-review, test, explain, git-verify, plan-research, docs-sync); every delegation degrades gracefully to inline execution.
 - Remote branches and pull requests are never deleted automatically.
 
 ## Documentation map
@@ -133,7 +135,7 @@ The skill verifies the primary merge, synchronizes the release branch, creates a
 - It does not cherry-pick a GitHub merge commit for a backport.
 - It does not delete remote branches or close pull requests.
 - It does not stage any file under `context/`.
-- It does not currently provide a command that generates the complete `context/` directory. Assets for a future initialization action already exist.
+- It does not generate the complete `context/` directory itself — that is the job of the `dev feature-skill-install` CLI command, which scaffolds context files and subagents from the package-root `assets/`.
 
 ## Command notation
 

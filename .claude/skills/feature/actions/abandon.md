@@ -40,14 +40,13 @@ For abandon without --discard:
 
 1. Require a clean working tree outside context/.
 2. If local changes exist, stop and instruct the user to preserve them manually or invoke abandon --discard.
-3. Ask for confirmation to abandon the selected active item.
-4. Run git fetch origin --prune.
-5. Synchronize the local base using the standard base synchronization invariant.
-6. If a related local branch exists, show its unmerged commits and ask separately before deleting it.
-7. Delete only the confirmed related local branches with git branch -D after switching away from them.
-8. Never delete a related remote branch. Report every one that exists so its pull request or remote branch can be handled separately.
-9. Remove only entries whose recorded Work Branch exactly equals the selected Work Branch from Pending Reviews and structured History.
-10. Reset the active slot and set Status to Idle. Preserve all non-matching Pending Reviews and History entries.
+3. Run git fetch origin --prune. Removing tracking entries and resetting the state file discards no files or commits, so abandoning itself asks no question — the user's explicit abandon command is the instruction.
+4. Synchronize the local base using the standard base synchronization invariant.
+5. If a related local branch exists, show its unmerged commits and ask exactly one explicit confirmation per branch before deleting it. Branch deletion is the only destructive step here and the only question this form asks.
+6. Delete only the confirmed related local branches with git branch -D after switching away from them.
+7. Never delete a related remote branch. Report every one that exists so its pull request or remote branch can be handled separately.
+8. Remove only entries whose recorded Work Branch exactly equals the selected Work Branch from Pending Reviews and structured History.
+9. Reset the active slot and set Status to Idle. Preserve all non-matching Pending Reviews and History entries.
 
 Do not append an Abandoned history entry.
 
@@ -91,12 +90,11 @@ Do not append an Abandoned history entry.
 For abandon <work-branch>:
 
 1. Select only the exact matching Pending Reviews entry.
-2. Ask for confirmation to remove that item from local workflow tracking.
-3. Remove only that exact Pending Reviews entry and structured History entries with the same recorded Work Branch.
-4. Preserve the active slot, all other Pending Reviews entries, and all non-matching History entries.
-5. For each related local branch that is not checked out, show unmerged commits and ask separately before deleting it with git branch -D.
-6. If a related branch is currently checked out or deletion would disturb active work, keep it and report why.
-7. Never delete a related remote branch or close its pull request automatically.
+2. Remove that exact Pending Reviews entry and structured History entries with the same recorded Work Branch without asking; the explicit branch argument is the instruction, and no files or commits are discarded.
+3. Preserve the active slot, all other Pending Reviews entries, and all non-matching History entries.
+4. For each related local branch that is not checked out, show unmerged commits and ask exactly one explicit confirmation per branch before deleting it with git branch -D.
+5. If a related branch is currently checked out or deletion would disturb active work, keep it and report why.
+6. Never delete a related remote branch or close its pull request automatically.
 
 When pending work has uncommitted changes or an in-progress cherry-pick on its recorded Backport Branch, stop and instruct the user to use abandon --discard <work-branch>.
 

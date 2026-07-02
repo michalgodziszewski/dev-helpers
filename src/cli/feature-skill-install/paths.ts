@@ -2,12 +2,27 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import type { SkillScope } from "./types.js";
 
-export function resolveSourceSkillPath(): string {
+function resolvePackageRoot(): string {
   const thisFile = fileURLToPath(import.meta.url);
   // At runtime this file is dist/src/cli/feature-skill-install/paths.js
   // so we need four levels up to reach the repository root.
-  const repoRoot = path.resolve(path.dirname(thisFile), "..", "..", "..", "..");
-  return path.join(repoRoot, ".claude", "skills", "feature");
+  return path.resolve(path.dirname(thisFile), "..", "..", "..", "..");
+}
+
+export function resolveSourceSkillPath(): string {
+  return path.join(resolvePackageRoot(), ".claude", "skills", "feature");
+}
+
+export function resolveRootAssetsPath(): string {
+  return path.join(resolvePackageRoot(), "assets");
+}
+
+export function resolveSubagentsPath(): string {
+  return path.join(resolvePackageRoot(), "assets", "subagents");
+}
+
+export function resolveSourceSettingsPath(): string {
+  return path.join(resolvePackageRoot(), ".claude", "settings.json");
 }
 
 export function resolveDestinationPath(

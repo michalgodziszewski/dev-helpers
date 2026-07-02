@@ -3,12 +3,12 @@
 Free the active slot after publication without waiting for review or merge.
 
 1. Require active Status Published or Merged and populated Work Branch, Base Branch, Work Type, Workflow, and work name.
-2. Run git fetch origin --prune.
+2. Run git fetch origin --prune without asking.
 3. Verify origin/<work-branch> exists and equals the local Work Branch commit.
 4. Require Published Commits from publish.
 5. For backward compatibility only, when Published Commits is absent:
    - Compute git rev-list --reverse --no-merges <work-branch> --not origin/<base-branch>.
-   - Show and require confirmation of the exact list.
+   - Show the exact computed list and record it without asking; any later backport shows this list again in its own destructive confirmation.
 6. Append one Pending Reviews entry containing:
    - Work name and Status Awaiting Review
    - Workflow, Work Type, and Jira Ticket

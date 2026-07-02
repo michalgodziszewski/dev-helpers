@@ -104,6 +104,7 @@ Optional values may stay empty or render as `None.` depending on the section. Em
 
 - Support iterative changes before finalization.
 - Requirements may come directly from the user, or from optional external sources: Atlassian/Jira through MCP, repository files, existing documentation, pasted notes, screenshots under `context/screenshots/`, or other available MCP/tool sources.
+- When planning needs repository exploration (locating relevant files, existing patterns, constraints, or impact), delegate it to the plan-research subagent (Agent tool, subagent_type "plan-research") so file contents stay out of the planning conversation. Explore inline when the agent is not installed.
 - External sources are optional capabilities. If a source is unavailable, continue with user-provided context; never fail the whole plan because an optional source is missing.
 - Do not blindly copy Jira or external content into the spec. Extract practical requirements; avoid dumping raw or overly long source text.
 - When requirements come from Jira or another external source, summarize the gathered context before finalization.

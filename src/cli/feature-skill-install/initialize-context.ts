@@ -5,12 +5,18 @@ import type { CodingStandardsChoice } from "./prompts.js";
 
 const REQUIRED_DIRS = ["context", "context/features", "context/fixes", "context/screenshots"];
 
-const ASSET_TO_TARGET: ReadonlyArray<{ asset: string; target: string }> = [
-  { asset: "ai-interaction-template.md", target: "context/ai-interaction.md" },
-  { asset: "current-feature-template.md", target: "context/current-feature.md" },
-  { asset: "feature-config-template.md", target: "context/feature-config.md" },
-  { asset: "feature-spec-template.md", target: "context/feature-spec.md" },
-  { asset: "project-overview-template.md", target: "context/project-overview.md" },
+// current-feature-template.md ships with the skill itself; every other
+// template lives in the package-root assets/ directory.
+const ASSET_TO_TARGET: ReadonlyArray<{
+  asset: string;
+  target: string;
+  source: "root" | "skill";
+}> = [
+  { asset: "ai-interaction-template.md", target: "context/ai-interaction.md", source: "root" },
+  { asset: "current-feature-template.md", target: "context/current-feature.md", source: "skill" },
+  { asset: "feature-config-template.md", target: "context/feature-config.md", source: "root" },
+  { asset: "feature-spec-template.md", target: "context/feature-spec.md", source: "root" },
+  { asset: "project-overview-template.md", target: "context/project-overview.md", source: "root" },
 ];
 
 export function createContextDirs(projectRoot: string): StatusEntry[] {
@@ -38,11 +44,13 @@ export function createContextDirs(projectRoot: string): StatusEntry[] {
 
 export function copyContextFiles(
   projectRoot: string,
-  assetsDir: string,
+  rootAssetsDir: string,
+  skillAssetsDir: string,
 ): StatusEntry[] {
   const entries: StatusEntry[] = [];
-  for (const { asset, target } of ASSET_TO_TARGET) {
+  for (const { asset, target, source } of ASSET_TO_TARGET) {
     const targetPath = path.join(projectRoot, target);
+    const assetsDir = source === "skill" ? skillAssetsDir : rootAssetsDir;
     const assetPath = path.join(assetsDir, asset);
 
     if (fs.existsSync(targetPath)) {

@@ -4,6 +4,7 @@ import path from "node:path";
 import os from "node:os";
 import { validateSource, installSkill } from "../../src/cli/feature-skill-install/install-skill.js";
 import { createContextDirs, copyContextFiles, discoverCodingStandards, applyCodingStandards } from "../../src/cli/feature-skill-install/initialize-context.js";
+import { discoverCodeReviewStacks, installSubagents } from "../../src/cli/feature-skill-install/install-subagents.js";
 import { updateGitignore } from "../../src/cli/feature-skill-install/update-gitignore.js";
 import { updateClaudeMd } from "../../src/cli/feature-skill-install/update-claude-md.js";
 
@@ -11,6 +12,9 @@ let tmpDir: string;
 let projectRoot: string;
 let homeDir: string;
 let sourceSkillPath: string;
+let rootAssetsDir: string;
+let skillAssetsDir: string;
+let subagentsDir: string;
 
 function createFullSourceSkill(baseDir: string): string {
   const skillDir = path.join(baseDir, "source-skill");
@@ -25,20 +29,36 @@ function createFullSourceSkill(baseDir: string): string {
   fs.writeFileSync(path.join(actionsDir, "load.md"), "# Load Action\n");
   fs.writeFileSync(path.join(actionsDir, "start.md"), "# Start Action\n");
 
+  // The skill itself ships only the current-feature template.
   const assetsDir = path.join(skillDir, "assets");
   fs.mkdirSync(assetsDir);
-  fs.writeFileSync(path.join(assetsDir, "ai-interaction-template.md"), "# AI Interaction\n");
   fs.writeFileSync(path.join(assetsDir, "current-feature-template.md"), "# Current Feature\n");
-  fs.writeFileSync(path.join(assetsDir, "feature-config-template.md"), "# Feature Config\n");
-  fs.writeFileSync(path.join(assetsDir, "feature-spec-template.md"), "# Feature Spec\n");
-  fs.writeFileSync(path.join(assetsDir, "project-overview-template.md"), "# Project Overview\n");
-  fs.writeFileSync(path.join(assetsDir, "coding-standards-nextjs-template.md"), "# Next.js Standards\n");
 
   const docsDir = path.join(skillDir, "docs");
   fs.mkdirSync(docsDir);
   fs.writeFileSync(path.join(docsDir, "README.md"), "# Docs\n");
 
   return skillDir;
+}
+
+function createRootAssets(baseDir: string): string {
+  const assets = path.join(baseDir, "assets");
+  fs.mkdirSync(assets, { recursive: true });
+  fs.writeFileSync(path.join(assets, "ai-interaction-template.md"), "# AI Interaction\n");
+  fs.writeFileSync(path.join(assets, "feature-config-template.md"), "# Feature Config\n");
+  fs.writeFileSync(path.join(assets, "feature-spec-template.md"), "# Feature Spec\n");
+  fs.writeFileSync(path.join(assets, "project-overview-template.md"), "# Project Overview\n");
+  fs.writeFileSync(path.join(assets, "coding-standards-nextjs-template.md"), "# Next.js Standards\n");
+
+  const subagents = path.join(assets, "subagents");
+  fs.mkdirSync(subagents);
+  fs.writeFileSync(path.join(subagents, "code-review-nextjs-template.md"), "# Next.js Code Review\n");
+  fs.writeFileSync(path.join(subagents, "code-review-angular-template.md"), "# Angular Code Review\n");
+  fs.writeFileSync(path.join(subagents, "test-template.md"), "# Test Agent\n");
+  fs.writeFileSync(path.join(subagents, "explain-template.md"), "# Explain Agent\n");
+  fs.writeFileSync(path.join(subagents, "git-verify-template.md"), "# Git Verify Agent\n");
+
+  return assets;
 }
 
 beforeEach(() => {
@@ -48,6 +68,9 @@ beforeEach(() => {
   fs.mkdirSync(projectRoot, { recursive: true });
   fs.mkdirSync(homeDir, { recursive: true });
   sourceSkillPath = createFullSourceSkill(tmpDir);
+  rootAssetsDir = createRootAssets(tmpDir);
+  skillAssetsDir = path.join(sourceSkillPath, "assets");
+  subagentsDir = path.join(rootAssetsDir, "subagents");
 });
 
 afterEach(() => {
@@ -57,7 +80,6 @@ afterEach(() => {
 describe("end-to-end: fresh project with project install", () => {
   it("produces the complete expected structure", () => {
     const destPath = path.join(projectRoot, ".claude", "skills", "feature");
-    const assetsDir = path.join(sourceSkillPath, "assets");
 
     // Install skill
     const skillEntry = installSkill(sourceSkillPath, destPath);
@@ -68,15 +90,21 @@ describe("end-to-end: fresh project with project install", () => {
     expect(dirEntries.every((e) => e.status === "created")).toBe(true);
 
     // Copy context files
-    const fileEntries = copyContextFiles(projectRoot, assetsDir);
+    const fileEntries = copyContextFiles(projectRoot, rootAssetsDir, skillAssetsDir);
     expect(fileEntries.every((e) => e.status === "copied")).toBe(true);
 
     // Apply coding standards
-    const csEntry = applyCodingStandards(projectRoot, assetsDir, {
+    const csEntry = applyCodingStandards(projectRoot, rootAssetsDir, {
       label: "Next.js",
       assetFilename: "coding-standards-nextjs-template.md",
     });
     expect(csEntry.status).toBe("copied");
+
+    // Install subagents
+    const stacks = discoverCodeReviewStacks(subagentsDir);
+    expect(stacks.map((s) => s.label)).toEqual(["Angular", "Next.js"]);
+    const agentEntries = installSubagents(projectRoot, subagentsDir, stacks[1]);
+    expect(agentEntries.every((e) => e.status === "copied")).toBe(true);
 
     // Update gitignore
     const giEntry = updateGitignore(projectRoot);
@@ -95,6 +123,11 @@ describe("end-to-end: fresh project with project install", () => {
     expect(fs.existsSync(path.join(projectRoot, "context", "screenshots"))).toBe(true);
     expect(fs.existsSync(path.join(projectRoot, "context", "ai-interaction.md"))).toBe(true);
     expect(fs.existsSync(path.join(projectRoot, "context", "coding-standards.md"))).toBe(true);
+    expect(fs.existsSync(path.join(projectRoot, ".claude", "agents", "code-review.md"))).toBe(true);
+    expect(fs.existsSync(path.join(projectRoot, ".claude", "agents", "test.md"))).toBe(true);
+    expect(fs.existsSync(path.join(projectRoot, ".claude", "agents", "explain.md"))).toBe(true);
+    expect(fs.existsSync(path.join(projectRoot, ".claude", "agents", "git-verify.md"))).toBe(true);
+    expect(fs.readFileSync(path.join(projectRoot, ".claude", "agents", "code-review.md"), "utf-8")).toContain("Next.js");
     expect(fs.readFileSync(path.join(projectRoot, ".gitignore"), "utf-8")).toContain("/context/");
     expect(fs.readFileSync(path.join(projectRoot, "CLAUDE.md"), "utf-8")).toContain("## Local Context Files");
   });
@@ -103,7 +136,6 @@ describe("end-to-end: fresh project with project install", () => {
 describe("end-to-end: fresh project with global install", () => {
   it("copies skill globally and initializes context locally", () => {
     const destPath = path.join(homeDir, ".claude", "skills", "feature");
-    const assetsDir = path.join(sourceSkillPath, "assets");
 
     const skillEntry = installSkill(sourceSkillPath, destPath);
     expect(skillEntry.status).toBe("created");
@@ -111,7 +143,7 @@ describe("end-to-end: fresh project with global install", () => {
 
     // Context is still in project
     createContextDirs(projectRoot);
-    copyContextFiles(projectRoot, assetsDir);
+    copyContextFiles(projectRoot, rootAssetsDir, skillAssetsDir);
     expect(fs.existsSync(path.join(projectRoot, "context", "ai-interaction.md"))).toBe(true);
     expect(fs.existsSync(path.join(homeDir, "context"))).toBe(false);
   });
@@ -120,15 +152,18 @@ describe("end-to-end: fresh project with global install", () => {
 describe("end-to-end: idempotent second run", () => {
   it("produces no content changes on fully configured project", () => {
     const destPath = path.join(projectRoot, ".claude", "skills", "feature");
-    const assetsDir = path.join(sourceSkillPath, "assets");
 
     // First run
     installSkill(sourceSkillPath, destPath);
     createContextDirs(projectRoot);
-    copyContextFiles(projectRoot, assetsDir);
-    applyCodingStandards(projectRoot, assetsDir, {
+    copyContextFiles(projectRoot, rootAssetsDir, skillAssetsDir);
+    applyCodingStandards(projectRoot, rootAssetsDir, {
       label: "Next.js",
       assetFilename: "coding-standards-nextjs-template.md",
+    });
+    installSubagents(projectRoot, subagentsDir, {
+      label: "Next.js",
+      assetFilename: "code-review-nextjs-template.md",
     });
     updateGitignore(projectRoot);
     updateClaudeMd(projectRoot, true);
@@ -144,8 +179,11 @@ describe("end-to-end: idempotent second run", () => {
     const dirEntries2 = createContextDirs(projectRoot);
     expect(dirEntries2.every((e) => e.status === "exists")).toBe(true);
 
-    const fileEntries2 = copyContextFiles(projectRoot, assetsDir);
+    const fileEntries2 = copyContextFiles(projectRoot, rootAssetsDir, skillAssetsDir);
     expect(fileEntries2.every((e) => e.status === "exists")).toBe(true);
+
+    const agentEntries2 = installSubagents(projectRoot, subagentsDir, null);
+    expect(agentEntries2.every((e) => e.status === "exists")).toBe(true);
 
     const giEntry2 = updateGitignore(projectRoot);
     expect(giEntry2.status).toBe("exists");
@@ -164,7 +202,6 @@ describe("end-to-end: idempotent second run", () => {
 describe("end-to-end: partial context completion", () => {
   it("completes only missing project configuration", () => {
     const destPath = path.join(projectRoot, ".claude", "skills", "feature");
-    const assetsDir = path.join(sourceSkillPath, "assets");
 
     // Pre-existing partial state
     installSkill(sourceSkillPath, destPath);
@@ -179,7 +216,7 @@ describe("end-to-end: partial context completion", () => {
     const contextEntry = dirEntries.find((e) => e.path === "context");
     expect(contextEntry?.status).toBe("exists");
 
-    const fileEntries = copyContextFiles(projectRoot, assetsDir);
+    const fileEntries = copyContextFiles(projectRoot, rootAssetsDir, skillAssetsDir);
     const cfEntry = fileEntries.find((e) => e.path === "context/current-feature.md");
     expect(cfEntry?.status).toBe("exists");
 
@@ -195,19 +232,18 @@ describe("end-to-end: partial context completion", () => {
 describe("end-to-end: declining CLAUDE.md", () => {
   it("completes all other steps when CLAUDE.md creation is declined", () => {
     const destPath = path.join(projectRoot, ".claude", "skills", "feature");
-    const assetsDir = path.join(sourceSkillPath, "assets");
 
     installSkill(sourceSkillPath, destPath);
     createContextDirs(projectRoot);
-    copyContextFiles(projectRoot, assetsDir);
-    applyCodingStandards(projectRoot, assetsDir, {
+    copyContextFiles(projectRoot, rootAssetsDir, skillAssetsDir);
+    applyCodingStandards(projectRoot, rootAssetsDir, {
       label: "Next.js",
       assetFilename: "coding-standards-nextjs-template.md",
     });
     updateGitignore(projectRoot);
     const cmdEntry = updateClaudeMd(projectRoot, false);
 
-    expect(cmdEntry.status).toBe("skipped");
+    expect(cmdEntry.status).toBe("declined");
     expect(fs.existsSync(path.join(projectRoot, "CLAUDE.md"))).toBe(false);
     expect(fs.existsSync(path.join(destPath, "SKILL.md"))).toBe(true);
     expect(fs.existsSync(path.join(projectRoot, "context", "ai-interaction.md"))).toBe(true);
@@ -220,7 +256,6 @@ describe("end-to-end: paths with spaces", () => {
     const spacedProject = path.join(tmpDir, "my project dir");
     fs.mkdirSync(spacedProject, { recursive: true });
     const destPath = path.join(spacedProject, ".claude", "skills", "feature");
-    const assetsDir = path.join(sourceSkillPath, "assets");
 
     const skillEntry = installSkill(sourceSkillPath, destPath);
     expect(skillEntry.status).toBe("created");
@@ -228,7 +263,7 @@ describe("end-to-end: paths with spaces", () => {
     const dirEntries = createContextDirs(spacedProject);
     expect(dirEntries.every((e) => e.status === "created")).toBe(true);
 
-    const fileEntries = copyContextFiles(spacedProject, assetsDir);
+    const fileEntries = copyContextFiles(spacedProject, rootAssetsDir, skillAssetsDir);
     expect(fileEntries.every((e) => e.status === "copied")).toBe(true);
   });
 });

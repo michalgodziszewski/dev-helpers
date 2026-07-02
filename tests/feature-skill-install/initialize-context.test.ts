@@ -12,24 +12,30 @@ import {
 let tmpDir: string;
 let projectRoot: string;
 let assetsDir: string;
+let skillAssetsDir: string;
 
-function setupAssets(dir: string): string {
-  const assets = path.join(dir, "assets");
-  fs.mkdirSync(assets, { recursive: true });
-  fs.writeFileSync(path.join(assets, "ai-interaction-template.md"), "# AI\n");
-  fs.writeFileSync(path.join(assets, "current-feature-template.md"), "# Feature\n");
-  fs.writeFileSync(path.join(assets, "feature-config-template.md"), "# Config\n");
-  fs.writeFileSync(path.join(assets, "feature-spec-template.md"), "# Spec\n");
-  fs.writeFileSync(path.join(assets, "project-overview-template.md"), "# Overview\n");
-  fs.writeFileSync(path.join(assets, "coding-standards-nextjs-template.md"), "# Next.js\n");
-  return assets;
+function setupAssets(dir: string): { root: string; skill: string } {
+  const root = path.join(dir, "assets");
+  fs.mkdirSync(root, { recursive: true });
+  fs.writeFileSync(path.join(root, "ai-interaction-template.md"), "# AI\n");
+  fs.writeFileSync(path.join(root, "feature-config-template.md"), "# Config\n");
+  fs.writeFileSync(path.join(root, "feature-spec-template.md"), "# Spec\n");
+  fs.writeFileSync(path.join(root, "project-overview-template.md"), "# Overview\n");
+  fs.writeFileSync(path.join(root, "coding-standards-nextjs-template.md"), "# Next.js\n");
+
+  const skill = path.join(dir, "skill-assets");
+  fs.mkdirSync(skill, { recursive: true });
+  fs.writeFileSync(path.join(skill, "current-feature-template.md"), "# Feature\n");
+  return { root, skill };
 }
 
 beforeEach(() => {
   tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "fsi-ctx-"));
   projectRoot = path.join(tmpDir, "project");
   fs.mkdirSync(projectRoot, { recursive: true });
-  assetsDir = setupAssets(tmpDir);
+  const assets = setupAssets(tmpDir);
+  assetsDir = assets.root;
+  skillAssetsDir = assets.skill;
 });
 
 afterEach(() => {
@@ -71,7 +77,7 @@ describe("createContextDirs", () => {
 describe("copyContextFiles", () => {
   it("copies all asset files when targets are missing", () => {
     fs.mkdirSync(path.join(projectRoot, "context"), { recursive: true });
-    const entries = copyContextFiles(projectRoot, assetsDir);
+    const entries = copyContextFiles(projectRoot, assetsDir, skillAssetsDir);
 
     expect(entries).toHaveLength(5);
     expect(entries.every((e) => e.status === "copied")).toBe(true);
@@ -89,7 +95,7 @@ describe("copyContextFiles", () => {
       "# My state\n",
     );
 
-    const entries = copyContextFiles(projectRoot, assetsDir);
+    const entries = copyContextFiles(projectRoot, assetsDir, skillAssetsDir);
     const cfEntry = entries.find((e) => e.path === "context/current-feature.md");
     expect(cfEntry?.status).toBe("exists");
 
@@ -105,7 +111,7 @@ describe("copyContextFiles", () => {
       recursive: true,
     });
 
-    const entries = copyContextFiles(projectRoot, assetsDir);
+    const entries = copyContextFiles(projectRoot, assetsDir, skillAssetsDir);
     const aiEntry = entries.find((e) => e.path === "context/ai-interaction.md");
     expect(aiEntry?.status).toBe("blocked");
   });

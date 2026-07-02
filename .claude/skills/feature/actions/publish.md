@@ -13,11 +13,11 @@
    - Render Branch Format from Work Type, Jira Ticket, and work name.
    - Require Work Branch and the current branch to equal that exact rendered branch.
 5. When Jira naming is inactive, require the current branch to equal Work Branch and require Work Branch not to equal Base Branch.
-6. Run test.md and review.md. Stop on any failure or non-ready verdict. Because review.md delegates the code-quality pass to the code-review subagent, publish inherits that check here; do not spawn the subagent separately.
-7. Show git status --short and a concise diff summary.
-8. Exclude context/ completely from staging.
+6. Run git fetch origin --prune once and verify origin/<base-branch> exists. This is the only fetch in the publish chain; test.md and review.md executed as part of publish reuse it and must not fetch again.
+7. Run test.md and review.md. Stop on any failure or non-ready verdict. Because review.md delegates the code-quality pass to the code-review subagent, publish inherits that check here; do not spawn the subagent separately. Neither action asks the user anything.
+8. Show git status --short and a concise diff summary. Exclude context/ completely from staging.
 
-## Create a compliant commit
+## Prepare the commit and atomic list
 
 1. Map Work Type to the conventional commit type:
    - feature -> feat
@@ -31,34 +31,34 @@
    - <ticket> = stored normalized Jira Ticket
    - <message> = concise message without a duplicate ticket
 4. When Jira naming is inactive, use the normal conventional commit format.
-5. Show the exact message and ask before committing and pushing.
-6. After permission:
-   - Stage only work-item files outside context/.
-   - Commit once with the approved exact message when uncommitted work exists.
-   - Run git fetch origin --prune.
-   - Verify origin/<base-branch> exists.
-
-## Capture and validate atomic commits
-
-1. Compute the ordered feature-only commit list:
+5. Compute the ordered feature-only commits already on the branch:
 
    git rev-list --reverse --no-merges <work-branch> --not origin/<base-branch>
 
-2. Never use a merge commit, GitHub merge SHA, or combined diff as a Published Commit.
-3. The --not origin/<base-branch> exclusion must remove commits introduced by syncing or merging the base branch into the work branch.
-4. Require at least one atomic commit.
-5. For every selected SHA:
-   - Verify it resolves.
-   - Verify it is not a merge commit.
-   - Show SHA and subject.
-   - When Jira naming is active, require the subject to match Commit Format exactly around the <message> placeholder, use the mapped commit type, contain the exact stored ticket once, and contain a non-empty message.
-6. If any selected commit violates Jira policy, stop before storing Published Commits or pushing. List each invalid SHA and expected subject shape. Never amend, rebase, or force-rewrite commits automatically.
-7. Also show ignored merge commits on the work branch so synchronization merges are visible.
-8. Ask the user to confirm the exact ordered commit list before push.
-9. Store the ordered SHAs as Published Commits in local state.
-10. Run git push -u origin <work-branch>.
-11. Verify origin/<work-branch> equals the local Work Branch commit.
-12. Set Status to Published.
+6. Never use a merge commit, GitHub merge SHA, or combined diff as a Published Commit. The --not origin/<base-branch> exclusion must remove commits introduced by syncing or merging the base branch into the work branch.
+7. For every existing SHA, verify it resolves and is not a merge commit. When Jira naming is active, require each subject to match Commit Format exactly around the <message> placeholder, use the mapped commit type, contain the exact stored ticket once, and contain a non-empty message. If any existing commit violates Jira policy, stop before asking anything. List each invalid SHA and expected subject shape. Never amend, rebase, or force-rewrite commits automatically.
+8. Build the final ordered atomic commit list: the existing valid commits in order, followed by the proposed new commit when uncommitted work exists. Require at least one atomic commit.
+
+## Single combined approval
+
+Ask the user exactly once, presenting together:
+
+- the exact proposed commit message for the uncommitted work (when present),
+- the final ordered atomic commit list with SHA and subject for existing commits and a "new" marker for the pending one,
+- ignored merge commits on the work branch, so synchronization merges are visible,
+- the push target: origin/<work-branch>.
+
+This is the only question publish asks. Approval covers staging, the commit, and the push in one answer. Without approval, stop without committing or pushing.
+
+## Execute after approval
+
+1. Stage only work-item files outside context/.
+2. Commit once with the approved exact message when uncommitted work exists.
+3. Recompute the ordered commit list to capture the final SHAs. Do not ask again; if the recomputed list differs from the approved list in anything other than the appended new commit's SHA, stop and report the difference.
+4. Store the ordered SHAs as Published Commits in local state.
+5. Run git push -u origin <work-branch>.
+6. Verify origin/<work-branch> equals the local Work Branch commit.
+7. Set Status to Published.
 
 ## Pull request target
 

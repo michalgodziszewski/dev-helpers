@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Bash(git fetch origin:*)",
+      "Bash(git rev-parse:*)",
+      "Bash(git rev-list:*)",
+      "Bash(git merge-base:*)",
+      "Bash(git ls-files:*)",
+      "Bash(git cat-file:*)",
+      "Bash(git check-ref-format:*)",
+      "Bash(git branch --show-current)",
+      "PowerShell(git status:*)",
+      "PowerShell(git diff:*)",
+      "PowerShell(git log:*)",
+      "PowerShell(git show:*)",
+      "PowerShell(git fetch origin:*)",
+      "PowerShell(git rev-parse:*)",
+      "PowerShell(git rev-list:*)",
+      "PowerShell(git merge-base:*)",
+      "PowerShell(git ls-files:*)",
+      "PowerShell(git cat-file:*)",
+      "PowerShell(git check-ref-format:*)",
+      "PowerShell(git branch --show-current)"
+    ]
+  }
+}

@@ -3,7 +3,7 @@
 ## Own analysis
 
 1. Read Goals, Base Branch, and Work Branch from the state file.
-2. Run git fetch origin --prune before comparing against the remote base.
+2. Run git fetch origin --prune before comparing against the remote base, unless a fetch already ran earlier in the current action chain (for example when review runs inside publish). Never ask before fetching.
 3. Review git diff origin/<base-branch>...<work-branch>.
 4. Check:
    - Every goal is implemented.

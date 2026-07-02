@@ -9,7 +9,19 @@ Support both Markdown specifications and inline descriptions.
    - Create context/ when necessary.
    - Copy the structure from ../assets/current-feature-template.md.
    - Because the template is placeholder-based, replace every remaining {{...}} placeholder with an empty value, remove the {{preview_notice}} line, and drop the optional planning-only sections (## References, ## Scope, ## Documentation Requirements) so the runtime state file keeps only Status, Git Workflow, Goals, Notes, Pending Reviews, and History.
-3. If context/feature-config.md does not exist, copy ../assets/feature-config-template.md.
+3. If context/feature-config.md does not exist, create it with this exact default content (kept in sync with the packaged assets/feature-config-template.md, which dev feature-skill-install normally installs):
+
+   ```md
+   # Feature Configuration
+
+   ## Jira
+
+   - **Mode:** required
+   - **Project Keys:**
+   - **Ticket Pattern:** ^[A-Z][A-Z0-9]*-[1-9][0-9]*$
+   - **Branch Format:** <type>/<ticket>-<name>
+   - **Commit Format:** <commit-type>: [<ticket>] - <message>
+   ```
 4. If current-feature.md is a legacy file without Jira Ticket, add the field after Work Type without changing other state.
 5. Never stage or commit anything under context/.
 
@@ -123,13 +135,7 @@ After the specification and all metadata are complete:
    - Copy or derive concrete Goals and Notes from the specification.
    - Preserve History unchanged.
 3. Preserve Pending Reviews and History unchanged.
-4. Re-read current-feature.md after writing it and verify:
-   - Stored Workflow equals the resolved Workflow.
-   - Stored Work Type equals the resolved Work Type.
-   - Stored Jira Ticket equals the resolved normalized ticket or is empty.
-   - Stored Base Branch equals the resolved Base Branch.
-   - Stored Source Spec equals the resolved source.
-5. If any stored value differs, correct it immediately, re-read the file, and stop if the second verification still fails.
-6. Show the source file, Jira mode, resolved ticket, workflow, base branch, proposed branch, and goals.
+4. Verify the write once: confirm the stored Workflow, Work Type, Jira Ticket, Base Branch, and Source Spec equal the resolved values (a confirmed successful write counts as verification). On a mismatch, correct it immediately and stop if it persists. Do not run repeated re-read loops.
+5. Show the source file, Jira mode, resolved ticket, workflow, base branch, proposed branch, and goals.
 
-Loading state must not fetch, pull, create, switch, or modify Git branches. Never stage or commit context/.
+load asks the user only for missing or conflicting required metadata (workflow, work type, base branch, or a required Jira ticket). Every other step, including all read-only Git validation, runs without questions. Loading state must not fetch, pull, create, switch, or modify Git branches. Never stage or commit context/.

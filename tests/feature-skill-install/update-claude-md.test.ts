@@ -28,10 +28,10 @@ describe("updateClaudeMd", () => {
     expect(content).toContain("@context/current-feature.md");
   });
 
-  it("skips creation when declined", () => {
+  it("declines creation when refused", () => {
     const entry = updateClaudeMd(tmpDir, false);
 
-    expect(entry.status).toBe("skipped");
+    expect(entry.status).toBe("declined");
     expect(fs.existsSync(path.join(tmpDir, "CLAUDE.md"))).toBe(false);
   });
 

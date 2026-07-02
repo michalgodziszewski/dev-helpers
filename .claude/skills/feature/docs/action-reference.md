@@ -70,10 +70,12 @@ None. `plan` never fetches, pulls, branches, commits, or pushes.
 ### Syntax
 
 ```text
-/feature load [--ticket <ticket>] <spec-file-or-name>
-/feature load trunk <type> [--ticket <ticket>] <spec-file-or-description>
-/feature load branch <base-branch> <type> [--ticket <ticket>] <spec-file-or-description>
+/feature load [--ticket <ticket>] [--yolo] <spec-file-or-name>
+/feature load trunk <type> [--ticket <ticket>] [--yolo] <spec-file-or-description>
+/feature load branch <base-branch> <type> [--ticket <ticket>] [--yolo] <spec-file-or-description>
 ```
+
+`--yolo` is an optional flag on every load form. It strips out before the spec source is resolved and, once load succeeds, autonomously chains start → implement → test → review → publish, stopping only at the combined publish approval. See [Autonomous run (--yolo)](#autonomous-run---yolo).
 
 ### Accepted work types
 
@@ -108,6 +110,28 @@ None. `plan` never fetches, pulls, branches, commits, or pushes.
 - base branch is missing from resolved metadata;
 - Jira configuration or ticket is invalid;
 - rendered branch is not a valid Git ref.
+
+## Autonomous run (--yolo)
+
+`--yolo` on any load form runs the whole workflow in one pass instead of one action at a time.
+
+### Behavior
+
+- After a successful load, chains `start` → implement Goals → `test` → `review` → `publish` in the same turn.
+- Stops at the `publish` combined approval — the only prompt on the normal path. It never auto-commits or auto-pushes. The pre-existing `test` gate still applies: a check needing a dependency install or test-config change stops and asks, exactly as a manual run would.
+- Failing tests or required checks are fixed and re-run until they pass, bounded to ~2–3 attempts on the same failure, then reported.
+- `Needs changes` review verdicts and high-severity findings are remediated, re-tested, and re-reviewed until `Ready to publish`, within the same bounded-attempts guard.
+
+### Stops the run when
+
+- `start` hits an infrastructure/safety stop (dirty tree outside the recorded Source Spec, base cannot fast-forward, local base differs from origin, or the work branch already exists);
+- a check or review failure persists past the bounded retries.
+
+### Does not
+
+- add, remove, pre-answer, or suppress the combined publish approval;
+- auto-stash, reset, force-pull, or force-push to recover;
+- run backport, branch deletion, or discard.
 
 ## start
 

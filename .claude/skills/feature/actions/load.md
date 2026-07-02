@@ -27,11 +27,13 @@ Support both Markdown specifications and inline descriptions.
 
 ## Accepted forms
 
-- load [--ticket <ticket>] <spec-file-or-name>
-- load trunk <type> [--ticket <ticket>] <spec-file-or-description>
-- load branch <base-branch> <type> [--ticket <ticket>] <spec-file-or-description>
+- load [--ticket <ticket>] [--yolo] <spec-file-or-name>
+- load trunk <type> [--ticket <ticket>] [--yolo] <spec-file-or-description>
+- load branch <base-branch> <type> [--ticket <ticket>] [--yolo] <spec-file-or-description>
 
 Accept feature, bugfix, fix, hotfix, or chore as <type>. Accept at most one --ticket argument and remove the flag pair before resolving the specification source.
+
+Accept an optional `--yolo` flag in any position on every form. Strip it out before resolving the specification source, and record that this load starts an autonomous run. `--yolo` takes no value; treat a repeated `--yolo` as the same single flag. See "Autonomous continuation (--yolo)" below.
 
 ## Read Jira configuration
 
@@ -139,3 +141,22 @@ After the specification and all metadata are complete:
 5. Show the source file, Jira mode, resolved ticket, workflow, base branch, proposed branch, and goals.
 
 load asks the user only for missing or conflicting required metadata (workflow, work type, base branch, or a required Jira ticket). Every other step, including all read-only Git validation, runs without questions. Loading state must not fetch, pull, create, switch, or modify Git branches. Never stage or commit context/.
+
+## Autonomous continuation (--yolo)
+
+When `--yolo` was supplied and load completed successfully (state is Not Started), do not stop at the load summary. Continue the workflow autonomously in the same turn, following each action's own procedure:
+
+1. Run the `start` action: synchronize the base and create the work branch. If start stops for an infrastructure or safety reason (dirty tree outside the allowed Source Spec, base cannot fast-forward, local base differs from origin, or the work branch already exists), stop the autonomous run and report exactly what blocked it. Do not attempt to auto-resolve it.
+2. Implement the Goals from the specification, one by one, exactly as start already requires.
+3. Run the `test` action. If a required check fails, fix the cause, re-run the relevant checks, and repeat until they pass. Bound the loop to about 2–3 attempts on the same failure; if it still fails, stop and report the failure and what was tried.
+4. Run the `review` action. Treat a `Needs changes` verdict or high-severity findings as work to do, not a stop: remediate them, re-run the relevant tests, and re-review until the verdict is `Ready to publish`, within the same bounded-attempts guard.
+5. Run the `publish` action and stop at its single combined approval. On the normal path this is the only prompt of the whole run. Do not commit or push before the user approves.
+
+Rules for the autonomous run:
+
+- The combined publish approval is never skipped, pre-answered, or suppressed. `--yolo` never commits or pushes without it.
+- The pre-existing permission gates still apply. If a check would require installing dependencies or changing test configuration, stop and ask exactly as a manual `/feature test` would; `--yolo` never grants permission to install dependencies or change configuration. This is the only prompt that can appear before publish, and only when a check needs it.
+- Never auto-stash, reset, rebase, force-pull, or force-push to get past an infrastructure or safety stop.
+- Destructive operations (backport, branch deletion, discard) are never part of a `--yolo` run.
+- When any load metadata is missing or conflicting, resolve it exactly as a normal load would — asking the user for that specific value — before beginning the autonomous chain.
+- If load itself stops (invalid config, unresolved metadata, occupied active slot), `--yolo` has no effect; there is no run to start.

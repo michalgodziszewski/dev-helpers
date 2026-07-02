@@ -30,6 +30,16 @@ The skill is conservative by design. It prioritizes correct branch ancestry, exp
 | `abandon` | No | One confirmation per local branch deletion | Never deletes remote |
 | `abandon --discard` | Destructive | One explicit consequence confirmation | Never deletes remote |
 
+## Autonomous run (--yolo) safety
+
+`--yolo` removes the manual pauses between actions; it removes no safety gate. The run applies each action's own procedure and stops at the same boundaries a manual run would.
+
+- The combined publish approval is preserved exactly. `--yolo` never commits or pushes without it, and never pre-answers or suppresses it. Destructive operations are never part of the run. The only other prompt that can appear is the pre-existing `test` gate: a check needing a dependency install or test-config change stops and asks, exactly as a manual run would — `--yolo` grants no permission to install dependencies or change configuration.
+- The failure response is deliberately split:
+  - failing tests or required checks, and `Needs changes` review verdicts or high-severity findings, are treated as work — fixed, re-run, and re-reviewed until they pass, bounded to about 2–3 attempts on the same failure before stopping with a report;
+  - infrastructure and safety failures stop the run immediately with an exact report and are never auto-resolved: a base that cannot fast-forward, a local base that differs from origin, a disallowed dirty working tree, or a work-branch collision.
+- The run never auto-stashes, resets, rebases, force-pulls, or force-pushes to get past a stop. Recovery from an infrastructure stop is the same manual process as for a stopped `start` (see Base synchronization and the Recovery checklist).
+
 ## Working-tree cleanliness
 
 `start` and `backport` inspect all paths outside `context/`.

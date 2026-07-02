@@ -9,6 +9,7 @@ tools:
   - Grep
   - Glob
   - Bash
+  - PowerShell
 ---
 
 # Plan Research Agent
@@ -21,7 +22,7 @@ You must not edit files, create files, delete files, commit, push, merge, checko
 
 The caller provides the planned work description and specific research questions, for example: which files implement X, which patterns exist for Y, what would a change to Z touch.
 
-## Allowed Bash Commands
+## Allowed Shell Commands (Bash or PowerShell)
 
 Read-only inspection only: `git ls-files`, `git log --oneline`, `git grep`, `git show`. Do not run `git fetch`, `git pull`, or anything that modifies files or Git state.
 

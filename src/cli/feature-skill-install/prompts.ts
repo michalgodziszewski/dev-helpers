@@ -1,5 +1,6 @@
 import readline from "node:readline";
 import type { SkillScope } from "./types.js";
+import type { ModelOverride } from "./model-override.js";
 import { bold, cyan, dim } from "../format/console.js";
 
 function createInterface(): readline.Interface {
@@ -163,4 +164,92 @@ export async function promptCreateClaudeMd(
       `Confirm ${dim("[Y/n]")}: `,
   );
   return answer === "" || answer.toLowerCase() === "y" || answer.toLowerCase() === "yes";
+}
+
+export interface ModelOverrideChoice {
+  name: string;
+  override: ModelOverride;
+}
+
+/** AWS Bedrock EU cross-region inference profile names, offered as the default override since they are the most commonly reported org-specific naming scheme. */
+export const BEDROCK_EU_DEFAULT_OVERRIDE: ModelOverride = {
+  sonnet: "eu.anthropic.claude-sonnet-4-6",
+  haiku: "eu.anthropic.claude-haiku-4-5-20251001-v1:0",
+};
+const DEFAULT_PROFILE_NAME_HINT = "org";
+
+function defaultDoAsk(promptFn?: (question: string) => Promise<string>): (question: string) => Promise<string> {
+  return (
+    promptFn ??
+    (async (q: string) => {
+      const rl = createInterface();
+      try {
+        return await ask(rl, q);
+      } finally {
+        rl.close();
+      }
+    })
+  );
+}
+
+async function promptModelLiterals(
+  doAsk: (question: string) => Promise<string>,
+): Promise<ModelOverride> {
+  const sonnet = await doAsk(
+    promptTitle('Literal model name to use for the "sonnet" role:') +
+      `${dim(`[${BEDROCK_EU_DEFAULT_OVERRIDE.sonnet}]`)}: `,
+  );
+  const haiku = await doAsk(
+    promptTitle('Literal model name to use for the "haiku" role:') +
+      `${dim(`[${BEDROCK_EU_DEFAULT_OVERRIDE.haiku}]`)}: `,
+  );
+  return {
+    sonnet: sonnet.trim() === "" ? BEDROCK_EU_DEFAULT_OVERRIDE.sonnet : sonnet.trim(),
+    haiku: haiku.trim() === "" ? BEDROCK_EU_DEFAULT_OVERRIDE.haiku : haiku.trim(),
+  };
+}
+
+export async function promptModelOverride(
+  promptFn?: (question: string) => Promise<string>,
+): Promise<ModelOverrideChoice | null> {
+  const doAsk = defaultDoAsk(promptFn);
+
+  const useOverride = await doAsk(
+    promptTitle(
+      "Does your organization require literal model names instead of the default " +
+        '"sonnet"/"haiku" aliases (e.g. AWS Bedrock-style eu.anthropic.claude-sonnet-4-6)?',
+    ) + `Confirm ${dim("[y/N]")}: `,
+  );
+  if (!(useOverride.toLowerCase() === "y" || useOverride.toLowerCase() === "yes")) {
+    return null;
+  }
+
+  const override = await promptModelLiterals(doAsk);
+  const name = await doAsk(
+    promptTitle(
+      "Name this model profile (used later with `dev model-toggle <name>` to switch accounts):",
+    ) + `Name ${dim(`[${DEFAULT_PROFILE_NAME_HINT}]`)}: `,
+  );
+  return {
+    name: name.trim() === "" ? DEFAULT_PROFILE_NAME_HINT : name.trim(),
+    override,
+  };
+}
+
+/** Used by `dev model-toggle <name>` when the named profile does not exist yet, so a new account/org profile can be created without re-running the full installer. */
+export async function promptCreateModelProfile(
+  profileName: string,
+  promptFn?: (question: string) => Promise<string>,
+): Promise<ModelOverride | null> {
+  const doAsk = defaultDoAsk(promptFn);
+
+  const create = await doAsk(
+    promptTitle(`Profile "${profileName}" does not exist. Create it now?`) +
+      `Confirm ${dim("[y/N]")}: `,
+  );
+  if (!(create.toLowerCase() === "y" || create.toLowerCase() === "yes")) {
+    return null;
+  }
+
+  return promptModelLiterals(doAsk);
 }

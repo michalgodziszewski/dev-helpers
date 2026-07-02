@@ -6,10 +6,12 @@ import { getCommand } from "../command-registry.js";
 import { renderCommandHelp } from "../help/render-help.js";
 import { resolveSourceSkillPath, resolveRootAssetsPath, resolveSubagentsPath, resolveSourceSettingsPath, resolveDestinationPath } from "../feature-skill-install/paths.js";
 import { validateSource, installSkill } from "../feature-skill-install/install-skill.js";
-import { promptSkillScope, promptCodingStandards, promptCodeReviewStack, promptCreateClaudeMd, promptIgnoreClaudeDir } from "../feature-skill-install/prompts.js";
+import { promptSkillScope, promptCodingStandards, promptCodeReviewStack, promptCreateClaudeMd, promptIgnoreClaudeDir, promptModelOverride } from "../feature-skill-install/prompts.js";
 import { createContextDirs, copyContextFiles, discoverCodingStandards, applyCodingStandards } from "../feature-skill-install/initialize-context.js";
 import { discoverCodeReviewStacks, installSubagents } from "../feature-skill-install/install-subagents.js";
 import type { SubagentStackChoice } from "../feature-skill-install/install-subagents.js";
+import { resolveInstallerModelOverride, upsertActiveProfile, DEFAULT_PROFILE_NAME, DEFAULT_PROFILE } from "../feature-skill-install/model-profiles.js";
+import type { ModelOverride } from "../feature-skill-install/model-override.js";
 import { installSettings } from "../feature-skill-install/install-settings.js";
 import { updateGitignore, hasClaudeRule, addClaudeRule } from "../feature-skill-install/update-gitignore.js";
 import { updateClaudeMd } from "../feature-skill-install/update-claude-md.js";
@@ -99,7 +101,24 @@ export async function run(args: string[]): Promise<void> {
       codeReviewChoice = await promptCodeReviewStack(stacks);
     }
   }
-  entries.push(...installSubagents(projectRoot, subagentsDir, codeReviewChoice));
+  // Only prompt for a model-naming profile on first install. Re-running the installer must
+  // never silently reset an already-configured active profile back to the default aliases.
+  const modelDecision = resolveInstallerModelOverride(projectRoot);
+  let activeOverride: ModelOverride | null = modelDecision.override;
+  if (modelDecision.skipPrompt) {
+    entries.push({ status: "exists", path: "context/model-profiles.md" });
+  } else {
+    const modelOverrideChoice = await promptModelOverride();
+    if (modelOverrideChoice !== null) {
+      upsertActiveProfile(projectRoot, modelOverrideChoice.name, modelOverrideChoice.override);
+      activeOverride = modelOverrideChoice.override;
+    } else {
+      upsertActiveProfile(projectRoot, DEFAULT_PROFILE_NAME, DEFAULT_PROFILE);
+    }
+  }
+  entries.push(
+    ...installSubagents(projectRoot, subagentsDir, codeReviewChoice, activeOverride),
+  );
 
   // 9. Install or merge the Claude Code permission allowlist
   entries.push(installSettings(projectRoot, resolveSourceSettingsPath()));

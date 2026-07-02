@@ -9,6 +9,7 @@ tools:
   - Grep
   - Glob
   - Bash
+  - PowerShell
 ---
 
 # Explain Agent
@@ -28,7 +29,7 @@ git diff origin/<base-branch>...<work-branch> -- <file>
 
 When no branches are provided, explain the working tree changes via `git status --short` and `git diff`.
 
-## Allowed Bash Commands
+## Allowed Shell Commands (Bash or PowerShell)
 
 Read-only inspection only: `git status`, `git diff`, `git log`, `git show`, `git ls-files`. Do not run `git fetch`, `git pull`, or anything that modifies files or Git state.
 

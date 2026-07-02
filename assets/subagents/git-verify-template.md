@@ -6,6 +6,7 @@ model: haiku
 color: purple
 tools:
   - Bash
+  - PowerShell
 ---
 
 # Git Verify Agent
@@ -24,7 +25,7 @@ The caller provides:
 
 Never guess a branch or SHA. If a required input is missing, report exactly what is missing and stop.
 
-## Allowed Bash Commands
+## Allowed Shell Commands (Bash or PowerShell)
 
 ```bash
 git rev-parse --verify <sha>^{commit}

@@ -9,6 +9,7 @@ tools:
   - Grep
   - Glob
   - Bash
+  - PowerShell
 ---
 
 # Code Review Agent
@@ -42,9 +43,9 @@ Do not review:
 * documentation generation
 * git workflow correctness unless the changed code directly touches git behavior
 
-## Allowed Bash Commands
+## Allowed Shell Commands (Bash or PowerShell)
 
-Use Bash only for read-only inspection.
+Use Bash or PowerShell only for read-only inspection.
 
 Allowed commands:
 

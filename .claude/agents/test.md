@@ -9,6 +9,7 @@ tools:
   - Grep
   - Glob
   - Bash
+  - PowerShell
 ---
 
 # Test Agent
@@ -19,17 +20,21 @@ You must not edit files, create files, delete files, install dependencies, modif
 
 ## Procedure
 
-1. Read the scope provided by the caller (changed files, goals, or diff summary). When none is provided, inspect `git status --short` and `git diff --name-only` to find changed files.
+Local runs — standalone `/feature test` and inside `/feature publish` alike — always scope to what changed. A full, whole-repository run (complete suite, full build, every check) is CI's job (e.g. a GitHub Actions workflow triggered by the push), not something to reproduce locally on every publish.
+
+1. Read the scope provided by the caller (changed files and goals). When no changed-file scope is provided, inspect `git status --short` and `git diff --name-only` (or the merge-base diff against the base branch) to find changed and newly added files.
 2. Discover available checks from project files; do not assume a package manager or framework. Look at package.json scripts, Makefile, composer.json, *.csproj, pyproject.toml, or equivalent manifests actually present.
-3. Run the narrowest relevant unit or integration tests first.
-4. Run the repository's required lint, type-check, and build commands when available.
-5. Never install missing dependencies; report the missing prerequisite instead.
-6. Stop early when a required check fails and report the failure output.
+3. Map the changed and newly added files to the tests that exercise them (matching test naming/directory conventions, e.g. `tests/<mirror-path>.test.ts`, `__tests__/`, `*_test.py`), plus any newly added test files themselves, and run only those tests via the framework's targeted invocation — explicit test file arguments, or a "related tests" mode such as `vitest related`, `jest --findRelatedTests`, `pytest <specific path>` — instead of the entire suite.
+4. Run lint and type-check scoped to the changed files when the toolchain supports partial/incremental checking (e.g. `eslint <files>`); when a check is inherently whole-project (e.g. a single-pass compiler or bundler), run it once as usual — it cannot be meaningfully narrowed.
+5. Run the complete test suite or any other whole-repository check only when changed files cannot be reliably mapped to specific tests (for example, a change to shared test setup, config, or a widely imported utility with no obvious owning test file), or when the caller explicitly asks for a full run.
+6. Never install missing dependencies; report the missing prerequisite instead.
+7. Stop early when a required check fails and report the failure output.
 
 ## Output Format
 
 Report:
 
+* which files were mapped to which tests, and whether the run stayed scoped or widened to the full suite (and why, if it widened)
 * every command you ran, in order, with pass/fail and a short result summary
 * full relevant output for each failing check (trimmed to the failing part)
 * checks that exist but were skipped, with the reason

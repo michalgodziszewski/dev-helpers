@@ -2,97 +2,139 @@
 
 <!-- Template: Angular. Select this template explicitly during context initialization. -->
 
+## Core Rules
+
+* Use Angular 18+ patterns.
+* Use strict TypeScript.
+* Do not use `any`; use proper types or `unknown`.
+* Prefer standalone components.
+* Use `inject()` for dependency injection unless the file already follows constructor injection.
+* Use Signals for local state where appropriate.
+* Use `computed()` for derived state.
+* Use `effect()` only for real side effects.
+* Use `takeUntilDestroyed()` or another safe cleanup for manual subscriptions.
+* Prefer `async` pipe, Signals, or RxJS composition over manual subscriptions.
+* Use lazy loading for feature routes where appropriate.
+* Use `OnPush` change detection where appropriate.
+
+## Angular Templates
+
+* Use modern Angular control flow by default:
+
+  * `@if` instead of `*ngIf`
+  * `@for` instead of `*ngFor`
+  * `@switch` instead of `ngSwitch`
+* Do not introduce new legacy structural directives in new or heavily modified templates.
+* Keep legacy syntax only when the surrounding file is already legacy and changing it would be unrelated noise.
+* Every `@for` must include a meaningful `track` expression.
+* Do not call heavy methods or expensive calculations from templates.
+* Keep template expressions simple and readable.
+
 ## TypeScript
 
-- Strict mode enabled
-- No `any` types - use proper typing or `unknown`
-- Define interfaces for all props, API responses, and data models
-- Use type inference where obvious, explicit types where helpful
-- Organize files: imports, definition, implementation
+* Define types or interfaces for API responses, DTOs, form models, and shared models.
+* Use type inference where obvious.
+* Use explicit types where they improve readability.
+* Avoid unnecessary type assertions.
+* Handle `null` and `undefined` explicitly.
+* Remove unused imports, variables, functions, types, interfaces, constants, and classes.
 
-## Angular
+## RxJS
 
-- Use standalone components when applicable
-- Leverage Angular's signals system for state management
-- Use the `inject` function for service injection
-- Implement lazy loading for feature modules
-- Use deferrable views for optimizing component rendering
-- Async pipe for observables in templates
+* Avoid nested subscriptions.
+* Use the correct RxJS operator for the business case.
+* Prefer composition with `switchMap`, `mergeMap`, `concatMap`, `combineLatest`, and `withLatestFrom`.
+* Do not leave subscriptions, timers, or event listeners without cleanup.
+* Avoid unnecessary Subjects when Signals, inputs, or simple streams are enough.
+
+## Forms
+
+* Prefer typed reactive forms.
+* Keep form model types explicit.
+* Put reusable validation logic into validators.
+* Avoid putting business logic directly in templates.
 
 ## File Organization
 
-- Components: `src/app/[feature]/component-name.component.ts`
-- Services: `src/app/[feature]/service-name.service.ts`
-- Modules: `src/app/[feature]/feature-name.module.ts`
-- Directives: `src/app/shared/directives/directive-name.directive.ts`
-- Pipes: `src/app/shared/pipes/pipe-name.pipe.ts`
-- Types: `src/app/[feature]/models/model-name.ts`
+* Components: `src/app/[feature]/component-name.component.ts`
+* Services: `src/app/[feature]/service-name.service.ts`
+* Directives: `src/app/shared/directives/directive-name.directive.ts`
+* Pipes: `src/app/shared/pipes/pipe-name.pipe.ts`
+* Types/models: `src/app/[feature]/models/model-name.ts`
 
 ## Naming
 
-- Files: kebab-case with type suffix (`user-profile.component.ts`)
-- Components: PascalCase (`UserProfileComponent`)
-- Services: PascalCase (`UserService`)
-- Functions: camelCase
-- Constants: SCREAMING_SNAKE_CASE
-- Types/Interfaces: PascalCase (no prefix)
+* Files: kebab-case with type suffix, for example `user-profile.component.ts`.
+* Components/services/classes: PascalCase.
+* Functions/variables: camelCase.
+* Constants: SCREAMING_SNAKE_CASE.
+* Types/interfaces: PascalCase, no `I` prefix.
 
 ## Styling
 
-- SASS for component styles
-- Use Angular's view encapsulation
-- No inline styles
-- Component-scoped styles by default
-
-## Import Order
-
-1. Angular core and common modules
-2. RxJS modules
-3. Other Angular modules
-4. Application core imports
-5. Shared module imports
-6. Environment-specific imports
-7. Relative path imports
-
-## Data Fetching
-
-- Use `HttpClient` for API calls
-- Wrap API calls in services
-- Validate all inputs with class-validator or custom validators
-- Use interceptors for auth headers and error handling
-
-## Error Handling
-
-- Use proper error handling in services and components
-- Use custom error types or factories
-- Implement Angular form validation or custom validators
-- Global error handler for uncaught exceptions
-
-## Testing
-
-- Follow the Arrange-Act-Assert pattern
-- Use `*.spec.ts` for test files
-- Test components with `TestBed`
-- Mock services with `jasmine.createSpyObj` or test doubles
+* Use SASS for component styles.
+* No inline styles.
+* Prefer component-scoped styles.
+* Avoid unnecessary global styles.
 
 ## Performance
 
-- Optimize `*ngFor` with `trackBy` functions
-- Use pure pipes for expensive computations
-- Avoid direct DOM manipulation; use Angular's templating system
-- Use `NgOptimizedImage` for image loading
-- Use signals to reduce unnecessary re-renders
+* Use `@for` with `track` for lists.
+* Use pure pipes for expensive computations.
+* Avoid direct DOM manipulation.
+* Use `NgOptimizedImage` for important images.
+* Avoid creating new object or array references in templates.
+* Avoid expensive calculations during change detection.
+
+## Accessibility
+
+* Use semantic HTML.
+* Inputs must have labels.
+* Interactive elements must be keyboard accessible.
+* Use buttons for actions and links for navigation.
+* Preserve visible focus states.
 
 ## Security
 
-- Prevent XSS with Angular's built-in sanitization
-- Avoid `innerHTML`; sanitize dynamic content with built-in tools
-- Use CSRF protection for form submissions
+* Avoid `innerHTML`.
+* Do not commit secrets, tokens, API keys, passwords, or credentials.
+* Do not hardcode environment-specific values.
+* Rely on Angular sanitization unless there is a clear reason not to.
+
+## Testing
+
+* Use `*.spec.ts`.
+* Follow Arrange-Act-Assert.
+* Test components with `TestBed`.
+* Mock services with `jasmine.createSpyObj` or clear test doubles.
+* Add or update tests when business logic, validation, state, or important UI behavior changes.
 
 ## Code Quality
 
-- No commented-out code unless specified
-- No unused imports or variables
-- Keep functions under 50 lines when possible
-- Use `const` for immutable variables
-- Use template strings for string interpolation
+* No commented-out code.
+* No dead code.
+* No debug leftovers:
+
+  * `console.log`
+  * `console.debug`
+  * `debugger`
+  * temporary mock data
+  * test-only production code
+* Keep functions small and focused.
+* Avoid too much nesting.
+* Avoid unrelated refactoring.
+* Avoid unnecessary abstractions and dependencies.
+* Use `const` where possible.
+
+## Final Self-Check
+
+Before finishing, check the current diff for:
+
+* new `*ngIf`, `*ngFor`, or `ngSwitch`
+* missing `track` in `@for`
+* unused code
+* debug leftovers
+* commented-out code
+* unnecessary `any`
+* missing cleanup for subscriptions, timers, or listeners
+* new files that are unused or disconnected

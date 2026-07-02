@@ -6,17 +6,17 @@ import { getCommand } from "../command-registry.js";
 import { renderCommandHelp } from "../help/render-help.js";
 import { resolveSourceSkillPath, resolveRootAssetsPath, resolveSubagentsPath, resolveSourceSettingsPath, resolveDestinationPath } from "../feature-skill-install/paths.js";
 import { validateSource, installSkill } from "../feature-skill-install/install-skill.js";
-import { promptSkillScope, promptCodingStandards, promptCodeReviewStack, promptCreateClaudeMd, promptIgnoreClaudeDir, promptModelOverride } from "../feature-skill-install/prompts.js";
+import { promptSkillScope, promptCodingStandards, promptCodeReviewStack, promptClaudeMdDestination, promptClaudeIgnoreDestination, promptContextIgnoreDestination, promptModelOverride } from "../feature-skill-install/prompts.js";
 import { createContextDirs, copyContextFiles, discoverCodingStandards, applyCodingStandards } from "../feature-skill-install/initialize-context.js";
 import { discoverCodeReviewStacks, installSubagents } from "../feature-skill-install/install-subagents.js";
 import type { SubagentStackChoice } from "../feature-skill-install/install-subagents.js";
 import { resolveInstallerModelOverride, upsertActiveProfile, DEFAULT_PROFILE_NAME, DEFAULT_PROFILE } from "../feature-skill-install/model-profiles.js";
 import type { ModelOverride } from "../feature-skill-install/model-override.js";
 import { installSettings } from "../feature-skill-install/install-settings.js";
-import { updateGitignore, hasClaudeRule, addClaudeRule } from "../feature-skill-install/update-gitignore.js";
+import { updateGitignore, addClaudeRule, findClaudeIgnoreDestination, addClaudeMdIgnoreRule, ignoreFileLabel } from "../feature-skill-install/update-gitignore.js";
 import { updateClaudeMd } from "../feature-skill-install/update-claude-md.js";
 import { renderSummary } from "../feature-skill-install/installation-summary.js";
-import type { StatusEntry, InstallResult, SkillScope } from "../feature-skill-install/types.js";
+import type { StatusEntry, InstallResult, SkillScope, IgnoreDestination } from "../feature-skill-install/types.js";
 
 export async function run(args: string[]): Promise<void> {
   if (args.includes("--help") || args.includes("-h")) {
@@ -56,12 +56,12 @@ export async function run(args: string[]): Promise<void> {
     throw new CliError(`[blocked] ${destinationPath} exists but is not a valid feature skill`);
   }
 
-  // 4. Check whether CLAUDE.md exists and resolve create/skip choice
+  // 4. Check whether CLAUDE.md exists and resolve its tracking destination when it does not
   const claudeMdPath = path.join(projectRoot, "CLAUDE.md");
   const claudeMdExists = fs.existsSync(claudeMdPath);
-  let createClaudeMd = claudeMdExists;
+  let claudeMdDestination: IgnoreDestination = "track";
   if (!claudeMdExists) {
-    createClaudeMd = await promptCreateClaudeMd();
+    claudeMdDestination = await promptClaudeMdDestination();
   }
 
   // 5. Create or verify context directories
@@ -123,22 +123,41 @@ export async function run(args: string[]): Promise<void> {
   // 9. Install or merge the Claude Code permission allowlist
   entries.push(installSettings(projectRoot, resolveSourceSettingsPath()));
 
-  // 10. Ensure .gitignore ignores /context/
-  entries.push(updateGitignore(projectRoot));
+  // 10. Ask where the context/ ignore rule should be written (always ignored, no track option)
+  const contextDestination = await promptContextIgnoreDestination();
 
-  // 11. Optionally ignore .claude/ (skip the question when already ignored)
-  if (hasClaudeRule(projectRoot)) {
-    entries.push({ status: "exists", path: ".gitignore", detail: "/.claude/ already present" });
-  } else if (await promptIgnoreClaudeDir()) {
-    entries.push(addClaudeRule(projectRoot));
+  // 11. Ensure the chosen ignore file excludes /context/
+  entries.push(updateGitignore(projectRoot, contextDestination));
+
+  // 12. Resolve .claude/ tracking (skip the question when a rule already exists anywhere)
+  const existingClaudeDestination = findClaudeIgnoreDestination(projectRoot);
+  if (existingClaudeDestination !== null) {
+    entries.push({
+      status: "exists",
+      path: ignoreFileLabel(existingClaudeDestination),
+      detail: "/.claude/ already present",
+    });
   } else {
-    entries.push({ status: "declined", path: ".gitignore", detail: "/.claude/ not added" });
+    const claudeDestination = await promptClaudeIgnoreDestination();
+    if (claudeDestination === "track") {
+      entries.push({ status: "declined", path: ".claude/", detail: "left tracked by Git" });
+    } else {
+      entries.push(addClaudeRule(projectRoot, claudeDestination));
+    }
   }
 
-  // 12. Create or update CLAUDE.md
-  entries.push(updateClaudeMd(projectRoot, createClaudeMd));
+  // 13. Create CLAUDE.md when missing (always creating it now that the tracking choice is
+  // resolved), or update an existing one in place; apply its ignore rule only for a fresh file.
+  entries.push(updateClaudeMd(projectRoot, true));
+  if (!claudeMdExists) {
+    if (claudeMdDestination === "gitignore" || claudeMdDestination === "exclude") {
+      entries.push(addClaudeMdIgnoreRule(projectRoot, claudeMdDestination));
+    } else {
+      entries.push({ status: "declined", path: "CLAUDE.md", detail: "left tracked by Git" });
+    }
+  }
 
-  // 13. Print the final summary
+  // 14. Print the final summary
   const incomplete = entries.some(
     (e) => e.status === "blocked" || e.status === "skipped",
   );

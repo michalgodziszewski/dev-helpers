@@ -1,5 +1,5 @@
 import readline from "node:readline";
-import type { SkillScope } from "./types.js";
+import type { SkillScope, IgnoreDestination } from "./types.js";
 import type { ModelOverride } from "./model-override.js";
 import { bold, cyan, dim } from "../format/console.js";
 
@@ -26,6 +26,20 @@ function promptTitle(text: string): string {
 /** Format one numbered option line. */
 function option(index: number, label: string): string {
   return `  ${cyan(String(index) + ".")} ${label}\n`;
+}
+
+function defaultDoAsk(promptFn?: (question: string) => Promise<string>): (question: string) => Promise<string> {
+  return (
+    promptFn ??
+    (async (q: string) => {
+      const rl = createInterface();
+      try {
+        return await ask(rl, q);
+      } finally {
+        rl.close();
+      }
+    })
+  );
 }
 
 export async function promptSkillScope(
@@ -124,46 +138,61 @@ export async function promptCodeReviewStack(
   }
 }
 
-export async function promptIgnoreClaudeDir(
+/** Only "gitignore" or "exclude" is ever returned: context/ is always personal, ignored state, so there is no "track" alternative. */
+export async function promptContextIgnoreDestination(
   promptFn?: (question: string) => Promise<string>,
-): Promise<boolean> {
-  const doAsk =
-    promptFn ??
-    (async (q: string) => {
-      const rl = createInterface();
-      try {
-        return await ask(rl, q);
-      } finally {
-        rl.close();
-      }
-    });
+): Promise<Exclude<IgnoreDestination, "track">> {
+  const doAsk = defaultDoAsk(promptFn);
 
-  const answer = await doAsk(
-    promptTitle("Should the .claude/ directory be ignored by Git (added to .gitignore)?") +
-      `Confirm ${dim("[Y/n]")}: `,
-  );
-  return answer === "" || answer.toLowerCase() === "y" || answer.toLowerCase() === "yes";
+  const question =
+    promptTitle("Where should the context/ ignore rule be written?") +
+    option(1, "Shared .gitignore (committed, applies to everyone who clones the repo)") +
+    option(2, "Local .git/info/exclude (not committed, applies only to this clone)") +
+    `Choice ${dim("[1/2]")}: `;
+
+  while (true) {
+    const answer = await doAsk(question);
+    if (answer === "1") return "gitignore";
+    if (answer === "2") return "exclude";
+    console.log('Invalid choice. Enter "1" or "2".');
+  }
 }
 
-export async function promptCreateClaudeMd(
+async function promptTrackingChoice(
+  title: string,
   promptFn?: (question: string) => Promise<string>,
-): Promise<boolean> {
-  const doAsk =
-    promptFn ??
-    (async (q: string) => {
-      const rl = createInterface();
-      try {
-        return await ask(rl, q);
-      } finally {
-        rl.close();
-      }
-    });
+): Promise<IgnoreDestination> {
+  const doAsk = defaultDoAsk(promptFn);
 
-  const answer = await doAsk(
-    promptTitle("CLAUDE.md does not exist. Create it with Local Context Files references?") +
-      `Confirm ${dim("[Y/n]")}: `,
+  const question =
+    promptTitle(title) +
+    option(1, "Track normally (commit as part of the repository)") +
+    option(2, "Add to shared .gitignore (not committed, applies to everyone who clones the repo)") +
+    option(3, "Add to local .git/info/exclude (not committed, applies only to this clone)") +
+    `Choice ${dim("[1-3]")}: `;
+
+  while (true) {
+    const answer = await doAsk(question);
+    if (answer === "1") return "track";
+    if (answer === "2") return "gitignore";
+    if (answer === "3") return "exclude";
+    console.log('Invalid choice. Enter "1", "2", or "3".');
+  }
+}
+
+export function promptClaudeIgnoreDestination(
+  promptFn?: (question: string) => Promise<string>,
+): Promise<IgnoreDestination> {
+  return promptTrackingChoice("How should the .claude/ directory be tracked by Git?", promptFn);
+}
+
+export function promptClaudeMdDestination(
+  promptFn?: (question: string) => Promise<string>,
+): Promise<IgnoreDestination> {
+  return promptTrackingChoice(
+    "CLAUDE.md does not exist. How should it be tracked by Git?",
+    promptFn,
   );
-  return answer === "" || answer.toLowerCase() === "y" || answer.toLowerCase() === "yes";
 }
 
 export interface ModelOverrideChoice {
@@ -177,20 +206,6 @@ export const BEDROCK_EU_DEFAULT_OVERRIDE: ModelOverride = {
   haiku: "eu.anthropic.claude-haiku-4-5-20251001-v1:0",
 };
 const DEFAULT_PROFILE_NAME_HINT = "org";
-
-function defaultDoAsk(promptFn?: (question: string) => Promise<string>): (question: string) => Promise<string> {
-  return (
-    promptFn ??
-    (async (q: string) => {
-      const rl = createInterface();
-      try {
-        return await ask(rl, q);
-      } finally {
-        rl.close();
-      }
-    })
-  );
-}
 
 async function promptModelLiterals(
   doAsk: (question: string) => Promise<string>,

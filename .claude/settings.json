@@ -2,6 +2,7 @@
   "permissions": {
     "allow": [
       "Skill",
+      "Read(.claude/skills/feature/**)",
       "Bash(git status:*)",
       "Bash(git diff:*)",
       "Bash(git log:*)",

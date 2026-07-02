@@ -1,5 +1,5 @@
 {
-  "name": "custok-workflow",
+  "name": "dev-helpers",
   "version": "0.1.0",
   "description": "Developer automation CLI and workflow tools",
   "type": "module",

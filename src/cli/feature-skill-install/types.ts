@@ -15,6 +15,8 @@ export interface StatusEntry {
 
 export type SkillScope = "global" | "project";
 
+export type IgnoreDestination = "track" | "gitignore" | "exclude";
+
 export interface InstallResult {
   skillScope: SkillScope;
   skillDestination: string;

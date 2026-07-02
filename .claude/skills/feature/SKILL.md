@@ -64,6 +64,21 @@ The skill asks the user only for:
 
 Nothing else asks a question or waits for acknowledgement. Read-only Git commands — status, fetch, diff, log, show, rev-list, rev-parse, merge-base, branch --contains, ls-files, check-ref-format — always run immediately, and independent read-only commands run in parallel. Never ask "should I continue", never ask permission to run tests, reviews, or verification, and never re-confirm data the user already approved.
 
+A `--yolo` run (see Autonomous run) keeps exactly this policy: it removes the manual pauses between actions but still stops at the combined publish approval and never suppresses a destructive-operation confirmation.
+
+## Autonomous run (--yolo)
+
+`--yolo` is an optional global flag accepted by every load form (`load`, `load trunk`, `load branch`). It hands the whole workflow to the skill in one pass, so the developer only steps back in at the push.
+
+- When load succeeds with `--yolo`, do not stop after writing Not Started state. Immediately chain, in the same turn: start → implement the Goals → test → review → publish, and stop at the combined publish approval.
+- The combined publish approval remains the single prompt. `--yolo` never adds, removes, or bypasses it, and never auto-commits or auto-pushes.
+- Failing tests or required checks do not stop the run: fix the cause, re-run the relevant checks, and repeat until they pass. Bound the loop to about 2–3 attempts on the same failure, then stop and report what failed and what was tried.
+- Code-review findings do not stop the run: automatically remediate high-severity findings, re-run the relevant tests, and re-review until the verdict is `Ready to publish`, within the same bounded retry guard (about 2–3 attempts on the same finding, then stop and report).
+- The combined publish approval is the only prompt on the normal path. A pre-existing permission gate still applies: if a check would require installing dependencies or changing test configuration, stop and ask exactly as a manual `/feature test` would. `--yolo` never grants permission to install dependencies or change configuration.
+- Only infrastructure or safety failures stop the run immediately, with an exact report: the base cannot fast-forward, the local base differs from origin, a disallowed dirty working tree, or a work-branch collision. Never auto-stash, reset, rebase, force-pull, or force-push to recover.
+- Every existing per-action procedure and safety invariant stays in force. `--yolo` only removes the manual pauses between actions, never a safety gate.
+- Track the active run mode in the conversation so the chained actions run unattended. Destructive operations (backport, branch deletion, discard) are never part of a `--yolo` run.
+
 ## Subagent delegation
 
 Delegate read-only or self-contained work to the installed subagents via the Agent tool. When an agent is not installed, run the same procedure inline and note that delegation was skipped — never fail because an agent is missing:
@@ -113,9 +128,9 @@ Detailed English documentation lives in docs/:
 | plan | plan status | Show the active planning state and missing required fields |
 | plan | plan cancel | Cancel the active planning session, optionally deleting its preview file |
 | plan | plan done | Finalize the active preview spec in place and suggest /feature load |
-| load | load [--ticket <ticket>] <spec-file-or-name> | Load a Markdown spec and resolve Git/Jira metadata |
-| load | load trunk <type> [--ticket <ticket>] <spec-file-or-description> | Prepare work based on trunk |
-| load | load branch <base> <type> [--ticket <ticket>] <spec-file-or-description> | Prepare work based on a specific branch |
+| load | load [--ticket <ticket>] [--yolo] <spec-file-or-name> | Load a Markdown spec and resolve Git/Jira metadata; with --yolo, autonomously run through publish |
+| load | load trunk <type> [--ticket <ticket>] [--yolo] <spec-file-or-description> | Prepare work based on trunk; with --yolo, autonomously run through publish |
+| load | load branch <base-branch> <type> [--ticket <ticket>] [--yolo] <spec-file-or-description> | Prepare work based on a specific branch; with --yolo, autonomously run through publish |
 | start | start | Synchronize the base and create the work branch |
 | test | test | Discover and run repository checks (delegates to the test subagent) |
 | review | review | Review goals, diff, and branch safety; delegate the code-quality pass to the code-review subagent |

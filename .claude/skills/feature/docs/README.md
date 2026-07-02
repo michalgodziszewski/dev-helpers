@@ -15,6 +15,7 @@ This documentation describes the behavior implemented by `.claude/skills/feature
 - Pull requests target the recorded base branch, not the repository default by assumption.
 - Destructive cleanup requires explicit confirmation.
 - Routine interaction is minimal: publish asks once (commit message + atomic commit list + push target), backport asks once (cherry-pick list + push), and read-only Git commands never prompt.
+- `load --yolo` runs the whole workflow through to publish in one pass, still stopping only at that single publish approval.
 - Read-only or self-contained work is delegated to installed subagents (code-review, test, explain, git-verify, plan-research, docs-sync); every delegation degrades gracefully to inline execution.
 - Remote branches and pull requests are never deleted automatically.
 
@@ -125,6 +126,16 @@ After trunk work is merged:
 ```
 
 The skill verifies the primary merge, synchronizes the release branch, creates a backport branch, and cherry-picks every recorded Published Commit separately with `-x`.
+
+## Quick start: autonomous run with --yolo
+
+For a fully specified spec, add `--yolo` to any load form to run start → implement → test → review → publish in one pass, stopping only at the combined publish approval:
+
+```text
+/feature load context/features/0015-feature-load-yolo-flag.md --yolo
+```
+
+Failing tests and review findings are fixed and re-run automatically (bounded retries); only an infrastructure or safety stop during `start` halts the run early. See [Workflows](workflows.md) and [Action reference](action-reference.md) for the full behavior.
 
 ## What the skill deliberately does not do
 

@@ -60,7 +60,7 @@ The subagent widens to a full run only when changed files cannot be reliably map
 
 1. Read the scope provided by the caller; when none is given, inspect `git status --short` and `git diff --name-only` (or the merge-base diff against the base branch) to find changed and newly added files.
 2. Discover available checks from project files without assuming a package manager or framework — inspect the manifests actually present (package.json scripts, Makefile, composer.json, `*.csproj`, pyproject.toml, or equivalent).
-3. Map changed and newly added files to the tests that exercise them and run only those via the framework's targeted invocation (explicit test file arguments, `vitest related`, `jest --findRelatedTests`, `pytest <path>`), plus any newly added test files.
+3. Map changed and newly added files to the tests that exercise them and run only those via the framework's targeted invocation (explicit test file arguments, a dedicated "related tests" mode when the framework has one, or otherwise a pattern/include/filter flag that narrows the run to those specific test files), plus any newly added test files.
 4. Run lint and type-check scoped to the changed files when the toolchain supports partial checking; run inherently whole-project checks (single-pass compiler or bundler) once as usual.
 5. Run the complete suite or any whole-repository check only when changes cannot be mapped to specific tests, or when the caller explicitly asks.
 6. Never install missing dependencies; report the missing prerequisite instead.

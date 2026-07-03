@@ -117,7 +117,7 @@ None. `plan` never fetches, pulls, branches, commits, or pushes.
 
 ### Behavior
 
-- After a successful load, chains `start` → implement Goals → `test` → `review` → `publish` in the same turn.
+- After a successful load, chains `start` (whose own procedure tracks Goal implementation as a visible checklist — see `start`) → `test` → `review` → `publish` in the same turn.
 - Stops at the `publish` combined approval — the only prompt on the normal path. It never auto-commits or auto-pushes. The pre-existing `test` gate still applies: a check needing a dependency install or test-config change stops and asks, exactly as a manual run would.
 - Failing tests or required checks are fixed and re-run until they pass, bounded to ~2–3 attempts on the same failure, then reported.
 - `Needs changes` review verdicts and high-severity findings are remediated, re-tested, and re-reviewed until `Ready to publish`, within the same bounded-attempts guard.
@@ -158,7 +158,7 @@ None. `plan` never fetches, pulls, branches, commits, or pushes.
 - creates the work branch;
 - verifies the source spec remained unchanged;
 - sets status to In Progress;
-- implements goals one by one.
+- implements goals one by one, tracked as a visible checklist: a task per Goal (or per concrete step within a Goal, when a Goal spans multiple distinct pieces of work) created up front via TaskCreate; each task set to in_progress immediately before starting it and to completed immediately after finishing it, via TaskUpdate; scoped to this work item's Goals only, never unrelated repository maintenance.
 
 ### Stops when
 

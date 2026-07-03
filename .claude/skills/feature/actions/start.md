@@ -24,6 +24,9 @@
 13. Create the exact rendered Work Branch with git switch -c.
 14. Verify the Source Spec is still present and unchanged.
 15. Update Status to In Progress and save the exact Work Branch. A confirmed successful write needs no re-read verification loop.
-16. Show the Goals, then implement them one by one.
+16. Show the Goals, then implement them one by one, tracked as a visible checklist:
+   - Before starting implementation, use TaskCreate to add one task per concrete Goal (or per concrete step within a Goal when a Goal spans multiple distinct pieces of work), so the user sees the full checklist up front.
+   - Use TaskUpdate to set a task to in_progress immediately before starting it, and to completed immediately after finishing it — never batch status updates at the end.
+   - Keep the checklist scoped to this work item's Goals; do not fold in unrelated repository maintenance as tasks.
 
 start asks no questions: it either proceeds through synchronization or stops with an exact report of what blocked it. Never create a work branch before base synchronization succeeds. Never stage context/ or include it in the feature branch. Never auto-stash, reset, rebase, or force-pull the base.

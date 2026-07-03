@@ -326,11 +326,10 @@ The flag works on every load form:
 
 After a successful load, the skill chains the workflow in one pass:
 
-1. `start` — synchronize the base and create the work branch;
-2. implement the Goals;
-3. `test` — run relevant checks; on failure, fix and re-run until they pass (bounded to ~2–3 attempts, then stop and report);
-4. `review` — a `Needs changes` verdict or high-severity findings are remediated, re-tested, and re-reviewed until `Ready to publish`, within the same bounded retry guard (~2–3 attempts, then stop and report);
-5. `publish` — stop at the single combined approval.
+1. `start` — synchronize the base, create the work branch, and implement the Goals (start's own procedure tracks this as a visible TaskCreate/TaskUpdate checklist — see the `start` action);
+2. `test` — run relevant checks; on failure, fix and re-run until they pass (bounded to ~2–3 attempts, then stop and report);
+3. `review` — a `Needs changes` verdict or high-severity findings are remediated, re-tested, and re-reviewed until `Ready to publish`, within the same bounded retry guard (~2–3 attempts, then stop and report);
+4. `publish` — stop at the single combined approval.
 
 The combined publish approval is the only prompt on the normal path; nothing is committed or pushed before it. A pre-existing gate still applies: if a check needs a dependency install or test-config change, the run stops and asks exactly as a manual `/feature test` would — `--yolo` grants no permission to install dependencies or change configuration. Only an infrastructure or safety stop during `start` (dirty tree outside the recorded Source Spec, base cannot fast-forward, local base differs from origin, or the work branch already exists) halts the run early, with an exact report. `--yolo` never auto-stashes, resets, rebases, force-pulls, or force-pushes, and never runs backport, branch deletion, or discard.
 

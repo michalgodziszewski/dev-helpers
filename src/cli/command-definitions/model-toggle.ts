@@ -17,7 +17,9 @@ export const modelToggleCommand: CommandDefinition = {
   examples: [
     {
       command: "dev model-toggle default",
-      description: 'Rewrite installed subagent `model:` values back to the "sonnet"/"haiku" aliases.',
+      description:
+        "Rewrite installed subagent `model:` values back to the pinned defaults " +
+        "(`claude-sonnet-4-6` / `claude-haiku-4-5`).",
     },
     {
       command: "dev model-toggle org",

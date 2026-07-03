@@ -2,7 +2,7 @@
 
 name: git-verify
 description: Verifies merge evidence with read-only Git commands — checks that given commits are ancestors of a base or release branch, validates that SHAs resolve and are non-merge commits, and reports exact evidence. Never fetches, never modifies files or Git state.
-model: haiku
+model: claude-haiku-4-5
 color: purple
 tools:
   - Bash

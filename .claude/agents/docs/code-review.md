@@ -28,7 +28,7 @@ The subagent reviews the local diff. No branch or goal metadata is required — 
 
 ## Model
 
-Uses the **Sonnet** model (`model: "sonnet"`) for cost efficiency. Code review does not require Opus reasoning depth and benefits from faster execution on large diffs.
+Uses the **Sonnet** model, pinned to `model: claude-sonnet-4-6`, for cost efficiency. Code review does not require Opus reasoning depth and benefits from faster execution on large diffs.
 
 ## Tools
 

@@ -28,7 +28,7 @@ Pass both branches (or an explicit diff range). Use the merge-base form (`origin
 
 ## Model
 
-Uses the **Sonnet** model (`model: "sonnet"`). Summarizing a diff does not require Opus reasoning depth and benefits from faster execution.
+Uses the **Sonnet** model, pinned to `model: claude-sonnet-4-6`. Summarizing a diff does not require Opus reasoning depth and benefits from faster execution.
 
 ## Tools
 

@@ -2,7 +2,7 @@
 
 name: test
 description: Discovers repository-specific checks (tests, lint, type-check, build), runs the relevant ones, and reports every command with its result. Executes checks only — never modifies files, installs dependencies, or changes Git state.
-model: sonnet
+model: claude-sonnet-4-6
 color: yellow
 tools:
   - Read

@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import type { StatusEntry } from "./types.js";
 import type { ModelOverride } from "./model-override.js";
-import { applyModelOverride } from "./model-override.js";
+import { AGENT_ROLES, applyModelOverride } from "./model-override.js";
 
 export interface SubagentStackChoice {
   label: string;
@@ -53,7 +53,8 @@ function copyAgent(
     fs.copyFileSync(sourcePath, targetPath);
   } else {
     const content = fs.readFileSync(sourcePath, "utf-8");
-    fs.writeFileSync(targetPath, applyModelOverride(content, modelOverride), "utf-8");
+    const role = AGENT_ROLES[agentFilename] ?? "sonnet";
+    fs.writeFileSync(targetPath, applyModelOverride(content, modelOverride, role), "utf-8");
   }
   return { status: "copied", path: target, detail };
 }

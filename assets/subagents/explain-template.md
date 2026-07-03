@@ -2,7 +2,7 @@
 
 name: explain
 description: Explains the changes on a work branch — what changed in every file, key functions or components, and the data/control flow between them. Read-only — never modifies files or Git state.
-model: sonnet
+model: claude-sonnet-4-6
 color: blue
 tools:
   - Read

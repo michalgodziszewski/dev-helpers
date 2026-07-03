@@ -6,7 +6,7 @@ Invoke actions through `/feature <action> ...`. Each action reads only its match
 
 | Action | Primary state | Main effect |
 |---|---|---|
-| `plan` | No active work required | Iteratively plan a spec and write a preview file, finalized in place |
+| `plan` | No active work required | Iteratively plan a spec staged in context/plans/, numbered and moved to its target folder at finalization |
 | `load` | Idle | Resolve a spec and write Not Started state |
 | `start` | Not Started | Synchronize base, create branch, begin implementation |
 | `test` | In Progress or reviewable work | Run relevant repository checks |
@@ -24,6 +24,7 @@ Invoke actions through `/feature <action> ...`. Each action reads only its match
 
 ```text
 /feature plan [<work-type>] [<name-or-description>]
+/feature plan resume <file>
 /feature plan status
 /feature plan cancel
 /feature plan done
@@ -34,19 +35,22 @@ See [Planning](planning.md) for the full workflow.
 ### Preconditions
 
 - `plan` (start/refine): a resolvable work type or target folder, feature/fix name, and short description. Ask when missing.
-- `plan done`: all finalization-required fields present — target collection, work type, name, short description, workflow, base branch, goals, and scope.
-- `plan status` and `plan cancel`: work without a tracked session when unfinalized previews exist on disk (session recovery); a tracked session is required only when recovery finds nothing.
+- `plan resume`: a `<file>` argument resolving to an existing staged preview containing the preview marker block (resolved load-style: provided path, then `context/plans/<name>.md`, `.md` appended when omitted).
+- `plan done` and `plan cancel`: a conversation-tracked session (created by `plan` or reattached by `plan resume`); without one they point at `plan status` + `plan resume` and stop.
+- `plan done` additionally: all finalization-required fields present — target collection, work type, name, short description, workflow, base branch, goals, and scope.
+- `plan status`: none; it works with or without a tracked session.
 
 ### Behavior
 
-- Infers the target folder from work type (`fix`/`bugfix`/`hotfix` → `context/fixes/`; `feature`/`docs`/`refactor`/`chore`/`tooling`/`config`/`test`/`ci`/`research` → `context/features/`).
-- Resolves the next four-digit number independently per folder and a slug from the name.
-- Creates a real preview spec file from `assets/current-feature-template.md` with a removable preview marker block.
+- Infers the target folder from work type (`fix`/`bugfix`/`hotfix` → `context/fixes/`; `feature`/`docs`/`refactor`/`chore`/`tooling`/`config`/`test`/`ci`/`research` → `context/features/`), used at finalization.
+- Stages the preview at `context/plans/<slug>.md` (slug-only, no number prefix; a slug collision stops the session and requires a different name). Previews consume no numbers in the target folders.
+- Creates the preview spec file from the skill's own `assets/current-feature-template.md` with a removable preview marker block; `Source Spec` stays empty while staged.
 - Refines the same preview file as requirements arrive, including screenshots under `context/screenshots/` and optional Jira/MCP context.
-- With no tracked session, bare `plan`, `plan status`, `plan done`, and `plan cancel` recover unfinalized previews found on disk (see [Planning](planning.md), Session recovery); the user always selects explicitly, and `plan` with arguments never shows the picker.
-- `plan status` reports the session and a missing-fields checklist without writing.
+- `plan` — bare or with arguments — always starts a new session directly and never scans the disk for previews first.
+- `plan resume <file>` reattaches the selected staged preview as the active session, reporting which finalization-required fields are already satisfied.
+- `plan status` with a session reports it and a missing-fields checklist without writing; without a session it lists `context/plans/` read-only (path, title, work type, missing fields per file), warns about files lacking the preview marker block, and points at `plan resume`.
 - `plan cancel` clears the session and, only for a still-preview file, optionally deletes it.
-- `plan done` finalizes in place: removes the preview block, fills placeholders, keeps `## History` skill-managed, then suggests `/feature load <path>`.
+- `plan done` resolves the next four-digit number in the target folder at that moment, moves the staged file to `<target-folder>/<number>-<slug>.md`, removes the preview block, sets `Source Spec` to the final path, fills placeholders, keeps `## History` skill-managed, then suggests `/feature load <path>`.
 
 ### Git side effects
 
@@ -55,9 +59,11 @@ None. `plan` never fetches, pulls, branches, commits, or pushes.
 ### Stops when
 
 - required-to-create inputs are missing (asks instead of guessing);
-- the composed filename already exists and cannot be safely adjusted without confirmation;
+- the composed slug already exists in `context/plans/` (requires a different name, never overwrites or suffixes);
+- the final numbered filename already exists and cannot be safely adjusted without confirmation;
+- `plan resume` cannot resolve its argument or the resolved file lacks the preview marker block;
 - `plan done` is missing finalization-required fields (shows the checklist and keeps the preview);
-- no session is tracked and session recovery finds no preview files on disk for `plan status`, `plan cancel`, or `plan done`.
+- no session is tracked for `plan done` or `plan cancel` (points at `plan status` + `plan resume`).
 
 ### Does not
 

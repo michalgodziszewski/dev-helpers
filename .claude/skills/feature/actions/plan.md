@@ -8,12 +8,15 @@ This action never starts Git work, never creates branches, never commits, never 
 
 Read the first argument after `plan` and route:
 
-- no argument, or a work type / name / description → **Start or refine** a planning session.
+- no argument → **Start or refine** a planning session (with no tracked session, this route begins with the Session recovery picker).
+- a work type / name / description → **Start or refine** a planning session directly, never via the picker.
 - `done` → **Finalize** the active preview spec.
 - `cancel` → **Cancel** the active planning session.
 - `status` → **Show planning status**.
 
 Only `plan done` may finalize. Only `plan cancel` may delete a preview file. `plan status` never writes.
+
+When no session is tracked in the conversation, every route first applies **Session recovery**: bare `plan` presents the recovery picker, `done` and `cancel` recover with explicit selection before running their normal procedure, and `status` reports recoverable previews read-only. `plan` with arguments never shows the picker.
 
 ## Planning session identity
 
@@ -28,6 +31,18 @@ A preview spec is any generated spec whose body still contains the marker block:
 ```
 
 A finalized spec has no such block. Only operate on the preview file created by the current session. Never modify or delete another preview file unless the user explicitly selects it.
+
+## Session recovery
+
+The conversation-tracked session is lost after /clear, compaction, or a new session, but the preview file remains on disk. When a subcommand needs an active session and none is tracked in the conversation, recover before giving up. Recovery applies to bare `plan`, `plan status`, `plan done`, and `plan cancel` only — `plan` with arguments always starts a new session directly and never shows the picker:
+
+1. Scan `.md` files in `context/features/` and `context/fixes/` for files containing the exact preview marker block defined above. Skip missing folders.
+2. If no preview files exist, there is nothing to recover; behave exactly as before this recovery step existed.
+3. If preview files exist, present every one as a recovery listing: repository-relative path, title (the H1 subtitle line), work type, and which finalization-required fields are still missing in that file.
+4. Ask the user to pick one preview. When recovery was triggered from bare `plan`, also offer explicitly starting a brand-new planning session; when triggered from `plan done` or `plan cancel`, the only choices are selecting a preview to act on or aborting. Never auto-select, even when exactly one preview exists — a single match may be offered as the obvious default, but the user chooses.
+5. On selection, resume: re-read the selected file, track its path as the active planning session, report which finalization-required fields are already satisfied, and continue with the normal procedure of the subcommand that triggered recovery.
+
+Recovery selection is a clarifying question about ambiguous state, not a new routine approval; it does not change the confirmation policy. Recovery never modifies any file by itself — only the selected preview file may later be modified or deleted, by the same rules as an ordinary session.
 
 ## Work type to target folder
 
@@ -81,10 +96,13 @@ Optional values may stay empty or render as `None.` depending on the section. Em
 ## Start or refine
 
 1. This is a planning session; do not touch the active slot in context/current-feature.md.
-2. Gather the required-to-create inputs. Ask targeted questions for anything missing instead of producing a weak spec too early.
-3. Resolve the target folder from the work type, asking when unclear. Create the folder if it does not exist.
-4. Resolve the next number and slug, then compose the source spec path. Handle collisions safely.
-5. If a preview spec for this session already exists, update that same file only. Otherwise create the preview file from `../assets/current-feature-template.md`:
+2. When no session is tracked in the conversation, route by whether `plan` received arguments:
+   - Bare `plan` (no arguments): apply Session recovery. When preview files exist on disk, present the recovery picker and let the user resume a selected preview or explicitly start a brand-new session. With no previews on disk, continue below exactly as today.
+   - `plan <work-type / name / description>` (with arguments): start a new planning session directly, without the picker. When unrelated preview files exist on disk, at most mention in one line that other unfinalized previews exist.
+3. Gather the required-to-create inputs. Ask targeted questions for anything missing instead of producing a weak spec too early.
+4. Resolve the target folder from the work type, asking when unclear. Create the folder if it does not exist.
+5. Resolve the next number and slug, then compose the source spec path. Handle collisions safely.
+6. If a preview spec for this session already exists (including one just resumed through Session recovery), update that same file only. Otherwise create the preview file from `../assets/current-feature-template.md`:
    - Replace `{{title}}`, `{{short_description}}`, `{{workflow}}`, `{{work_type}}`, `{{jira_ticket}}`, `{{base_branch}}`, `{{work_branch}}`, `{{source_spec}}`, `{{goals}}`, `{{references}}`, `{{scope}}`, `{{documentation_requirements}}`, and `{{notes}}` with resolved values or safe defaults.
    - Set `{{source_spec}}` to the composed repository-relative path.
    - Leave `{{work_branch}}` empty; it is populated later by `/feature start`, not by planning.
@@ -97,8 +115,8 @@ Optional values may stay empty or render as `None.` depending on the section. Em
      ```
 
    - Render empty list sections as `None.` when no useful content exists. Keep `## History` exactly as `<!-- Managed by skill -->`.
-6. Report the created or updated preview path and remind the user it is still a preview.
-7. Keep refining: apply new requirements to the same preview file as the user or gathered sources provide them.
+7. Report the created or updated preview path and remind the user it is still a preview.
+8. Keep refining: apply new requirements to the same preview file as the user or gathered sources provide them.
 
 ## Requirement gathering
 
@@ -141,7 +159,7 @@ Optional values may stay empty or render as `None.` depending on the section. Em
 
 ## plan status
 
-1. If no planning session is active, clearly say there is no active plan and stop.
+1. If no session is tracked in the conversation, apply the scan from Session recovery read-only: when preview files exist on disk, report each one with its path, title, work type, and missing finalization-required fields, and point to bare `plan` for resuming one; when none exist, clearly say there is no active plan. Stop in both cases without asking a question.
 2. If a session is active, show:
    - current preview spec path,
    - whether the spec is still preview or finalized,
@@ -158,7 +176,7 @@ Optional values may stay empty or render as `None.` depending on the section. Em
 
 ## plan cancel
 
-1. If no planning session is active, clearly say there is no active plan to cancel and stop.
+1. If no session is tracked in the conversation, apply Session recovery first: when preview files exist on disk, present the recovery picker and let the user explicitly select the preview to cancel; when none exist, clearly say there is no active plan to cancel and stop. Never pick a file to cancel automatically.
 2. If the active preview file still contains the preview marker block, ask whether to delete it or keep it.
 3. Never delete a finalized spec. Never remove a file whose preview marker block is missing.
 4. If the user chooses to keep the file, leave it untouched and clear only the active planning session.
@@ -166,7 +184,7 @@ Optional values may stay empty or render as `None.` depending on the section. Em
 
 ## plan done
 
-1. Require an active planning session with a resolved preview file. If none is active, say so and stop.
+1. Require an active planning session with a resolved preview file. If no session is tracked in the conversation, apply Session recovery first: when preview files exist on disk, present the recovery picker and let the user explicitly select the preview to finalize, then continue this procedure on the selected file; when none exist, say there is no active plan and stop.
 2. Verify every finalization-required field is present. If any is missing, do not finalize:
    - show the missing-fields checklist,
    - keep the preview spec active and unchanged,

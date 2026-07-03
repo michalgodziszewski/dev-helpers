@@ -62,7 +62,7 @@ The skill asks the user only for:
 1. The combined publish approval — one prompt showing the proposed commit message, the ordered atomic commit list, and the push target together. Commit and push are approved in this single question.
 2. Destructive operations — exactly one explicit confirmation each, stating the consequences: the combined backport cherry-pick + push, local branch deletion, and abandon --discard.
 
-Nothing else asks a question or waits for acknowledgement. Read-only Git commands — status, fetch, diff, log, show, rev-list, rev-parse, merge-base, branch --contains, ls-files, check-ref-format — always run immediately, and independent read-only commands run in parallel. Never ask "should I continue", never ask permission to run tests, reviews, or verification, and never re-confirm data the user already approved.
+Beyond that, only clarifying questions about missing or ambiguous required state are allowed — for example load's missing-metadata questions or the plan session-recovery picker, which resolves which on-disk preview a plan subcommand should act on. Nothing else asks a question or waits for acknowledgement. Read-only Git commands — status, fetch, diff, log, show, rev-list, rev-parse, merge-base, branch --contains, ls-files, check-ref-format — always run immediately, and independent read-only commands run in parallel. Never ask "should I continue", never ask permission to run tests, reviews, or verification, and never re-confirm data the user already approved.
 
 A `--yolo` run (see Autonomous run) keeps exactly this policy: it removes the manual pauses between actions but still stops at the combined publish approval and never suppresses a destructive-operation confirmation.
 

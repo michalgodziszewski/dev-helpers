@@ -13,7 +13,7 @@ Planning is deliberately separate from execution. `plan` never starts Git work, 
 /feature plan done
 ```
 
-- `plan` starts a session or refines the active preview spec.
+- `plan` starts a session or refines the active preview spec; bare `plan` with no tracked session offers to resume unfinalized previews found on disk (see Session recovery).
 - `plan status` shows the current planning state and what is still required.
 - `plan cancel` abandons the session and optionally removes the preview file.
 - `plan done` finalizes the active preview spec and suggests the next command.
@@ -29,6 +29,17 @@ Planning is deliberately separate from execution. `plan` never starts Git work, 
 ```
 
 The active planning session is identified by this marker block; the skill does not persist a separate draft on disk. `plan done` removes the entire block, including both marker lines, which is safer than deleting free-form preview text. The skill only edits the preview file created by the current session and never touches another preview file unless you explicitly select it.
+
+## Session recovery
+
+The session itself is tracked only in the conversation, so /clear, compaction, or a new session loses it while the preview file stays on disk. That is not a dead end: whenever a subcommand needs an active session and none is tracked, the skill scans `context/features/` and `context/fixes/` for files still containing the preview marker block and recovers from what it finds.
+
+- Bare `plan` with recoverable previews on disk presents a picker: every unfinalized preview with its path, title, work type, and the finalization-required fields still missing in that file. You either pick one to resume or explicitly start a brand-new session. The skill never auto-selects, even when only one preview exists — a single match may be offered as the obvious default, but you choose. Bare `plan` with no previews on disk behaves exactly as before.
+- `plan <work-type / name / description>` keeps its meaning: it starts a new session directly, without the picker, at most mentioning in one line that other unfinalized previews exist.
+- `plan status` with no tracked session reports the recoverable previews read-only and points to bare `plan` for resuming; it asks no question.
+- `plan done` and `plan cancel` with no tracked session recover first — you explicitly select the preview to finalize or cancel — and then run their normal procedure on the selected file.
+
+Resuming re-reads the selected file, reports which finalization-required fields are already satisfied, and continues the normal refine loop on that same file. Recovery never modifies anything by itself, and only the explicitly selected preview file is ever modified or deleted afterwards. The picker is a clarifying question about ambiguous state, not a new routine approval.
 
 ## Template asset
 
@@ -156,7 +167,7 @@ The skill does not run `/feature load` automatically — starting actual work is
 
 `plan cancel` abandons the active session:
 
-- with no active plan, it says so and stops;
+- with no tracked session it first applies session recovery, letting you explicitly select the preview to cancel; with no previews on disk it says there is no active plan and stops;
 - for a still-preview file it asks whether to delete or keep it;
 - it never deletes a finalized spec, never removes a file whose preview marker is missing, and never deletes unrelated preview files or screenshots;
 - keeping the file leaves it untouched and clears only the session; deleting removes only the active preview file.

@@ -35,7 +35,7 @@ See [Planning](planning.md) for the full workflow.
 
 - `plan` (start/refine): a resolvable work type or target folder, feature/fix name, and short description. Ask when missing.
 - `plan done`: all finalization-required fields present — target collection, work type, name, short description, workflow, base branch, goals, and scope.
-- `plan status` and `plan cancel`: require an active planning session to report meaningful state.
+- `plan status` and `plan cancel`: work without a tracked session when unfinalized previews exist on disk (session recovery); a tracked session is required only when recovery finds nothing.
 
 ### Behavior
 
@@ -43,6 +43,7 @@ See [Planning](planning.md) for the full workflow.
 - Resolves the next four-digit number independently per folder and a slug from the name.
 - Creates a real preview spec file from `assets/current-feature-template.md` with a removable preview marker block.
 - Refines the same preview file as requirements arrive, including screenshots under `context/screenshots/` and optional Jira/MCP context.
+- With no tracked session, bare `plan`, `plan status`, `plan done`, and `plan cancel` recover unfinalized previews found on disk (see [Planning](planning.md), Session recovery); the user always selects explicitly, and `plan` with arguments never shows the picker.
 - `plan status` reports the session and a missing-fields checklist without writing.
 - `plan cancel` clears the session and, only for a still-preview file, optionally deletes it.
 - `plan done` finalizes in place: removes the preview block, fills placeholders, keeps `## History` skill-managed, then suggests `/feature load <path>`.
@@ -56,7 +57,7 @@ None. `plan` never fetches, pulls, branches, commits, or pushes.
 - required-to-create inputs are missing (asks instead of guessing);
 - the composed filename already exists and cannot be safely adjusted without confirmation;
 - `plan done` is missing finalization-required fields (shows the checklist and keeps the preview);
-- no active planning session exists for `plan status`, `plan cancel`, or `plan done`.
+- no session is tracked and session recovery finds no preview files on disk for `plan status`, `plan cancel`, or `plan done`.
 
 ### Does not
 

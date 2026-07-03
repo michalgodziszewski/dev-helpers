@@ -28,7 +28,7 @@ Pass the target ref, the ordered list of commit SHAs to verify, and optionally a
 
 ## Model
 
-Uses the **Haiku** model (`model: "haiku"`). Ancestry and commit-fact checks are mechanical, so the fastest, lowest-cost model is appropriate.
+Uses the **Haiku** model, pinned to `model: claude-haiku-4-5`. Ancestry and commit-fact checks are mechanical, so the fastest, lowest-cost model is appropriate.
 
 ## Tools
 

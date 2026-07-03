@@ -2,7 +2,7 @@
 
 name: code-review
 description: Reviews Next.js code changes for App Router conventions, Server/Client Component boundaries, React best practices, performance, security, TypeScript correctness, code quality, dead code, and debug leftovers. Read-only — reports findings only, never modifies files.
-model: sonnet
+model: claude-sonnet-4-6
 color: green
 tools:
   - Read

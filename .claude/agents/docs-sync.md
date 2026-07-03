@@ -2,7 +2,7 @@
 
 name: docs-sync
 description: Checks consistency between the feature skill's documentation (docs/) and its action definitions (actions/, SKILL.md) — action tables, confirmation policy, file paths, and behavior descriptions. Read-only — reports mismatches only, never modifies files.
-model: sonnet
+model: claude-sonnet-4-6
 color: orange
 tools:
   - Read

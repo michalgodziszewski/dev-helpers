@@ -28,7 +28,7 @@ Pass the changed files and goals as scope when you have them. When no changed-fi
 
 ## Model
 
-Uses the **Sonnet** model (`model: "sonnet"`). Discovery and check execution do not require Opus reasoning depth and benefit from faster execution.
+Uses the **Sonnet** model, pinned to `model: claude-sonnet-4-6`. Discovery and check execution do not require Opus reasoning depth and benefit from faster execution.
 
 ## Tools
 

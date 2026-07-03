@@ -2,7 +2,7 @@
 
 name: plan-research
 description: Explores the repository during feature planning and returns practical requirements context — relevant files, existing patterns, constraints, and risks — without loading file dumps into the main conversation. Read-only — never modifies files or Git state.
-model: sonnet
+model: claude-sonnet-4-6
 color: cyan
 tools:
   - Read

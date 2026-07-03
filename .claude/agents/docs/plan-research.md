@@ -27,7 +27,7 @@ Pass the planned work description and specific research questions. The subagent 
 
 ## Model
 
-Uses the **Sonnet** model (`model: "sonnet"`). Repository exploration and pattern-finding do not require Opus reasoning depth and benefit from faster execution.
+Uses the **Sonnet** model, pinned to `model: claude-sonnet-4-6`. Repository exploration and pattern-finding do not require Opus reasoning depth and benefit from faster execution.
 
 ## Tools
 

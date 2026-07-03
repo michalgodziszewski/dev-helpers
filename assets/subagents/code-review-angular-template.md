@@ -2,7 +2,7 @@
 
 name: code-review
 description: Reviews Angular code changes for Angular best practices, Signals/RxJS usage, change detection, performance, accessibility, TypeScript correctness, code quality, dead code, and debug leftovers. Read-only — reports findings only, never modifies files.
-model: sonnet
+model: claude-sonnet-4-6
 color: green
 tools:
   - Read

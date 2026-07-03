@@ -28,7 +28,7 @@ Pass the list of changed files when you want the check limited to the topics the
 
 ## Model
 
-Uses the **Sonnet** model (`model: "sonnet"`). Cross-referencing documentation against action definitions benefits from careful reading without requiring Opus reasoning depth.
+Uses the **Sonnet** model, pinned to `model: claude-sonnet-4-6`. Cross-referencing documentation against action definitions benefits from careful reading without requiring Opus reasoning depth.
 
 ## Tools
 

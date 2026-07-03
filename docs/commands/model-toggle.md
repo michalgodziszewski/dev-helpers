@@ -23,7 +23,7 @@ dev model-toggle <profile>
 dev model-toggle default
 ```
 
-Rewrite installed subagent `model:` values back to the "sonnet"/"haiku" aliases.
+Rewrite installed subagent `model:` values back to the pinned defaults (`claude-sonnet-4-6` / `claude-haiku-4-5`).
 
 ```bash
 dev model-toggle org

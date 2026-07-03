@@ -8,7 +8,10 @@ export interface ModelProfiles {
 }
 
 export const DEFAULT_PROFILE_NAME = "default";
-export const DEFAULT_PROFILE: ModelOverride = { sonnet: "sonnet", haiku: "haiku" };
+export const DEFAULT_PROFILE: ModelOverride = {
+  sonnet: "claude-sonnet-4-6",
+  haiku: "claude-haiku-4-5",
+};
 
 function modelProfilesPath(projectRoot: string): string {
   return path.join(projectRoot, "context", "model-profiles.md");
@@ -68,7 +71,7 @@ export function upsertActiveProfile(
 export interface InstallerModelOverrideDecision {
   /** True when context/model-profiles.md already exists — the installer must not re-prompt or reset the recorded active profile. */
   skipPrompt: boolean;
-  /** Override to apply to newly-copied subagent files; null means leave the template's own "sonnet"/"haiku" alias. */
+  /** Override to apply to newly-copied subagent files; null means leave the template's own pinned `model:` value unchanged. */
   override: ModelOverride | null;
 }
 

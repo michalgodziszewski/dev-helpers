@@ -2,7 +2,7 @@
 
 name: code-review
 description: Reviews this developer automation repository for TypeScript correctness, code quality, debug leftovers, dead code, unused imports, shell script safety, and Markdown/spec consistency. Read-only — reports findings only, never modifies files.
-model: sonnet
+model: claude-sonnet-4-6
 color: green
 tools:
   - Read

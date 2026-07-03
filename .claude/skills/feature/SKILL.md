@@ -70,7 +70,7 @@ A `--yolo` run (see Autonomous run) keeps exactly this policy: it removes the ma
 
 `--yolo` is an optional global flag accepted by every load form (`load`, `load trunk`, `load branch`). It hands the whole workflow to the skill in one pass, so the developer only steps back in at the push.
 
-- When load succeeds with `--yolo`, do not stop after writing Not Started state. Immediately chain, in the same turn: start → implement the Goals → test → review → publish, and stop at the combined publish approval.
+- When load succeeds with `--yolo`, do not stop after writing Not Started state. Immediately chain, in the same turn: start (whose own procedure tracks Goal implementation as a visible checklist — see `start`) → test → review → publish, and stop at the combined publish approval.
 - The combined publish approval remains the single prompt. `--yolo` never adds, removes, or bypasses it, and never auto-commits or auto-pushes.
 - Failing tests or required checks do not stop the run: fix the cause, re-run the relevant checks, and repeat until they pass. Bound the loop to about 2–3 attempts on the same failure, then stop and report what failed and what was tried.
 - Code-review findings do not stop the run: automatically remediate high-severity findings, re-run the relevant tests, and re-review until the verdict is `Ready to publish`, within the same bounded retry guard (about 2–3 attempts on the same finding, then stop and report).
@@ -131,7 +131,7 @@ Detailed English documentation lives in docs/:
 | load | load [--ticket <ticket>] [--yolo] <spec-file-or-name> | Load a Markdown spec and resolve Git/Jira metadata; with --yolo, autonomously run through publish |
 | load | load trunk <type> [--ticket <ticket>] [--yolo] <spec-file-or-description> | Prepare work based on trunk; with --yolo, autonomously run through publish |
 | load | load branch <base-branch> <type> [--ticket <ticket>] [--yolo] <spec-file-or-description> | Prepare work based on a specific branch; with --yolo, autonomously run through publish |
-| start | start | Synchronize the base and create the work branch |
+| start | start | Synchronize the base, create the work branch, and implement the Goals as a visible TaskCreate/TaskUpdate checklist |
 | test | test | Discover and run repository checks (delegates to the test subagent) |
 | review | review | Review goals, diff, and branch safety; delegate the code-quality pass to the code-review subagent |
 | explain | explain | Explain changed files and flow (delegates to the explain subagent) |

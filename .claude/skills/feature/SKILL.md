@@ -62,7 +62,7 @@ The skill asks the user only for:
 1. The combined publish approval — one prompt showing the proposed commit message, the ordered atomic commit list, and the push target together. Commit and push are approved in this single question.
 2. Destructive operations — exactly one explicit confirmation each, stating the consequences: the combined backport cherry-pick + push, local branch deletion, and abandon --discard.
 
-Beyond that, only clarifying questions about missing or ambiguous required state are allowed — for example load's missing-metadata questions or the plan session-recovery picker, which resolves which on-disk preview a plan subcommand should act on. Nothing else asks a question or waits for acknowledgement. Read-only Git commands — status, fetch, diff, log, show, rev-list, rev-parse, merge-base, branch --contains, ls-files, check-ref-format — always run immediately, and independent read-only commands run in parallel. Never ask "should I continue", never ask permission to run tests, reviews, or verification, and never re-confirm data the user already approved.
+Beyond that, only clarifying questions about missing or ambiguous required state are allowed — for example load's missing-metadata questions or plan's targeted questions for missing required planning inputs. Nothing else asks a question or waits for acknowledgement. Read-only Git commands — status, fetch, diff, log, show, rev-list, rev-parse, merge-base, branch --contains, ls-files, check-ref-format — always run immediately, and independent read-only commands run in parallel. Never ask "should I continue", never ask permission to run tests, reviews, or verification, and never re-confirm data the user already approved.
 
 A `--yolo` run (see Autonomous run) keeps exactly this policy: it removes the manual pauses between actions but still stops at the combined publish approval and never suppresses a destructive-operation confirmation.
 
@@ -124,10 +124,11 @@ Detailed English documentation lives in docs/:
 
 | Action | Usage | Purpose |
 |---|---|---|
-| plan | plan [<work-type>] [<name-or-description>] | Start or refine an iterative planning session and create a preview spec file |
-| plan | plan status | Show the active planning state and missing required fields |
+| plan | plan [<work-type>] [<name-or-description>] | Start or refine an iterative planning session; previews are staged in context/plans/ |
+| plan | plan resume <file> | Resume one staged preview from context/plans/ as the active planning session |
+| plan | plan status | Show the active planning state and missing required fields, or list staged previews when no session is tracked |
 | plan | plan cancel | Cancel the active planning session, optionally deleting its preview file |
-| plan | plan done | Finalize the active preview spec in place and suggest /feature load |
+| plan | plan done | Finalize the active preview: assign the next number, move it into its target folder, and suggest /feature load |
 | load | load [--ticket <ticket>] [--yolo] <spec-file-or-name> | Load a Markdown spec and resolve Git/Jira metadata; with --yolo, autonomously run through publish |
 | load | load trunk <type> [--ticket <ticket>] [--yolo] <spec-file-or-description> | Prepare work based on trunk; with --yolo, autonomously run through publish |
 | load | load branch <base-branch> <type> [--ticket <ticket>] [--yolo] <spec-file-or-description> | Prepare work based on a specific branch; with --yolo, autonomously run through publish |

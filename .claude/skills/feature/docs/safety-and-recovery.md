@@ -18,6 +18,7 @@ The skill is conservative by design. It prioritizes correct branch ancestry, exp
 
 | Operation | Read-only | Asks the user | Remote effect |
 |---|---:|---:|---:|
+| `plan` | Yes for Git (never fetches, branches, commits, or pushes); writes context/plans/ and target folder only | Only targeted questions for missing required planning inputs | None |
 | `load` | Mostly; writes local context | Only missing/conflicting required metadata | None |
 | `start` | No | Never | Fetch/pull only |
 | `test` | Usually | Never (dependency/config changes still require permission) | None |

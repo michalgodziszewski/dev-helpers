@@ -28,7 +28,7 @@ Then inspect `context/current-feature.md` and `context/feature-config.md`. Do no
 | Cherry-pick conflicts | Release changed overlapping lines | Resolve manually or abandon selected work |
 | `complete` cannot verify | Commits not ancestors and evidence missing/wrong | Fetch, wait, or supply correct merge SHA |
 | `abandon` refuses dirty work | Plain abandon is non-destructive | Preserve work or use explicit `--discard` |
-| plan session lost after /clear | Planning session is tracked only in the conversation | Run bare `plan`; if previews exist on disk, pick one to resume, otherwise start a new session |
+| plan session lost after /clear | Planning session is tracked only in the conversation | Run `plan status` to list staged previews in context/plans/, then `plan resume <file>` to reattach one |
 
 ## load cannot find a specification
 
@@ -278,9 +278,9 @@ The active planning session lives only in the conversation; /clear, compaction, 
 <!-- PLAN_PREVIEW_END -->
 ```
 
-When no session is tracked, the plan subcommands recover from disk instead of dead-ending: `plan status` lists every unfinalized preview it finds under `context/features/` and `context/fixes/` read-only, bare `plan` presents the same list as a picker so you can resume one or start fresh, and `plan done` / `plan cancel` ask you to explicitly select the preview to finalize or cancel before running normally. The skill never auto-selects a preview, even when only one exists.
+When no session is tracked, discovery and resuming are explicit: `plan status` lists the contents of `context/plans/` read-only — per file the path, title, work type, and missing finalization-required fields — and `plan resume <file>` reattaches the one you pick as the active session. `plan done` and `plan cancel` never pick a file on their own; they point at `plan status` + `plan resume` and stop. Bare `plan` always starts a new session and does not scan for previews.
 
-If recovery lists nothing, the file either lost its marker block (it is already finalized — load it instead) or sits outside `context/features/` and `context/fixes/`.
+If `plan status` lists nothing, the file either lost its marker block (it is already finalized — load it instead) or sits outside `context/plans/`. A file inside `context/plans/` that lacks the marker block is reported with a warning rather than silently skipped.
 
 ## abandon refuses to run
 

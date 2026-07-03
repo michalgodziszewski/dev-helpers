@@ -13,6 +13,7 @@ The feature skill separates tracked skill behavior from ignored, personal runtim
 | `context/ai-interaction.md` | Local AI collaboration rules | No |
 | `context/features/` | Personal feature specifications | No |
 | `context/fixes/` | Personal fix specifications | No |
+| `context/plans/` | Staged plan previews awaiting finalization | No |
 | `context/screenshots/` | Personal screenshots used during work | No |
 
 The repository should ignore `/context/`. The skill must never stage or commit anything below that directory.

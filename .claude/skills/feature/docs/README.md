@@ -14,7 +14,7 @@ This documentation describes the behavior implemented by `.claude/skills/feature
 - Backports cherry-pick those atomic commits individually and in order.
 - Pull requests target the recorded base branch, not the repository default by assumption.
 - Destructive cleanup requires explicit confirmation.
-- Routine interaction is minimal: publish asks once (commit message + atomic commit list + push target), backport asks once (cherry-pick list + push), and read-only Git commands never prompt.
+- Routine interaction is minimal: publish asks once (commit message + atomic commit list + push target + PR creation when gh available), backport asks once (cherry-pick list + push + PR creation when gh available), and read-only Git commands never prompt.
 - `load --yolo` runs the whole workflow through to publish in one pass, still stopping only at that single publish approval.
 - Read-only or self-contained work is delegated to installed subagents (code-review, test, explain, git-verify, plan-research, docs-sync); every delegation degrades gracefully to inline execution.
 - Remote branches and pull requests are never deleted automatically.

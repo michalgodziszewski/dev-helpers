@@ -261,12 +261,12 @@ A Needs changes verdict blocks `publish`. `publish` runs `review.md` before crea
 4. excludes all context files;
 5. maps work type to commit type and renders the Jira commit format when active;
 6. computes ordered, non-merge feature-only commits and validates each, including Jira subject policy, before asking anything;
-7. asks exactly one combined approval showing the proposed commit message, the final ordered atomic commit list (existing SHAs plus the pending new commit), ignored merge commits, and the push target;
+7. asks exactly one combined approval showing the proposed commit message, the final ordered atomic commit list (existing SHAs plus the pending new commit), ignored merge commits, the push target, and pull request creation when `gh` is available;
 8. after approval: stages only work-item files, creates one commit with the approved message when uncommitted work exists, recomputes the final SHAs without asking again;
 9. stores Published Commits;
 10. pushes the work branch and verifies remote equality;
 11. sets status to Published;
-12. produces a PR URL or `gh` command with explicit base and head.
+12. always shows the explicit compare URL with base and head; when `gh` is available and authenticated, detects an existing PR or creates one with `gh pr create` (title/body carry no AI attribution) and shows its URL next to the compare URL — when `gh` is unavailable, reports why creation was skipped without failing publish.
 
 ### Stops when
 
@@ -333,11 +333,11 @@ The first form targets active trunk work. The second targets an exact pending tr
 - Synchronizes the release branch with fast-forward-only rules.
 - Creates a Jira-aware or legacy backport branch.
 - Stores branch metadata before cherry-picking.
-- Asks exactly one combined destructive confirmation covering the exact ordered commits to cherry-pick and the backport branch push.
+- Asks exactly one combined destructive confirmation covering the exact ordered commits to cherry-pick, the backport branch push, and pull request creation when `gh` is available.
 - Cherry-picks each with `git cherry-pick -x`.
 - Records each resulting SHA immediately.
 - Stops untouched on conflict.
-- Tests (via the `test` subagent when installed) and pushes without asking again, then provides a PR target for the release branch.
+- Tests (via the `test` subagent when installed) and pushes without asking again, then always shows the explicit compare URL against the release branch; when `gh` is available and authenticated, detects an existing PR or creates one (title/body carry no AI attribution) and shows its URL next to the compare URL — when `gh` is unavailable, reports why creation was skipped without failing the backport.
 
 ### Important rule
 

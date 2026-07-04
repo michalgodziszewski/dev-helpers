@@ -9,6 +9,8 @@ Backport the exact atomic commits recorded at publish. Never cherry-pick a GitHu
 
 When the active slot is Idle, require an exact Pending Reviews Work Branch. Never guess when multiple pending items exist.
 
+Parse the selected Pending Reviews entry using the canonical structure defined in actions/clear.md step 6. Tolerate legacy entries that predate that structure — read their fields as before — but never rewrite a legacy entry into the canonical layout in place.
+
 ## Select and verify work
 
 1. Require Workflow trunk and Base Branch trunk.

@@ -9,12 +9,23 @@ Free the active slot after publication without waiting for review or merge.
 5. For backward compatibility only, when Published Commits is absent:
    - Compute git rev-list --reverse --no-merges <work-branch> --not origin/<base-branch>.
    - Show the exact computed list and record it without asking; any later backport shows this list again in its own destructive confirmation.
-6. Append one Pending Reviews entry containing:
-   - Work name and Status Awaiting Review
-   - Workflow, Work Type, and Jira Ticket
-   - Base Branch and Work Branch
-   - Ordered Published Commits
-   - Backport Release Branch, ordered Backport Commits, and Backport Branch when populated
+6. Append one Pending Reviews entry in this exact canonical structure — the single source of truth for the format that `backport`, `complete`, and `abandon` parse back by exact Work Branch match:
+
+   ```md
+   - **Work Name:** <work-name>
+     - **Status:** Awaiting Review
+     - **Workflow:** <trunk|branch>
+     - **Work Type:** <feature|bugfix|fix|hotfix|chore>
+     - **Jira Ticket:** <ticket-or-empty>
+     - **Base Branch:** <base-branch>
+     - **Work Branch:** <work-branch>
+     - **Published Commits:** <ordered-sha-list>
+     - **Backport Release Branch:** <release-branch>
+     - **Backport Commits:** <ordered-sha-list>
+     - **Backport Branch:** <backport-branch>
+   ```
+
+   Omit the three Backport fields entirely when no backport metadata exists on the item; include all three, in order, when any is populated. Never invent a different layout or field order.
 7. Reset only the active slot to Idle, including Jira Ticket, Published Commits, and all backport fields.
 8. Preserve all existing Pending Reviews and History entries.
 9. Do not switch or delete branches.

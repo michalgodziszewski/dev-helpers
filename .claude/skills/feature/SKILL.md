@@ -145,8 +145,8 @@ Detailed English documentation lives in docs/:
 | abandon | abandon --discard | Explicitly discard active work and its local work/backport branches |
 | abandon | abandon <work-branch> | Remove one exact pending item from local workflow tracking |
 | abandon | abandon --discard <work-branch> | Discard one exact pending item and its local work/backport branches |
-| backport | backport <release> [primary-merge-sha] | Atomically backport the active trunk item |
-| backport | backport <work-branch> <release> [primary-merge-sha] | Atomically backport a pending trunk item |
+| backport | backport <release-branch> [primary-merge-sha] | Atomically backport the active trunk item |
+| backport | backport <work-branch> <release-branch> [primary-merge-sha] | Atomically backport a pending trunk item |
 | complete | complete | Complete active work using ancestry verification |
 | complete | complete active <primary-merge-sha> [backport-merge-sha] | Complete squash-merged active work |
 | complete | complete <work-branch> [primary-merge-sha] [backport-merge-sha] | Complete an exact pending item |

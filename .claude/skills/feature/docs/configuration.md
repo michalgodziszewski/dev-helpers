@@ -26,14 +26,14 @@ The repository should ignore `/context/`. The skill must never stage or commit a
 assets/feature-config-template.md
 ```
 
-When `load` runs and `context/feature-config.md` still does not exist, it creates the file with the same default content inline (the installed skill does not carry the template). The current default is:
+When `load` runs and `context/feature-config.md` still does not exist, it creates the file with the same default content inline (the installed skill does not carry the template). `assets/feature-config-template.md` is the source of truth; the inline copy in `load.md` must stay byte-identical to it. The current default is:
 
 ```md
 # Feature Configuration
 
 ## Jira
 
-- **Mode:** required
+- **Mode:** disabled
 - **Project Keys:**
 - **Ticket Pattern:** ^[A-Z][A-Z0-9]*-[1-9][0-9]*$
 - **Branch Format:** <type>/<ticket>-<name>

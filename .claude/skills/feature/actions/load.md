@@ -9,14 +9,14 @@ Support both Markdown specifications and inline descriptions.
    - Create context/ when necessary.
    - Copy the structure from ../assets/current-feature-template.md.
    - Because the template is placeholder-based, replace every remaining {{...}} placeholder with an empty value, remove the {{preview_notice}} line, and drop the optional planning-only sections (## References, ## Scope, ## Documentation Requirements) so the runtime state file keeps only Status, Git Workflow, Goals, Notes, Pending Reviews, and History.
-3. If context/feature-config.md does not exist, create it with this exact default content (kept in sync with the packaged assets/feature-config-template.md, which dev feature-skill-install normally installs):
+3. If context/feature-config.md does not exist, create it with this exact default content. The packaged assets/feature-config-template.md is the source of truth; the installed skill does not carry that template, so this inline copy must stay byte-identical to it:
 
    ```md
    # Feature Configuration
 
    ## Jira
 
-   - **Mode:** required
+   - **Mode:** disabled
    - **Project Keys:**
    - **Ticket Pattern:** ^[A-Z][A-Z0-9]*-[1-9][0-9]*$
    - **Branch Format:** <type>/<ticket>-<name>

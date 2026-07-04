@@ -36,7 +36,7 @@ When the active slot is Idle, require an exact Pending Reviews Work Branch. Neve
    - When Mode is disabled or optional without a ticket, use backport/<work-name>-<release-branch>.
    - Require the result to pass git check-ref-format --branch, then create it.
 7. Immediately store Backport Release Branch and Backport Branch on the selected item and initialize Backport Commits as empty. Persist this metadata before asking or cherry-picking so conflict cleanup can identify the exact branch. Preserve every unrelated active and pending item.
-8. Ask the user exactly once with the combined destructive confirmation, presenting together: the exact ordered Published Commits with subjects that will be cherry-picked, the backport branch they land on, and the push target origin/<backport-branch>. This is the only question backport asks; approval covers every cherry-pick and the push. Without approval, stop without changing Git state.
+8. Ask the user exactly once with the combined destructive confirmation, presenting together: the exact ordered Published Commits with subjects that will be cherry-picked, the backport branch they land on, the push target origin/<backport-branch>, and the exact proposed PR title with a note that approval also creates the pull request via `gh pr create --base <release-branch> --head <backport-branch>` when the GitHub CLI is available. Derive the title from the ordered Published Commits list being cherry-picked: use its sole subject verbatim, or the first (oldest) subject when there is more than one. This is the only question backport asks; approval covers every cherry-pick, the push, and PR creation. Without approval, stop without changing Git state.
 9. Cherry-pick each Published Commit separately and in order:
 
    git cherry-pick -x <published-commit>
@@ -59,15 +59,22 @@ When the active slot is Idle, require an exact Pending Reviews Work Branch. Neve
 1. The release branch argument is the only valid PR base.
 2. Never use the generic Create pull request URL printed by git push.
 3. Normalize origin to a GitHub <owner>/<repository> path.
-4. Produce:
+4. Always produce and display, regardless of whether PR creation below runs:
 
    https://github.com/<owner>/<repository>/compare/<release-branch>...<backport-branch>?expand=1
 
-5. Display Head and Base explicitly.
-6. With GitHub CLI, always use:
+5. Display Head and Base explicitly. This manual compare URL output never changes; PR creation is additive on top of it, never a replacement.
+6. Check whether the GitHub CLI is available and authenticated. When it is not, report exactly why PR creation was skipped — the compare URL above remains the manual path. Never fail the backport because gh is missing or unauthenticated. Status (Merged or Backport Awaiting Review) stays as already set; PR creation never reverts it.
+7. When gh is available, check for an existing backport PR (`gh pr view` or `gh pr list --head <backport-branch>`):
+   - If one exists, report its URL. If it targets any branch other than the selected release branch, report the mismatch, print the existing PR's URL and current base, and tell the user to retarget it themselves (for example `gh pr edit <number> --base <release-branch>` or the GitHub UI) before merging. Do not attempt to retarget it automatically, and do not treat this as a backport failure.
+   - If none exists, create it using the exact title approved in the combined confirmation:
 
-   gh pr create --base <release-branch> --head <backport-branch>
+     gh pr create --base <release-branch> --head <backport-branch> --title <title> --body <body>
 
-7. If an existing backport PR targets main, trunk, or any branch other than the selected release branch, stop and require retargeting before merge.
+     - Derive <title>: when exactly one commit was backported, use its subject verbatim; when more than one was backported, use the first (oldest) backported commit's subject as the title and list every backported commit's subject as a bullet in <body>.
+     - Use a minimal <body>, extended only with the commit-subject bullet list above when there is more than one backported commit.
+     - The title and body must never contain AI attribution of any kind — no "Generated with Claude Code", no "Co-Authored-By: Claude", no robot emoji footer, no mention of AI assistance — matching the no-AI-attribution rule in context/ai-interaction.md. Explicitly pass this title and body rather than relying on gh pr create's interactive defaults, since gh's own templates may otherwise append such a footer.
+     - If `gh pr create` fails for any other reason (network error, API error, insufficient permissions, etc.), report the exact error and the compare URL from step 4, and stop here without failing the backport or reverting Status.
+8. When a PR was created or found, print its URL next to the compare URL from step 4.
 
 Never push directly to release and never force-push.

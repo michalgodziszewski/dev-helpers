@@ -72,7 +72,7 @@ feature/add-account-summary
 /feature publish
 ```
 
-Publication has exactly one confirmation boundary: a single combined approval showing the proposed commit message, the exact ordered atomic commit list selected for publication, ignored merge commits, and the push target together. Everything before it (fetch, tests, review, commit-list validation) runs without questions.
+Publication has exactly one confirmation boundary: a single combined approval showing the proposed commit message, the exact ordered atomic commit list selected for publication, ignored merge commits, the push target, and pull request creation when `gh` is available, together. Everything before it (fetch, tests, review, commit-list validation) runs without questions.
 
 The work branch is pushed to origin. The pull request base is explicitly `trunk`.
 
@@ -200,7 +200,7 @@ The action:
 4. creates a backport branch;
 5. stores release and branch metadata before cherry-picking;
 6. displays the exact ordered Published Commits;
-7. asks one combined destructive confirmation covering the cherry-picks and the backport branch push;
+7. asks one combined destructive confirmation covering the cherry-picks, the backport branch push, and pull request creation when `gh` is available;
 8. cherry-picks each commit separately with `-x`;
 9. records each resulting Backport Commit immediately;
 10. runs relevant checks;

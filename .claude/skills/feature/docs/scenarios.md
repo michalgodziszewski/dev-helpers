@@ -56,6 +56,15 @@ Expected subject shape:
 feat: [LSG-12345] - add account summary
 ```
 
+The combined approval also covers pull request creation. After the push, when `gh` is available and authenticated, publish shows the compare URL and the created PR URL together:
+
+```text
+Compare: https://github.com/<owner>/<repository>/compare/main...feature/LSG-12345-add-account-summary?expand=1
+Pull request created: https://github.com/<owner>/<repository>/pull/<number>
+```
+
+When `gh` is unavailable, publish shows only the compare URL and reports that PR creation was skipped, without failing.
+
 After GitHub merge:
 
 ```text

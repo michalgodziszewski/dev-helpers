@@ -370,7 +370,8 @@ The first form targets active trunk work. The second targets an exact pending tr
 
 ### State effect
 
-- Append a dated History entry.
+- Prepend a dated History entry (History is newest-first).
+- Rotate History when it now holds more than 10 entries: keep the 10 most recent in current-feature.md and move older entries verbatim, in order, into context/history-archive.md (newest-first, ignored personal state, created on first rotation).
 - Reset only selected active work or remove only selected pending work.
 - Preserve all unrelated active, pending, and historical data.
 - Offer local branch deletion when safe — one explicit confirmation naming the branch; the only question complete asks.
@@ -418,4 +419,5 @@ Use `--discard <work-branch>` when the selected pending backport is currently ch
 - clear the entire Pending Reviews queue;
 - infer a branch by partial name;
 - delete ignored context files;
+- read, edit, or delete entries already rotated into context/history-archive.md;
 - append an Abandoned History entry.

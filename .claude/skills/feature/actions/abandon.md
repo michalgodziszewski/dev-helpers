@@ -102,6 +102,10 @@ When pending work has uncommitted changes or an in-progress cherry-pick on its r
 
 Do not automatically delete name-only legacy History lines that lack Work Branch. Report them as unverifiable. Remove one only after the user explicitly confirms the exact line.
 
+## Archive boundary
+
+abandon only ever edits History in context/current-feature.md. Entries that `complete` has already rotated into context/history-archive.md are out of scope: never read, edit, or delete them.
+
 ## Reset active slot
 
 Restore the generic H1, clear active Workflow, Work Type, Jira Ticket, Base Branch, Work Branch, Source Spec, Published Commits, backport fields, Goals, and Notes. Never stage or commit context/.

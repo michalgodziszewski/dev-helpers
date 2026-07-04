@@ -174,7 +174,7 @@ In Progress
 
 ## Example pending entry
 
-The exact Markdown layout may evolve, but the entry must preserve all structured fields needed to identify and verify the item:
+`clear` writes every Pending Reviews entry in one canonical Markdown layout, defined once in actions/clear.md step 6 and parsed by `backport`, `complete`, and `abandon`. Legacy entries written before this layout existed are still read by their existing fields but are never rewritten in place.
 
 ```md
 - **Work Name:** account-summary
@@ -186,6 +186,8 @@ The exact Markdown layout may evolve, but the entry must preserve all structured
   - **Work Branch:** feature/LSG-12345-account-summary
   - **Published Commits:** abc123 def456
 ```
+
+Backport Release Branch, Backport Commits, and Backport Branch are appended in that order, all three together, only when the item has backport metadata.
 
 ## Concurrency boundary
 

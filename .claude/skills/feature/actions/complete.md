@@ -12,6 +12,8 @@ Accept:
 
 Read Base Branch, Jira Ticket, ordered Published Commits, and optional backport metadata from the selected item. Accept legacy singular commit fields as one-item lists, reporting the migration without asking.
 
+Parse a pending item using the canonical Pending Reviews structure defined in actions/clear.md step 6. Tolerate legacy entries that predate that structure — read their fields as before — but never rewrite a legacy entry into the canonical layout in place.
+
 ## Verify merges
 
 1. Run git fetch origin --prune without asking and verify origin/<base-branch> exists.

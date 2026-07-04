@@ -11,6 +11,8 @@ Remove one cancelled work item from local workflow state. Never clear all Pendin
 
 Use the active item when no work branch is supplied. Use an exact Pending Reviews Work Branch match when a work branch is supplied. Never guess by partial branch name.
 
+Parse a pending item using the canonical Pending Reviews structure defined in actions/clear.md step 6. Tolerate legacy entries that predate that structure — read their fields as before — but never rewrite a legacy entry into the canonical layout in place.
+
 ## Select one item
 
 1. For active work, require Status Not Started, In Progress, Published, or Merged.

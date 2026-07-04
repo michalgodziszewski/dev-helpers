@@ -98,11 +98,17 @@ Exact branch identity is mandatory. Partial names are never guessed.
 
 ## History
 
-`complete` appends a dated History entry after verifying remote ancestry. The entry includes the work name, type, Jira ticket when present, work branch, base branch, and completion result.
+`complete` prepends a dated History entry after verifying remote ancestry — History is newest-first, so the new entry goes above all existing entries. The entry includes the work name, type, Jira ticket when present, work branch, base branch, and completion result.
 
 History is local workflow memory, not a source of truth for GitHub. Remote ancestry is checked again whenever completion evidence is required.
 
 Legacy history lines that do not contain a work branch cannot be safely matched. `abandon` reports them as unverifiable and requires explicit confirmation before removing an exact line.
+
+### History rotation
+
+To keep context/current-feature.md small, `complete` rotates History once it holds more than 10 entries: the 10 most recent entries stay in current-feature.md, and older entries move verbatim, in their existing order, into context/history-archive.md (newest-first, with new rotations prepended above what is already archived). The archive file is created on its first rotation.
+
+context/history-archive.md is ignored personal state exactly like the rest of context/ — it is never staged, committed, or required to exist. Rotation is purely mechanical: entries are relocated unchanged, never summarized or rewritten. `abandon`'s legacy-history matching and removal rules apply only to whatever remains in current-feature.md; the archive is untouched by `abandon` and out of scope for it.
 
 ## Atomic commit metadata
 

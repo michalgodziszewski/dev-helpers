@@ -22,6 +22,8 @@ The state contains:
 - Pending Reviews entries for published work no longer occupying the active slot
 - Local completed History
 
+When History grows past 10 entries, complete rotates the older ones verbatim into context/history-archive.md (archive is kept newest-first), an ignored personal archive file that is never required to exist. See actions/complete.md.
+
 Never stage or commit anything under context/. Never overwrite an active item with load. Never infer an unspecified base branch, release branch, or commit SHA.
 
 ## Local configuration

@@ -30,11 +30,12 @@ If verification fails, keep the item unchanged. This must not block other active
 
 ## Update local state
 
-1. Append a dated History entry with work name, type, Jira Ticket when populated, Work Branch, Base Branch, and verified completion.
-2. Remove only the selected pending entry, or reset only the selected active slot to Idle.
-3. Preserve all other pending, active, and history data.
-4. Do not switch branches or pull a local base.
-5. Offer local branch deletion only when the branch is not checked out. Branch deletion is destructive: ask exactly one explicit confirmation naming the branch before git branch -D. Everything else in complete runs without questions.
-6. Never delete a remote branch.
+1. Prepend a dated History entry with work name, type, Jira Ticket when populated, Work Branch, Base Branch, and verified completion. History is newest-first: the new entry goes above all existing entries.
+2. Rotate History when it now holds more than 10 entries: keep the 10 most recent (topmost) entries in context/current-feature.md and move the older entries, verbatim and in their existing order, to context/history-archive.md, prepending them above any entries already archived there (archive stays newest-first). Create context/history-archive.md on its first rotation. This is mechanical — never summarize or rewrite an entry. context/history-archive.md is ignored personal state exactly like the rest of context/: never stage, commit, or require it to exist.
+3. Remove only the selected pending entry, or reset only the selected active slot to Idle.
+4. Preserve all other pending, active, and history data.
+5. Do not switch branches or pull a local base.
+6. Offer local branch deletion only when the branch is not checked out. Branch deletion is destructive: ask exactly one explicit confirmation naming the branch before git branch -D. Everything else in complete runs without questions.
+7. Never delete a remote branch.
 
 Never stage or commit context/.

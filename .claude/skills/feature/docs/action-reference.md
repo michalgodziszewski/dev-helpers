@@ -12,8 +12,9 @@ Invoke actions through `/feature <action> ...`. Each action reads only its match
 | `test` | In Progress or reviewable work | Run relevant repository checks |
 | `review` | Work branch exists | Review merge-base diff and return verdict |
 | `explain` | Work branch exists | Explain files and control flow |
-| `publish` | In Progress | Commit with permission, record atomic commits, push |
+| `publish` | In Progress or Published | Commit with permission, record atomic commits, push; re-publishes follow-up commits when already Published |
 | `clear` | Published or Merged | Move active item to Pending Reviews |
+| `resume` | Idle, with a matching Pending Reviews entry | Reattach one Pending Reviews entry to the active slot |
 | `backport` | Merged trunk evidence available | Cherry-pick recorded commits to release branch |
 | `complete` | Published/Merged or pending | Verify remote merge and record History |
 | `abandon` | Active or exact pending item | Remove one cancelled item safely |
@@ -246,36 +247,39 @@ A Needs changes verdict blocks `publish`. `publish` runs `review.md` before crea
 
 ### Preconditions
 
-- Status is In Progress.
+- Status is In Progress or Published. Published means this is a re-publish of follow-up commits after PR review feedback.
 - Current branch equals Work Branch.
 - Current branch is not Base Branch.
 - Jira branch policy passes when active.
+- On the re-publish path (Status Published): origin/<work-branch> exists and is an ancestor of the local Work Branch — no unresolved remote divergence.
 - `test` succeeds.
 - `review` returns Ready to publish.
 
 ### Behavior
 
 1. fetches origin once and verifies the base; `test` and `review` inside the publish chain reuse this fetch;
-2. runs `test` and `review`, stopping on failure or a non-ready verdict;
-3. shows Git status and a concise diff;
-4. excludes all context files;
-5. maps work type to commit type and renders the Jira commit format when active;
-6. computes ordered, non-merge feature-only commits and validates each, including Jira subject policy, before asking anything;
-7. asks exactly one combined approval showing the proposed commit message, the final ordered atomic commit list (existing SHAs plus the pending new commit), ignored merge commits, the push target, and pull request creation when `gh` is available;
-8. after approval: stages only work-item files, creates one commit with the approved message when uncommitted work exists, recomputes the final SHAs without asking again;
-9. stores Published Commits;
-10. pushes the work branch and verifies remote equality;
-11. sets status to Published;
-12. always shows the explicit compare URL with base and head; when `gh` is available and authenticated, detects an existing PR or creates one with `gh pr create` (title/body carry no AI attribution) and shows its URL next to the compare URL — when `gh` is unavailable, reports why creation was skipped without failing publish.
+2. on the re-publish path, also verifies origin/<work-branch> is an ancestor of the local branch before proceeding;
+3. runs `test` and `review`, stopping on failure or a non-ready verdict;
+4. shows Git status and a concise diff;
+5. excludes all context files;
+6. maps work type to commit type and renders the Jira commit format when active;
+7. computes the ordered atomic list: on first publication, all non-merge feature-only commits against origin/<base-branch>; on re-publish, only the new commits against origin/<work-branch> — the already-recorded Published Commits are shown as context, never recomputed or reordered; validates each new commit, including Jira subject policy, before asking anything;
+8. asks exactly one combined approval showing the proposed commit message, the already-published SHAs as context on re-publish, the final ordered atomic commit list (new commits plus the pending new commit), ignored merge commits, the push target, and pull request creation (first publication) or update (re-publish) when `gh` is available;
+9. after approval: stages only work-item files, creates one commit with the approved message when uncommitted work exists, recomputes the final SHAs without asking again;
+10. stores Published Commits: sets the full list on first publication, appends the new SHAs in order on re-publish;
+11. pushes the work branch (`-u` on first publication) and verifies remote equality;
+12. sets status to Published (a no-op on re-publish, since it was already Published);
+13. always shows the explicit compare URL with base and head; when `gh` is available and authenticated, detects an existing PR or creates one with `gh pr create` (title/body carry no AI attribution) and shows its URL next to the compare URL — when `gh` is unavailable, reports why creation was skipped without failing publish.
 
 ### Stops when
 
 - tests or review fail;
 - branch naming does not match configuration;
-- no atomic commit exists;
+- no atomic commit exists (on re-publish: no new commit since the last publish);
 - a selected commit is a merge commit or invalid;
 - a Jira subject is non-compliant;
 - remote base is missing;
+- on re-publish, origin/<work-branch> is missing or has diverged from the local branch;
 - push or remote equality verification fails.
 
 ### Does not
@@ -283,7 +287,8 @@ A Needs changes verdict blocks `publish`. `publish` runs `review.md` before crea
 - merge locally;
 - push directly to the base;
 - trust a generic Git push PR URL when it targets another branch;
-- rewrite invalid commit history automatically.
+- rewrite invalid commit history automatically;
+- resolve remote divergence on re-publish automatically (no merge, rebase, or force-push).
 
 ## clear
 
@@ -307,6 +312,47 @@ A Needs changes verdict blocks `publish`. `publish` runs `review.md` before crea
 - Preserves all existing pending entries and History.
 - Does not switch or delete branches.
 - Does not verify that GitHub merged the PR.
+
+## resume
+
+### Syntax
+
+```text
+/feature resume <work-branch>
+```
+
+### Preconditions
+
+- `<work-branch>` is required and must exactly match one Pending Reviews entry's Work Branch. No scanning or fuzzy match.
+- Active slot is Idle.
+- Working tree is clean outside context/.
+- origin/<work-branch> exists; the local branch (if present) equals it exactly.
+
+### Behavior
+
+1. Locates the matching Pending Reviews entry and requires the active slot to be Idle before touching Git.
+2. Fetches origin, requires a clean working tree outside context/, and verifies the local Work Branch (if present) equals origin/<work-branch>.
+3. Checks out the Work Branch, creating it as a tracking branch from origin/<work-branch> when it doesn't exist locally.
+4. Copies the entry's fields (Workflow, Work Type, Jira Ticket, Base Branch, Work Branch, Source Spec, Published Commits, populated backport fields) into the active slot.
+5. Restores Status: Awaiting Review maps back to Published.
+6. Re-resolves Goals and Notes from the entry's Source Spec when it is a readable repository-relative Markdown path.
+7. Removes the entry from Pending Reviews only after the active slot write is confirmed.
+8. Reports the restored state and points at `/feature publish` as the next step.
+
+### Stops when
+
+- no `<work-branch>` argument is supplied;
+- no Pending Reviews entry matches it exactly;
+- the active slot is not Idle;
+- the working tree is dirty outside context/;
+- the local branch has diverged from origin/<work-branch>, or origin/<work-branch> does not exist.
+
+### Does not
+
+- scan Pending Reviews and auto-select an entry;
+- push, merge, cherry-pick, or delete a branch (it only fetches, as a read-only-equivalent verification step, and checks out the branch);
+- displace or modify any active work already occupying the slot;
+- modify any other Pending Reviews entry or History.
 
 ## backport
 

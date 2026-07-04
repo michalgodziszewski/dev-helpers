@@ -484,3 +484,84 @@ Both map to conventional commit type `fix`:
 fix: [LSG-500] - correct payment timeout
 fix: [LSG-501] - handle empty state
 ```
+
+## Scenario 24: reviewer requests changes on an active Published item
+
+Task is Published, still occupying the active slot:
+
+```text
+Status: Published
+Work Branch: feature/LSG-400-add-export
+Published Commits: abc111
+```
+
+A reviewer on GitHub requests a fix. Implement it on the same branch, then publish again:
+
+```text
+/feature publish
+```
+
+Status is already `Published`, so publish takes the re-publish path: it verifies `origin/feature/LSG-400-add-export` is an ancestor of the local branch, computes only the new commit(s) since that push, and shows one combined approval with the already-published SHA as context plus the new commit marked clearly:
+
+```text
+Already published: abc111 feat: [LSG-400] - add export
+New: def222 fix: [LSG-400] - handle empty result set
+Push target: origin/feature/LSG-400-add-export
+```
+
+On approval, `def222` is pushed and appended:
+
+```text
+Published Commits: abc111, def222
+Status: Published
+```
+
+The existing pull request is updated by the push; no new PR is created.
+
+## Scenario 25: cleared, then resumed for a second review round
+
+Task was published and cleared to start other work:
+
+```text
+/feature publish
+/feature clear
+```
+
+Pending Reviews now holds:
+
+```md
+- **Work Name:** add-export
+  - **Status:** Awaiting Review
+  - **Workflow:** trunk
+  - **Work Type:** feature
+  - **Jira Ticket:** LSG-400
+  - **Base Branch:** trunk
+  - **Work Branch:** feature/LSG-400-add-export
+  - **Source Spec:** context/features/0030-add-export.md
+  - **Published Commits:** abc111
+```
+
+The active slot is Idle, occupied by unrelated task B. Finish, clear, or abandon task B, then reattach task A's entry:
+
+```text
+/feature resume feature/LSG-400-add-export
+```
+
+`resume` fetches origin, checks out `feature/LSG-400-add-export` (creating it locally from `origin/feature/LSG-400-add-export` if needed), verifies no divergence, and restores the active slot:
+
+```text
+Status: Published
+Work Branch: feature/LSG-400-add-export
+Source Spec: context/features/0030-add-export.md
+Published Commits: abc111
+```
+
+Because Source Spec was populated, Goals and Notes are also re-read from that file. If Source Spec had been empty, Goals and Notes would stay blank and `resume` would report that they could not be restored.
+
+The Pending Reviews entry is removed. Implement the reviewer's requested fix, then re-publish exactly as in Scenario 24:
+
+```text
+/feature publish
+```
+
+If the reviewer requests another round, `clear` again and `resume` again — the loop is not bounded to one re-publish.

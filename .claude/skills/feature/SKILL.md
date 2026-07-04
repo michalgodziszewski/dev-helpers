@@ -61,7 +61,7 @@ When creating a new Markdown specification by hand, copy the structure of featur
 
 The skill asks the user only for:
 
-1. The combined publish approval — one prompt showing the proposed commit message, the ordered atomic commit list, the push target, and pull request creation (when the GitHub CLI is available) together. Commit, push, and PR creation are approved in this single question.
+1. The combined publish approval — one prompt showing the proposed commit message, the ordered atomic commit list, the push target, and pull request creation (first publication) or update (re-publish after review feedback), when the GitHub CLI is available, together. Commit, push, and PR creation/update are approved in this single question.
 2. Destructive operations — exactly one explicit confirmation each, stating the consequences: the combined backport cherry-pick + push + PR creation, local branch deletion, and abandon --discard.
 
 Beyond that, only clarifying questions about missing or ambiguous required state are allowed — for example load's missing-metadata questions or plan's targeted questions for missing required planning inputs. Nothing else asks a question or waits for acknowledgement. Read-only Git commands — status, fetch, diff, log, show, rev-list, rev-parse, merge-base, branch --contains, ls-files, check-ref-format — always run immediately, and independent read-only commands run in parallel. Never ask "should I continue", never ask permission to run tests, reviews, or verification, and never re-confirm data the user already approved.
@@ -138,8 +138,9 @@ Detailed English documentation lives in docs/:
 | test | test | Discover and run repository checks (delegates to the test subagent) |
 | review | review | Review goals, diff, and branch safety; delegate the code-quality pass to the code-review subagent |
 | explain | explain | Explain changed files and flow (delegates to the explain subagent) |
-| publish | publish | Run checks, then commit and push after one combined approval |
+| publish | publish | Run checks, then commit and push after one combined approval; when Status is already Published, runs the re-publish path for follow-up commits after review feedback |
 | clear | clear | Move published work to Pending Reviews and free the active slot |
+| resume | resume <work-branch> | Reattach one Pending Reviews entry to the active slot so publish's re-publish path can run against it |
 | abandon | abandon | Abandon active work without discarding local changes |
 | abandon | abandon --discard | Explicitly discard active work and its local work/backport branches |
 | abandon | abandon <work-branch> | Remove one exact pending item from local workflow tracking |

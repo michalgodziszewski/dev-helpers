@@ -11,7 +11,7 @@ The active slot represents at most one item.
 | `Idle` | No active work | `load` |
 | `Not Started` | Specification and metadata are loaded; no work branch exists yet | `start`, `abandon` |
 | `In Progress` | Work branch exists and implementation may be dirty or committed | `test`, `review`, `publish`, `abandon` |
-| `Published` | Work branch and atomic commit list were pushed | `clear`, `complete` after merge, `backport` after trunk merge |
+| `Published` | Work branch and atomic commit list were pushed | `publish` again to re-publish follow-up commits after review feedback, `clear`, `complete` after merge, `backport` after trunk merge |
 | `Merged` | Active trunk work completed a backport creation flow and can be cleared with backport metadata | `clear`, `complete` after required merges |
 
 `load` refuses to overwrite `Not Started`, `In Progress`, `Published`, or `Merged` active work.
@@ -48,6 +48,9 @@ In Progress
   | publish
   v
 Published
+  | publish (re-publish, when review requests changes)
+  v
+Published
   | complete after verified merge
   v
 Idle + History entry
@@ -64,6 +67,23 @@ Idle active slot + exact Pending Reviews entry
   v
 Pending item removed + History entry
 ```
+
+### Review queue round-trip (resume)
+
+```text
+Published
+  | clear
+  v
+Idle active slot + exact Pending Reviews entry
+  | resume <work-branch>
+  v
+Published (active slot restored, entry removed from Pending Reviews)
+  | publish (re-publish)
+  v
+Published (Published Commits extended)
+```
+
+`resume` requires the active slot to be Idle, so any other work in progress must be finished, cleared, or abandoned first. It is the only path back from Pending Reviews into the active slot; `backport`, `complete`, and `abandon` continue to read Pending Reviews entries directly without resuming them.
 
 ### Cancelled work
 
@@ -84,6 +104,7 @@ Idle
 - workflow and work type;
 - Jira ticket;
 - base and work branches;
+- source spec;
 - ordered Published Commits;
 - optional release branch, Backport Commits, and backport branch.
 
@@ -123,6 +144,8 @@ This excludes:
 - commits already present on the remote base;
 - merge commits;
 - commits introduced only by synchronizing or merging the base branch into the work branch.
+
+On the re-publish path (Status already Published, pushing follow-up commits after review feedback), the exclusion base changes to `origin/<work-branch>` instead of `origin/<base-branch>`, so only commits made since the last successful publish are computed. The already-recorded Published Commits are shown as context and appended to, never recomputed or reordered.
 
 The resulting ordered list is the only commit source for a standard backport. A GitHub merge SHA may prove that a PR merged, but it is not added to Published Commits and is never cherry-picked as an atomic change.
 
@@ -174,7 +197,7 @@ In Progress
 
 ## Example pending entry
 
-`clear` writes every Pending Reviews entry in one canonical Markdown layout, defined once in actions/clear.md step 6 and parsed by `backport`, `complete`, and `abandon`. Legacy entries written before this layout existed are still read by their existing fields but are never rewritten in place.
+`clear` writes every Pending Reviews entry in one canonical Markdown layout, defined once in actions/clear.md step 6 and parsed by `backport`, `complete`, `abandon`, and `resume`. Legacy entries written before this layout existed are still read by their existing fields but are never rewritten in place.
 
 ```md
 - **Work Name:** account-summary
@@ -184,8 +207,11 @@ In Progress
   - **Jira Ticket:** LSG-12345
   - **Base Branch:** trunk
   - **Work Branch:** feature/LSG-12345-account-summary
+  - **Source Spec:** context/features/account-summary.md
   - **Published Commits:** abc123 def456
 ```
+
+`resume` is the only action that reads Source Spec back out of a pending entry, to re-resolve Goals and Notes when reattaching the item to the active slot.
 
 Backport Release Branch, Backport Commits, and Backport Branch are appended in that order, all three together, only when the item has backport metadata.
 

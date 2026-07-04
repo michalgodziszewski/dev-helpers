@@ -19,14 +19,17 @@ Free the active slot after publication without waiting for review or merge.
      - **Jira Ticket:** <ticket-or-empty>
      - **Base Branch:** <base-branch>
      - **Work Branch:** <work-branch>
+     - **Source Spec:** <source-spec-or-empty>
      - **Published Commits:** <ordered-sha-list>
      - **Backport Release Branch:** <release-branch>
      - **Backport Commits:** <ordered-sha-list>
      - **Backport Branch:** <backport-branch>
    ```
 
-   Omit the three Backport fields entirely when no backport metadata exists on the item; include all three, in order, when any is populated. Never invent a different layout or field order.
-7. Reset only the active slot to Idle, including Jira Ticket, Published Commits, and all backport fields.
+   Copy Source Spec verbatim from the active slot; render it empty when the active slot's Source Spec is empty. Omit the three Backport fields entirely when no backport metadata exists on the item; include all three, in order, when any is populated. Never invent a different layout or field order.
+
+   Tolerate legacy entries written before Source Spec existed in this structure: they simply have no Source Spec field, and `resume` treats that the same as an explicitly empty one.
+7. Reset only the active slot to Idle, including Jira Ticket, Source Spec, Published Commits, and all backport fields.
 8. Preserve all existing Pending Reviews and History entries.
 9. Do not switch or delete branches.
 

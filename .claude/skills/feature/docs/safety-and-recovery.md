@@ -12,7 +12,7 @@ The skill is conservative by design. It prioritizes correct branch ancestry, exp
 6. Never stage local context.
 7. Never delete remote branches or pull requests.
 8. Never clear unrelated active, pending, or historical state.
-9. Ask the user only at the defined confirmation boundaries: the single combined publish approval (commit message + atomic commit list + push + PR creation when `gh` is available), and one explicit confirmation per destructive operation — the combined backport cherry-pick + push + PR creation when `gh` is available, local branch deletion, and destructive abandon. Read-only Git commands (status, fetch, diff, log, show, rev-list, rev-parse, merge-base, check-ref-format) never ask a question or wait for acknowledgement.
+9. Ask the user only at the defined confirmation boundaries: the single combined publish approval (commit message + atomic commit list + push + PR creation on first publication, or update on re-publish, when `gh` is available), and one explicit confirmation per destructive operation — the combined backport cherry-pick + push + PR creation when `gh` is available, local branch deletion, and destructive abandon. Read-only Git commands (status, fetch, diff, log, show, rev-list, rev-parse, merge-base, check-ref-format) never ask a question or wait for acknowledgement.
 
 ## Operation matrix
 
@@ -24,8 +24,9 @@ The skill is conservative by design. It prioritizes correct branch ancestry, exp
 | `test` | Usually | Never (dependency/config changes still require permission) | None |
 | `review` | Yes except fetch | Never | Fetch only |
 | `explain` | Yes | Never | None |
-| `publish` | No | Once: combined commit message + atomic list + push + PR creation when gh available | Push work branch |
+| `publish` | No | Once: combined commit message + atomic list + push + PR creation (first publication) or update (re-publish) when gh available | Push work branch |
 | `clear` | Local state | Never | Fetch only |
+| `resume` | Local state + checkout | Never | Fetch only |
 | `backport` | No | Once: combined cherry-pick list + push + PR creation when gh available | Push backport branch |
 | `complete` | Local state | One confirmation per local branch deletion | Fetch only |
 | `abandon` | No | One confirmation per local branch deletion | Never deletes remote |

@@ -76,6 +76,8 @@ Publication has exactly one confirmation boundary: a single combined approval sh
 
 The work branch is pushed to origin. The pull request base is explicitly `trunk`.
 
+If a reviewer requests changes on GitHub before merging, implement the fix on the same work branch and run `/feature publish` again. Status is already `Published`, so publish runs its re-publish path: it computes only the commits made since the last push, shows them alongside the already-published SHAs in the same single combined approval, and appends the new SHAs to Published Commits on push. See [Workflow C.1: resume a cleared item for a second review round](#workflow-c1-resume-a-cleared-item-for-a-second-review-round) when the active slot was already freed with `clear`.
+
 ### 5. Merge on GitHub
 
 The skill never performs the primary merge locally. Merge the pull request on GitHub using the team's merge policy.
@@ -157,6 +159,27 @@ For a squash merge:
 ```text
 /feature complete feature/LSG-12345-add-account-summary <primary-merge-sha>
 ```
+
+### Workflow C.1: resume a cleared item for a second review round
+
+Publish's re-publish path (Workflow A step 4) only reads the active slot's Git Workflow fields. Once `clear` has freed the slot for other work, the cleared item's Work Branch and Published Commits live as text in Pending Reviews and are unreachable by `publish` directly. `resume` reattaches one exact entry back to the active slot:
+
+```text
+/feature resume feature/LSG-12345-add-account-summary
+```
+
+Preconditions: the active slot must be Idle (finish, clear, or abandon whatever currently occupies it first), and the named Work Branch must match exactly one Pending Reviews entry. `resume` fetches origin, checks out the branch (verifying it matches origin with no divergence), restores the entry's fields and Status (`Awaiting Review` becomes `Published` again), and removes the entry from Pending Reviews only once the active slot write succeeds.
+
+Now the normal re-publish path applies:
+
+```text
+/feature resume feature/LSG-12345-add-account-summary
+# implement the requested changes
+/feature publish
+/feature clear
+```
+
+Repeat `resume → implement → publish → clear` for as many review rounds as needed. `backport`, `complete`, and `abandon` are unaffected — they keep reading Pending Reviews entries directly and never require `resume` first.
 
 ## Workflow D: backport merged trunk work
 
@@ -342,6 +365,8 @@ The combined publish approval is the only prompt on the normal path; nothing is 
 | Start work from a release branch and merge back there | `load branch <release> <type> ...` |
 | Apply already-merged trunk commits to a release | `backport <release>` |
 | Begin another task while PR waits | `clear` then `load` |
+| Push follow-up commits after review feedback | `publish` again (Status already Published) |
+| Push follow-up commits after review feedback, item was cleared | `resume <work-branch>` then implement, then `publish` |
 | Mark merge-commit PR complete | `complete` |
 | Mark squash/rebase PR complete | `complete ... <merge-sha>` |
 | Cancel clean active work | `abandon` |

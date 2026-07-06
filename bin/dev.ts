@@ -2,6 +2,7 @@
 
 import { run as startCommand } from "../src/cli/commands/start.js";
 import { run as featureSkillInstallCommand } from "../src/cli/commands/feature-skill-install.js";
+import { run as featureSkillInstallKiroCommand } from "../src/cli/commands/feature-skill-install-kiro.js";
 import { run as statusCommand } from "../src/cli/commands/status.js";
 import { run as modelToggleCommand } from "../src/cli/commands/model-toggle.js";
 import { CliError } from "../src/cli/utils/errors.js";
@@ -11,6 +12,7 @@ import { renderTopLevelHelp } from "../src/cli/help/render-help.js";
 const handlers: Record<string, (args: string[]) => Promise<void>> = {
   start: startCommand,
   "feature-skill-install": featureSkillInstallCommand,
+  "feature-skill-install-kiro": featureSkillInstallKiroCommand,
   status: statusCommand,
   "model-toggle": modelToggleCommand,
 };

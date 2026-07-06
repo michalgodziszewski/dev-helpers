@@ -7,7 +7,7 @@ const SECTION_HEADING = "## Local Context Files";
 const SECTION_PROSE =
   "The context/ directory contains personal, ignored workflow state and may not exist in a fresh clone. The feature skill initializes its required local state automatically. Read the following files only when they exist locally:";
 
-const REFERENCES = [
+export const REFERENCES = [
   "- @context/project-overview.md",
   "- @context/coding-standards.md",
   "- @context/ai-interaction.md",

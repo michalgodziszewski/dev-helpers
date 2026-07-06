@@ -1,6 +1,6 @@
 # Action Reference
 
-Invoke actions through `/feature <action> ...`. Each action reads only its matching procedure under `.claude/skills/feature/actions/`.
+Invoke actions through `/feature <action> ...` (Claude Code) or `#feature <action> ...` (Kiro). Each action reads only its matching procedure under the shared `skills/feature/actions/`.
 
 ## Summary
 
@@ -166,7 +166,7 @@ None. `plan` never fetches, pulls, branches, commits, or pushes.
 - creates the work branch;
 - verifies the source spec remained unchanged;
 - sets status to In Progress;
-- implements goals one by one, tracked as a visible checklist: a task per Goal (or per concrete step within a Goal, when a Goal spans multiple distinct pieces of work) created up front via TaskCreate; each task set to in_progress immediately before starting it and to completed immediately after finishing it, via TaskUpdate; scoped to this work item's Goals only, never unrelated repository maintenance.
+- implements goals one by one, tracked as a visible checklist: a task per Goal (or per concrete step within a Goal, when a Goal spans multiple distinct pieces of work) created up front via TaskCreate (Claude Code) or a plain Markdown `- [ ]` list rendered in the response (Kiro, which has no equivalent tool); each task set to in_progress immediately before starting it and to completed immediately after finishing it, via TaskUpdate (Claude Code) or by updating the rendered `- [ ]`/`- [x]` list (Kiro); scoped to this work item's Goals only, never unrelated repository maintenance.
 
 ### Stops when
 
@@ -213,7 +213,7 @@ None. `plan` never fetches, pulls, branches, commits, or pushes.
 - Fetches origin.
 - Reviews `git diff origin/<base-branch>...<work-branch>` for goal coverage, unrelated scope, security, validation, error handling, tests, merge commits, secrets, generated artifacts, and debug code.
 - Delegates the practical code-quality pass to the `code-review` subagent (spawned via the Agent tool with `subagent_type: "code-review"`). Because the installed subagent's own whitelisted Git commands only cover the working tree and staged index, the action never asks it to run the three-dot base comparison itself; instead it pastes the already-computed merge-base diff into the spawn prompt and asks the subagent to also inspect any uncommitted working-tree changes with its own allowed commands. The subagent is treated as a stack-agnostic black box: its checklist is technology-dependent (Angular, Next.js, .NET, …) and owned by the installed agent template, so the action never restates stack-specific checks or changes its allowed commands.
-- The subagent inspects the full committed branch diff (supplied in the prompt) plus any uncommitted working-tree changes together, so incrementally committed work is always covered even when the working tree is clean. An empty result means either nothing was found across that combined scope, or there was no diff against the base at all. If no `code-review` agent is installed, the delegated pass is skipped with a note and the review does not fail.
+- The subagent inspects the full committed branch diff (supplied in the prompt) plus any uncommitted working-tree changes together, so incrementally committed work is always covered even when the working tree is clean. An empty result means either nothing was found across that combined scope, or there was no diff against the base at all. If no `code-review` agent is installed (always the case on Kiro, which has no on-demand delegation), the pass does not fail: it runs against an installed stack-specific guidance steering file (e.g. `.kiro/steering/feature-code-review-guidance.md`) applied during the own-analysis step when one is present, or is skipped entirely with a note when neither a subagent nor guidance steering file is available. The review always states clearly which of the three cases applied.
 - Folds the subagent's findings into its own analysis and returns exactly one verdict: `Ready to publish` or `Needs changes`.
 
 A Needs changes verdict blocks `publish`. `publish` runs `review.md` before creating a commit, so it inherits the delegated code-quality pass without spawning the subagent separately.

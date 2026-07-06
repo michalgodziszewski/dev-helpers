@@ -229,7 +229,7 @@ Correct timeout handling for payment status polling.
 
 The skill itself ships only:
 
-- `.claude/skills/feature/assets/current-feature-template.md` — used at runtime by `plan` (spec generation) and `load` (state bootstrap).
+- `skills/feature/assets/current-feature-template.md` — shared across every installed provider, used at runtime by `plan` (spec generation) and `load` (state bootstrap).
 
 Every other template lives in the custok-workflow package root under `assets/`:
 

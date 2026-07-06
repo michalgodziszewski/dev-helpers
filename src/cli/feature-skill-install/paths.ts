@@ -13,6 +13,32 @@ export function resolveSourceSkillPath(): string {
   return path.join(resolvePackageRoot(), ".claude", "skills", "feature");
 }
 
+export function resolveSourceSharedSkillPath(): string {
+  return path.join(resolvePackageRoot(), "skills", "feature");
+}
+
+export function resolveDestinationSharedSkillPath(
+  scope: SkillScope,
+  projectRoot: string,
+  homeDir: string,
+): string {
+  if (scope === "global") {
+    return path.join(homeDir, "skills", "feature");
+  }
+  return path.join(projectRoot, "skills", "feature");
+}
+
+export function resolveKiroSteeringDestinationPath(
+  scope: SkillScope,
+  projectRoot: string,
+  homeDir: string,
+): string {
+  if (scope === "global") {
+    return path.join(homeDir, ".kiro", "steering");
+  }
+  return path.join(projectRoot, ".kiro", "steering");
+}
+
 export function resolveRootAssetsPath(): string {
   return path.join(resolvePackageRoot(), "assets");
 }

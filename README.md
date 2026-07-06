@@ -1,6 +1,6 @@
 # dev-helpers
 
-A collection of Claude Code custom skills and a companion TypeScript CLI that automate common developer workflows — trunk-based development, Git branch management, publishing, and backporting.
+A collection of AI coding assistant skills — for Claude Code and Kiro — plus a companion TypeScript CLI that automate common developer workflows — trunk-based development, Git branch management, publishing, and backporting.
 
 ## Technology stack
 
@@ -26,7 +26,8 @@ The `dev` CLI is the package's bin entry point. It dispatches subcommands regist
 | Command | Purpose |
 |---|---|
 | `dev start <TICKET> [description] [--type <type>] [--base <branch>]` | Fetch origin, synchronize a base branch (ff-only), create a typed work branch with Jira ticket naming |
-| `dev feature-skill-install` | Interactively install the feature skill (global or project scope) and scaffold the context directory |
+| `dev feature-skill-install` | Interactively install the feature skill for Claude Code (global or project scope) and scaffold the context directory |
+| `dev feature-skill-install-kiro` | Interactively install the feature skill for Kiro (global or project steering) and scaffold the context directory |
 
 ### npm scripts
 
@@ -39,9 +40,17 @@ The `dev` CLI is the package's bin entry point. It dispatches subcommands regist
 | `docs:check` | Verify docs are up to date (CI-friendly) |
 | `verify` | Build + test + docs check (full pre-publish gate) |
 
-## Claude Code skill: feature
+## Feature skill: Claude Code and Kiro
 
-`.claude/skills/feature/` implements a Git workflow lifecycle invoked via the `/feature` slash command: `plan → load → start → test → review/explain → publish → clear/abandon → backport → complete`. See `.claude/skills/feature/docs/README.md` for the full documentation map.
+The shared workflow logic lives in `skills/feature/` and implements a Git workflow lifecycle: `plan → load → start → test → review/explain → publish → clear/abandon → backport → complete`. It is invoked via `.claude/skills/feature/SKILL.md` (Claude Code, `/feature` slash command) or `.kiro/steering/feature.md` (Kiro, `#feature`/`/feature` manual steering). See `skills/feature/docs/README.md` for the full documentation map.
+
+Both providers can be installed in the same project at the same time. Each provider's installer creates the shared `skills/feature/` content only if it does not already exist — whichever installer runs first creates it, and the other reuses it — so a work item started with one provider can be continued with the other, sharing the same `context/` runtime state.
+
+Known Kiro-specific limitations, documented in `skills/feature/docs/`:
+
+- Kiro has no on-demand subagent delegation (its manual hooks were discontinued in favor of manual steering), so every action runs inline in one conversation instead of delegating to a subagent.
+- There is no per-task model selection on Kiro — the whole workflow runs under whichever single model is active in the Kiro session, unlike Claude Code's per-subagent `model:` pinning.
+- There is no confirmed Kiro equivalent of `.claude/settings.json`'s permission allowlist.
 
 ## Repository structure
 
@@ -50,8 +59,10 @@ bin/                       CLI entry points (compiled to dist/bin/)
 src/cli/                   Command registry, commands, config, docs, and installer modules
 tests/                     Mirrors src/ structure with .test.ts files
 docs/commands/             Auto-generated CLI command documentation
-assets/                    Context templates installed into projects by the installer
-.claude/skills/feature/    Feature workflow skill
-.claude/agents/            Installed subagent instances for this repository
-context/                   Local ignored workflow state (not committed)
+assets/                    Context templates installed into projects by the installers
+skills/feature/            Shared, provider-neutral feature skill core (actions/, docs/, assets/)
+.claude/skills/feature/    Claude Code entry point (SKILL.md) referencing skills/feature/
+.claude/agents/            Installed subagent instances for this repository (Claude Code only)
+.kiro/steering/            Kiro entry point (feature.md) and project context, referencing skills/feature/
+context/                   Local ignored workflow state (not committed), shared by both providers
 ```

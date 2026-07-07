@@ -10,6 +10,15 @@ const CLAUDE_PATTERNS = ["/.claude/", ".claude/", "/.claude", ".claude"];
 
 const CLAUDE_MD_RULE = "/CLAUDE.md";
 
+const KIRO_RULE = "/.kiro/";
+const KIRO_PATTERNS = ["/.kiro/", ".kiro/", "/.kiro", ".kiro"];
+
+// The shared, provider-neutral skill content is not tied to one provider, so it gets its own
+// rule that both the Claude Code and Kiro installers check and set together with their own
+// provider-specific rule, under the same tracking choice.
+const SKILLS_RULE = "/skills/";
+const SKILLS_PATTERNS = ["/skills/", "skills/", "/skills", "skills"];
+
 type IgnoreFileDestination = Exclude<IgnoreDestination, "track">;
 
 function resolveIgnoreFilePath(projectRoot: string, destination: IgnoreFileDestination): string {
@@ -98,4 +107,59 @@ export function addClaudeMdIgnoreRule(
   const label = ignoreFileLabel(destination);
   appendRule(filePath, CLAUDE_MD_RULE);
   return { status: "created", path: label, detail: `Appended ${CLAUDE_MD_RULE}` };
+}
+
+export function hasKiroRule(
+  projectRoot: string,
+  destination: IgnoreFileDestination = "gitignore",
+): boolean {
+  const filePath = resolveIgnoreFilePath(projectRoot, destination);
+  if (!fs.existsSync(filePath)) return false;
+  return hasRule(fs.readFileSync(filePath, "utf-8"), KIRO_PATTERNS);
+}
+
+/** Checks both destinations so a rule set on a previous install run is never re-prompted for. */
+export function findKiroIgnoreDestination(projectRoot: string): IgnoreFileDestination | null {
+  if (hasKiroRule(projectRoot, "gitignore")) return "gitignore";
+  if (hasKiroRule(projectRoot, "exclude")) return "exclude";
+  return null;
+}
+
+export function addKiroRule(
+  projectRoot: string,
+  destination: IgnoreFileDestination = "gitignore",
+): StatusEntry {
+  const filePath = resolveIgnoreFilePath(projectRoot, destination);
+  const label = ignoreFileLabel(destination);
+  appendRule(filePath, KIRO_RULE);
+  return { status: "created", path: label, detail: `Appended ${KIRO_RULE}` };
+}
+
+export function hasSkillsRule(
+  projectRoot: string,
+  destination: IgnoreFileDestination = "gitignore",
+): boolean {
+  const filePath = resolveIgnoreFilePath(projectRoot, destination);
+  if (!fs.existsSync(filePath)) return false;
+  return hasRule(fs.readFileSync(filePath, "utf-8"), SKILLS_PATTERNS);
+}
+
+/**
+ * Checks both destinations so a rule set by either provider's installer on a previous run is
+ * never re-prompted for.
+ */
+export function findSkillsIgnoreDestination(projectRoot: string): IgnoreFileDestination | null {
+  if (hasSkillsRule(projectRoot, "gitignore")) return "gitignore";
+  if (hasSkillsRule(projectRoot, "exclude")) return "exclude";
+  return null;
+}
+
+export function addSkillsRule(
+  projectRoot: string,
+  destination: IgnoreFileDestination = "gitignore",
+): StatusEntry {
+  const filePath = resolveIgnoreFilePath(projectRoot, destination);
+  const label = ignoreFileLabel(destination);
+  appendRule(filePath, SKILLS_RULE);
+  return { status: "created", path: label, detail: `Appended ${SKILLS_RULE}` };
 }

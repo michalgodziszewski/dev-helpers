@@ -2,7 +2,7 @@
 
 The `feature` skill manages Git work from specification loading through branch creation, publication, optional release backporting, and verified completion. It supports trunk-based development and work based on any explicit remote branch.
 
-This documentation describes the behavior implemented by `.claude/skills/feature/SKILL.md` and the action files under `.claude/skills/feature/actions/`.
+This documentation describes the behavior implemented by each provider's entry point (`.claude/skills/feature/SKILL.md` for Claude Code, `.kiro/steering/feature.md` for Kiro) and the shared action files under `skills/feature/actions/`.
 
 ## Core guarantees
 
@@ -37,7 +37,7 @@ This documentation describes the behavior implemented by `.claude/skills/feature
 
 - A Git repository with an `origin` remote.
 - The selected base branch must exist as `origin/<base-branch>`.
-- Claude Code must be able to discover `.claude/skills/feature/SKILL.md`.
+- The AI provider must be able to discover its entry point: `.claude/skills/feature/SKILL.md` for Claude Code, or `.kiro/steering/feature.md` for Kiro.
 - Git credentials must allow fetch and push when those actions are requested.
 - GitHub CLI is optional. When available, the skill can use `gh pr create` with explicit head and base branches.
 - Repository-specific test, lint, type-check, and build tools must already be configured. The skill does not install dependencies without permission.

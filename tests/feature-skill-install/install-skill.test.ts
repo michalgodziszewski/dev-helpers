@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import fs from "node:fs";
 import path from "node:path";
 import os from "node:os";
-import { validateSource, installSkill } from "../../src/cli/feature-skill-install/install-skill.js";
+import { validateSource, installSkill, installSharedSkillContent } from "../../src/cli/feature-skill-install/install-skill.js";
 
 let tmpDir: string;
 
@@ -115,5 +115,58 @@ describe("installSkill", () => {
 
     expect(result.status).toBe("created");
     expect(fs.existsSync(path.join(dest, "SKILL.md"))).toBe(true);
+  });
+});
+
+function createSharedSkillSource(dir: string): string {
+  const sharedDir = path.join(dir, "shared-source");
+  fs.mkdirSync(path.join(sharedDir, "actions"), { recursive: true });
+  fs.mkdirSync(path.join(sharedDir, "docs"), { recursive: true });
+  fs.mkdirSync(path.join(sharedDir, "assets"), { recursive: true });
+  fs.writeFileSync(path.join(sharedDir, "actions", "load.md"), "# Load\n");
+  fs.writeFileSync(path.join(sharedDir, "docs", "README.md"), "# Docs\n");
+  fs.writeFileSync(
+    path.join(sharedDir, "assets", "current-feature-template.md"),
+    "# Template\n",
+  );
+  return sharedDir;
+}
+
+describe("installSharedSkillContent", () => {
+  it("copies the shared content when destination is absent", () => {
+    const src = createSharedSkillSource(tmpDir);
+    const dest = path.join(tmpDir, "dest", "skills", "feature");
+
+    const result = installSharedSkillContent(src, dest);
+
+    expect(result.status).toBe("created");
+    expect(fs.existsSync(path.join(dest, "actions", "load.md"))).toBe(true);
+    expect(fs.existsSync(path.join(dest, "docs", "README.md"))).toBe(true);
+    expect(fs.existsSync(path.join(dest, "assets", "current-feature-template.md"))).toBe(true);
+  });
+
+  it("reports exists when destination already looks like valid shared content, without copying again", () => {
+    const src = createSharedSkillSource(tmpDir);
+    const dest = path.join(tmpDir, "existing", "skills", "feature");
+    fs.mkdirSync(path.join(dest, "actions"), { recursive: true });
+    fs.mkdirSync(path.join(dest, "docs"), { recursive: true });
+    fs.writeFileSync(path.join(dest, "actions", "custom.md"), "unchanged");
+
+    const result = installSharedSkillContent(src, dest);
+
+    expect(result.status).toBe("exists");
+    expect(fs.readFileSync(path.join(dest, "actions", "custom.md"), "utf-8")).toBe("unchanged");
+    expect(fs.existsSync(path.join(dest, "actions", "load.md"))).toBe(false);
+  });
+
+  it("blocks when destination exists but is missing actions/ or docs/", () => {
+    const src = createSharedSkillSource(tmpDir);
+    const dest = path.join(tmpDir, "incomplete", "skills", "feature");
+    fs.mkdirSync(dest, { recursive: true });
+    fs.writeFileSync(path.join(dest, "README.md"), "not the shared content");
+
+    const result = installSharedSkillContent(src, dest);
+
+    expect(result.status).toBe("blocked");
   });
 });

@@ -63,3 +63,40 @@ export function installSkill(
     detail: "Feature skill installed",
   };
 }
+
+function isValidSharedSkillContent(dir: string): boolean {
+  return (
+    fs.existsSync(path.join(dir, "actions")) &&
+    fs.existsSync(path.join(dir, "docs"))
+  );
+}
+
+// The shared skills/feature/ content (actions/, docs/, assets/) is provider-neutral:
+// whichever provider's installer runs first creates it, and any later installer for a
+// different provider in the same project must find it already there and leave it alone.
+export function installSharedSkillContent(
+  sourcePath: string,
+  destinationPath: string,
+): StatusEntry {
+  if (fs.existsSync(destinationPath)) {
+    if (isValidSharedSkillContent(destinationPath)) {
+      return {
+        status: "exists",
+        path: destinationPath,
+        detail: "Shared skill content already installed (used by every installed provider)",
+      };
+    }
+    return {
+      status: "blocked",
+      path: destinationPath,
+      detail: "Directory exists but does not look like the shared skill content (missing actions/ or docs/)",
+    };
+  }
+
+  copyDirRecursive(sourcePath, destinationPath);
+  return {
+    status: "created",
+    path: destinationPath,
+    detail: "Shared skill content installed",
+  };
+}

@@ -8,6 +8,12 @@ import {
   addClaudeRule,
   findClaudeIgnoreDestination,
   addClaudeMdIgnoreRule,
+  hasKiroRule,
+  addKiroRule,
+  findKiroIgnoreDestination,
+  hasSkillsRule,
+  addSkillsRule,
+  findSkillsIgnoreDestination,
   ignoreFileLabel,
 } from "../../src/cli/feature-skill-install/update-gitignore.js";
 
@@ -162,6 +168,113 @@ describe("exclude destination", () => {
     expect(entry.path).toBe(".git/info/exclude");
     const content = fs.readFileSync(path.join(tmpDir, ".git", "info", "exclude"), "utf-8");
     expect(content).toBe("/.claude/\n");
+  });
+});
+
+describe("hasKiroRule", () => {
+  it("returns false when .gitignore is missing", () => {
+    expect(hasKiroRule(tmpDir)).toBe(false);
+  });
+
+  it("returns false when .kiro is not ignored", () => {
+    fs.writeFileSync(path.join(tmpDir, ".gitignore"), "node_modules/\n/context/\n");
+    expect(hasKiroRule(tmpDir)).toBe(false);
+  });
+
+  it("detects /.kiro/ and pattern variants", () => {
+    for (const rule of ["/.kiro/", ".kiro/", "/.kiro", ".kiro"]) {
+      fs.writeFileSync(path.join(tmpDir, ".gitignore"), `${rule}\n`);
+      expect(hasKiroRule(tmpDir)).toBe(true);
+    }
+  });
+
+  it("ignores commented lines", () => {
+    fs.writeFileSync(path.join(tmpDir, ".gitignore"), "# .kiro/\n");
+    expect(hasKiroRule(tmpDir)).toBe(false);
+  });
+});
+
+describe("addKiroRule", () => {
+  it("creates .gitignore with /.kiro/ when missing", () => {
+    const entry = addKiroRule(tmpDir);
+
+    expect(entry.status).toBe("created");
+    const content = fs.readFileSync(path.join(tmpDir, ".gitignore"), "utf-8");
+    expect(content).toBe("/.kiro/\n");
+  });
+
+  it("appends /.kiro/ preserving existing rules", () => {
+    fs.writeFileSync(path.join(tmpDir, ".gitignore"), "node_modules/\n/context/\n");
+    const entry = addKiroRule(tmpDir);
+
+    expect(entry.status).toBe("created");
+    const content = fs.readFileSync(path.join(tmpDir, ".gitignore"), "utf-8");
+    expect(content).toBe("node_modules/\n/context/\n/.kiro/\n");
+    expect(hasKiroRule(tmpDir)).toBe(true);
+  });
+
+  it("writes to .git/info/exclude and reports its path", () => {
+    const entry = addKiroRule(tmpDir, "exclude");
+    expect(entry.path).toBe(".git/info/exclude");
+    const content = fs.readFileSync(path.join(tmpDir, ".git", "info", "exclude"), "utf-8");
+    expect(content).toBe("/.kiro/\n");
+  });
+});
+
+describe("findKiroIgnoreDestination", () => {
+  it("returns null when no rule exists anywhere", () => {
+    expect(findKiroIgnoreDestination(tmpDir)).toBeNull();
+  });
+
+  it("finds a rule already present in .gitignore", () => {
+    addKiroRule(tmpDir, "gitignore");
+    expect(findKiroIgnoreDestination(tmpDir)).toBe("gitignore");
+  });
+
+  it("finds a rule already present in .git/info/exclude", () => {
+    addKiroRule(tmpDir, "exclude");
+    expect(findKiroIgnoreDestination(tmpDir)).toBe("exclude");
+  });
+
+  it("does not confuse the Claude rule with the Kiro rule", () => {
+    addClaudeRule(tmpDir, "gitignore");
+    expect(findKiroIgnoreDestination(tmpDir)).toBeNull();
+  });
+});
+
+describe("hasSkillsRule / addSkillsRule / findSkillsIgnoreDestination", () => {
+  it("returns false/null when no rule exists anywhere", () => {
+    expect(hasSkillsRule(tmpDir)).toBe(false);
+    expect(findSkillsIgnoreDestination(tmpDir)).toBeNull();
+  });
+
+  it("creates .gitignore with /skills/ when missing", () => {
+    const entry = addSkillsRule(tmpDir);
+
+    expect(entry.status).toBe("created");
+    const content = fs.readFileSync(path.join(tmpDir, ".gitignore"), "utf-8");
+    expect(content).toBe("/skills/\n");
+    expect(hasSkillsRule(tmpDir)).toBe(true);
+    expect(findSkillsIgnoreDestination(tmpDir)).toBe("gitignore");
+  });
+
+  it("detects /skills/ and pattern variants", () => {
+    for (const rule of ["/skills/", "skills/", "/skills", "skills"]) {
+      fs.writeFileSync(path.join(tmpDir, ".gitignore"), `${rule}\n`);
+      expect(hasSkillsRule(tmpDir)).toBe(true);
+    }
+  });
+
+  it("writes to .git/info/exclude and reports its path", () => {
+    const entry = addSkillsRule(tmpDir, "exclude");
+    expect(entry.path).toBe(".git/info/exclude");
+    expect(findSkillsIgnoreDestination(tmpDir)).toBe("exclude");
+  });
+
+  it("does not confuse the Claude or Kiro rule with the skills rule", () => {
+    addClaudeRule(tmpDir, "gitignore");
+    addKiroRule(tmpDir, "gitignore");
+    expect(findSkillsIgnoreDestination(tmpDir)).toBeNull();
   });
 });
 

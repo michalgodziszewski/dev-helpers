@@ -16,7 +16,7 @@ You verify that the feature skill's documentation matches its actual action defi
 
 ## Scope
 
-Compare `.claude/skills/feature/actions/*.md` and `.claude/skills/feature/SKILL.md` against `.claude/skills/feature/docs/*.md`. When the caller lists specific changed files, limit the check to the topics those files touch.
+Compare `skills/feature/actions/*.md` and each provider entry point (`.claude/skills/feature/SKILL.md`, `.kiro/steering/feature.md` when present) against `skills/feature/docs/*.md`. When the caller lists specific changed files, limit the check to the topics those files touch.
 
 Check for:
 

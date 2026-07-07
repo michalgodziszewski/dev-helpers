@@ -9,7 +9,7 @@ A read-only Claude Code subagent that checks consistency between the feature ski
 Spawn this subagent:
 
 - When skill documentation may have drifted from the action definitions — for example after editing an action, adding an accepted form, or changing the confirmation policy.
-- Directly, as a consistency check across `.claude/skills/feature/docs/` versus the actions and `SKILL.md`, before publishing skill changes.
+- Directly, as a consistency check across `skills/feature/docs/` versus the actions and `SKILL.md`, before publishing skill changes.
 - When a change touches specific action files and you want the docs re-checked only for the topics those files affect.
 
 ## How to spawn
@@ -20,7 +20,7 @@ Use the Agent tool with `subagent_type: "docs-sync"`:
 Agent({
   description: "Check skill docs vs actions",
   subagent_type: "docs-sync",
-  prompt: "Compare .claude/skills/feature/docs/*.md against actions/*.md and SKILL.md. Report mismatches only. Changed files: <list, or all>."
+  prompt: "Compare skills/feature/docs/*.md against skills/feature/actions/*.md and each provider entry point (.claude/skills/feature/SKILL.md, .kiro/steering/feature.md when present). Report mismatches only. Changed files: <list, or all>."
 })
 ```
 
@@ -50,7 +50,7 @@ The subagent has **no shell access** — it cannot use Bash or PowerShell — an
 
 ## Scope
 
-Compares `.claude/skills/feature/actions/*.md` and `.claude/skills/feature/SKILL.md` against `.claude/skills/feature/docs/*.md`. When the caller lists specific changed files, it limits the check to the topics those files touch.
+Compares `skills/feature/actions/*.md` and each provider entry point (`.claude/skills/feature/SKILL.md`, `.kiro/steering/feature.md` when present) against `skills/feature/docs/*.md`. When the caller lists specific changed files, it limits the check to the topics those files touch.
 
 It checks for:
 

@@ -70,6 +70,25 @@ export async function promptSkillScope(
   }
 }
 
+export async function promptKiroScope(
+  promptFn?: (question: string) => Promise<string>,
+): Promise<SkillScope> {
+  const doAsk = defaultDoAsk(promptFn);
+
+  const question =
+    promptTitle("Where should the Kiro steering files be installed?") +
+    option(1, "Global (~/.kiro/steering/)") +
+    option(2, "Current project (.kiro/steering/)") +
+    `Choice ${dim("[1/2]")}: `;
+
+  while (true) {
+    const answer = await doAsk(question);
+    if (answer === "1") return "global";
+    if (answer === "2") return "project";
+    console.log('Invalid choice. Enter "1" or "2".');
+  }
+}
+
 export interface CodingStandardsChoice {
   label: string;
   assetFilename: string | null;
@@ -183,7 +202,10 @@ async function promptTrackingChoice(
 export function promptClaudeIgnoreDestination(
   promptFn?: (question: string) => Promise<string>,
 ): Promise<IgnoreDestination> {
-  return promptTrackingChoice("How should the .claude/ directory be tracked by Git?", promptFn);
+  return promptTrackingChoice(
+    "How should the .claude/ and skills/feature/ directories be tracked by Git?",
+    promptFn,
+  );
 }
 
 export function promptClaudeMdDestination(
@@ -191,6 +213,15 @@ export function promptClaudeMdDestination(
 ): Promise<IgnoreDestination> {
   return promptTrackingChoice(
     "CLAUDE.md does not exist. How should it be tracked by Git?",
+    promptFn,
+  );
+}
+
+export function promptKiroIgnoreDestination(
+  promptFn?: (question: string) => Promise<string>,
+): Promise<IgnoreDestination> {
+  return promptTrackingChoice(
+    "How should the .kiro/ and skills/feature/ directories be tracked by Git?",
     promptFn,
   );
 }

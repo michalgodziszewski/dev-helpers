@@ -1,0 +1,12 @@
+flowchart TD
+    root["ai-system/ — Workspace bez .git"]
+    system["system/ — skills · roles · policies; adapters · runtime · templates"]
+    context["context/ — profile · registry; projects · specs"]
+    brain["brain/ — systems · flows · decisions; lessons · inbox · sources"]
+    projects["projects/<name>/ — Repozytoria kodu z remote; Jeden checkout na projekt"]
+    local["Katalogi lokalne — .state/ — sesje i sloty; .worktrees/ — checkouty kontekstu; .claude/ i .kiro/ — adaptery"]
+    root -->|"lokalny Git"| system
+    root -->|"lokalny Git"| context
+    root -->|"lokalny Git"| brain
+    root -->|"zdalny origin"| projects
+    root -->|"bez repo nadrzędnego"| local

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1157" role="img" aria-label="Cały przepływ produktu">
+<defs><marker id="arrow-03-product-flow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#83919e"/></marker></defs>
+<rect width="1080" height="1157" fill="#ffffff" rx="18"/>
+<text x="38" y="44" font-family="Arial,sans-serif" font-size="26" font-weight="700" fill="#122d38">Cały przepływ produktu</text>
+<text x="38" y="74" font-family="Arial,sans-serif" font-size="14" fill="#586b79">Wspólne źródła pracy i pamięci, niezależnie od klienta.</text>
+<path d="M 179.0 242 V 266.0 H 540.0 V 287" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-03-product-flow)"/>
+<path d="M 901.0 242 V 266.0 H 540.0 V 287" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-03-product-flow)"/>
+<path d="M 540.0 412 V 436.0 H 179.0 V 457" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-03-product-flow)"/>
+<rect x="310.4" y="417.0" width="98.2" height="17" fill="white" rx="4"/>
+<text x="359.5" y="429.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" fill="#566977">dobierz wiedzę</text>
+<path d="M 179.0 582 V 606.0 H 540.0 V 627" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-03-product-flow)"/>
+<rect x="329.3" y="587.0" width="60.4" height="17" fill="white" rx="4"/>
+<text x="359.5" y="599.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" fill="#566977">kontekst</text>
+<path d="M 540.0 412 V 436.0 H 901.0 V 457" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-03-product-flow)"/>
+<rect x="665.1" y="417.0" width="110.8" height="17" fill="white" rx="4"/>
+<text x="720.5" y="429.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" fill="#566977">rozpoznaj źródła</text>
+<path d="M 901.0 582 V 606.0 H 540.0 V 627" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-03-product-flow)"/>
+<rect x="684.0" y="587.0" width="73.0" height="17" fill="white" rx="4"/>
+<text x="720.5" y="599.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" fill="#566977">stan i kod</text>
+<path d="M 540.0 752 V 776.0 H 179.0 V 797" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-03-product-flow)"/>
+<rect x="272.6" y="757.0" width="173.79999999999998" height="17" fill="white" rx="4"/>
+<text x="359.5" y="769.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" fill="#566977">odkrycia; akcja zapisująca</text>
+<path d="M 540.0 752 V 776.0 H 901.0 V 797" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-03-product-flow)"/>
+<rect x="677.7" y="757.0" width="85.6" height="17" fill="white" rx="4"/>
+<text x="720.5" y="769.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" fill="#566977">koniec kroku</text>
+<path d="M 179.0 922 V 946.0 H 179.0 V 967" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-03-product-flow)"/>
+<rect x="111.0" y="927.0" width="136.0" height="17" fill="white" rx="4"/>
+<text x="179.0" y="939.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" fill="#566977">zapis / aktualizacja</text>
+<path d="M 901.0 922 V 946.0 H 901.0 V 967" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-03-product-flow)"/>
+<rect x="839.3" y="927.0" width="123.39999999999999" height="17" fill="white" rx="4"/>
+<text x="901.0" y="939.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" fill="#566977">wznowienie możliwe</text>
+<path d="M 540.0 752 V 771 H 721 V 948 H 901.0 V 967" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-03-product-flow)"/>
+<rect x="38" y="120" width="282" height="122" rx="13" fill="#eaf4f3" stroke="#10756e" stroke-width="1.5"/>
+<text x="179.0" y="147" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">Claude Code</text>
+<text x="179.0" y="172" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Klient lokalny</text>
+<rect x="760" y="120" width="282" height="122" rx="13" fill="#eaf4f3" stroke="#10756e" stroke-width="1.5"/>
+<text x="901.0" y="147" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">Kiro</text>
+<text x="901.0" y="172" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Klient lokalny IDE/CLI</text>
+<rect x="399" y="290" width="282" height="122" rx="13" fill="#eaf4f3" stroke="#10756e" stroke-width="1.5"/>
+<text x="540.0" y="317" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">Adapter i router</text>
+<text x="540.0" y="342" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Rozpoznanie projektu</text>
+<text x="540.0" y="358" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Tryb akcji i dostęp do plików</text>
+<rect x="38" y="460" width="282" height="122" rx="13" fill="#eef2ff" stroke="#4957a3" stroke-width="1.5"/>
+<text x="179.0" y="487" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">brain-context</text>
+<text x="179.0" y="512" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Trafna wiedza, źródła, luki</text>
+<rect x="399" y="630" width="282" height="122" rx="13" fill="#eaf4f3" stroke="#10756e" stroke-width="1.5"/>
+<text x="540.0" y="657" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">Feature / zwykłe zadanie</text>
+<text x="540.0" y="682" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Orkiestrator i wybrane role</text>
+<rect x="760" y="460" width="282" height="122" rx="13" fill="#eef5ec" stroke="#50734b" stroke-width="1.5"/>
+<text x="901.0" y="487" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">Repo kodu + context</text>
+<text x="901.0" y="512" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Implementacja i dokumenty zadania</text>
+<rect x="38" y="800" width="282" height="122" rx="13" fill="#eef2ff" stroke="#4957a3" stroke-width="1.5"/>
+<text x="179.0" y="827" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">brain-capture</text>
+<text x="179.0" y="852" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Ocena odkryć, zakres i dowody</text>
+<rect x="760" y="800" width="282" height="122" rx="13" fill="#f0f3f6" stroke="#6a7787" stroke-width="1.5"/>
+<text x="901.0" y="827" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">brain-checkpoint</text>
+<text x="901.0" y="852" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Ciągłość sesji w .state</text>
+<rect x="38" y="970" width="282" height="122" rx="13" fill="#eef2ff" stroke="#4957a3" stroke-width="1.5"/>
+<text x="179.0" y="997" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">brain/</text>
+<text x="179.0" y="1022" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Trwała wiedza z historią</text>
+<rect x="760" y="970" width="282" height="122" rx="13" fill="#eaf4f3" stroke="#10756e" stroke-width="1.5"/>
+<text x="901.0" y="997" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">Wynik pracy</text>
+<text x="901.0" y="1022" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Kod, raport lub odpowiedź</text>
+<text x="901.0" y="1038" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Ujawniony wynik zapisu pamięci</text>
+</svg>

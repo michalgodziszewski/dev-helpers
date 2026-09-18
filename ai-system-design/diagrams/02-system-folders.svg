@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 817" role="img" aria-label="Zawartość system/">
+<defs><marker id="arrow-02-system-folders" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#83919e"/></marker></defs>
+<rect width="1080" height="817" fill="#ffffff" rx="18"/>
+<text x="38" y="44" font-family="Arial,sans-serif" font-size="26" font-weight="700" fill="#122d38">Zawartość system/</text>
+<text x="38" y="74" font-family="Arial,sans-serif" font-size="14" fill="#586b79">Jedno źródło procedur; formaty klientów pochodzą z adapterów.</text>
+<path d="M 540.0 242 V 266.0 H 179.0 V 287" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-02-system-folders)"/>
+<rect x="326.15" y="247.0" width="66.69999999999999" height="17" fill="white" rx="4"/>
+<text x="359.5" y="259.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" fill="#566977">procedury</text>
+<path d="M 540.0 242 V 266.0 H 540.0 V 287" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-02-system-folders)"/>
+<rect x="494.05" y="247.0" width="91.89999999999999" height="17" fill="white" rx="4"/>
+<text x="540.0" y="259.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" fill="#566977">kontrakty ról</text>
+<path d="M 540.0 242 V 266.0 H 901.0 V 287" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-02-system-folders)"/>
+<rect x="684.0" y="247.0" width="73.0" height="17" fill="white" rx="4"/>
+<text x="720.5" y="259.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" fill="#566977">integracje</text>
+<path d="M 540.0 242 V 261 H 359 V 608 H 179.0 V 627" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-02-system-folders)"/>
+<rect x="238.8" y="589" width="60.4" height="17" fill="white" rx="4"/>
+<text x="269.0" y="601" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" fill="#566977">operacje</text>
+<path d="M 540.0 242 V 261 H 721 V 608 H 901.0 V 627" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-02-system-folders)"/>
+<rect x="755.6" y="589" width="110.8" height="17" fill="white" rx="4"/>
+<text x="811.0" y="601" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" fill="#566977">zasady i formaty</text>
+<path d="M 760 351.0 H 684" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-02-system-folders)"/>
+<rect x="698.1" y="332.0" width="47.8" height="17" fill="white" rx="4"/>
+<text x="722.0" y="344.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" fill="#566977">mapuje</text>
+<rect x="399" y="120" width="282" height="122" rx="13" fill="#eaf4f3" stroke="#10756e" stroke-width="1.5"/>
+<text x="540.0" y="147" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">system/</text>
+<text x="540.0" y="172" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Lokalne repo produktu bez remote</text>
+<rect x="38" y="290" width="282" height="122" rx="13" fill="#eaf4f3" stroke="#10756e" stroke-width="1.5"/>
+<text x="179.0" y="317" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">skills/</text>
+<text x="179.0" y="342" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">feature · brain-context</text>
+<text x="179.0" y="358" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">brain-capture · brain-ingest</text>
+<text x="179.0" y="374" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">brain-maintain · brain-checkpoint</text>
+<text x="179.0" y="390" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">session-handoff</text>
+<rect x="399" y="290" width="282" height="122" rx="13" fill="#eaf4f3" stroke="#10756e" stroke-width="1.5"/>
+<text x="540.0" y="317" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">roles/</text>
+<text x="540.0" y="342" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">planner · implementer</text>
+<text x="540.0" y="358" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">tester · reviewer</text>
+<rect x="760" y="290" width="282" height="122" rx="13" fill="#eaf4f3" stroke="#10756e" stroke-width="1.5"/>
+<text x="901.0" y="317" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">adapters/</text>
+<text x="901.0" y="342" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">claude/ · kiro/</text>
+<text x="901.0" y="358" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Przyszli klienci: osobne adaptery</text>
+<rect x="38" y="630" width="282" height="122" rx="13" fill="#eef5ec" stroke="#50734b" stroke-width="1.5"/>
+<text x="179.0" y="657" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">runtime/</text>
+<text x="179.0" y="682" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Rejestr · stan · walidacja</text>
+<text x="179.0" y="698" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Blokady · transakcje · diagnostyka</text>
+<rect x="760" y="630" width="282" height="122" rx="13" fill="#eef2ff" stroke="#4957a3" stroke-width="1.5"/>
+<text x="901.0" y="657" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">policies/ i templates/</text>
+<text x="901.0" y="682" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Reguły i schematy</text>
+<text x="901.0" y="698" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Szablony specyfikacji i wpisów</text>
+</svg>

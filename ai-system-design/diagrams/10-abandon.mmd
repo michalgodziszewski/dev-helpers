@@ -1,0 +1,16 @@
+flowchart TD
+    select["Abandon — Aktywny slot albo dokładny; WORK_BRANCH w Pending Reviews"]
+    active["Aktywny slot — Not Started / In Progress / Merged; Published → odmowa"]
+    pending["Pending Reviews — Wybierz konkretny wpis; Zachowaj inne zadania"]
+    discard["Zakres sprzątania — Aktywny: --discard; Pending: pytania według kontraktu"]
+    keep["Zachowaj lokalne gałęzie — Usuń właściwy stan zadania"]
+    delete["Potwierdzony zestaw usunięć — Przy konflikcie: abort we właściwym repo; Przełącz bazę i usuń wskazane gałęzie"]
+    result["Raport wyniku — Bez usuwania remote; Wiedza o porzuconym planie ma swój zakres"]
+    select -->|"bez WORK_BRANCH"| active
+    select -->|"z WORK_BRANCH"| pending
+    active -->|"dozwolony status"| discard
+    pending --> discard
+    discard -->|"bez kasowania"| keep
+    discard -->|"jawny zakres"| delete
+    keep --> result
+    delete --> result

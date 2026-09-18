@@ -1,0 +1,15 @@
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# Secrets
+.env
+
+# Obsidian local app/editor state (not vault content)
+wiki/.obsidian/
+wiki/.trash/
+
+# feature skill: in-flight active-slot bookkeeping, not durable content —
+# git log / GitHub PRs already record what shipped per system
+context/**/current-feature.md

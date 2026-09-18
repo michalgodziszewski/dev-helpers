@@ -1,0 +1,19 @@
+flowchart TD
+    new["Feature plan — Nowa sesja albo kontynuacja; sesji aktywnej w rozmowie"]
+    resume["Plan resume <name> — Jawny wybór istniejącego preview"]
+    resolve["System · typ · nazwa — Pytania tylko o brakujące dane; Przy nowym planie: kontrola kolizji"]
+    find["Jednoznaczne dopasowanie — Kilka trafień → wybór; Zero → komunikat"]
+    planner["Planner — Aktualny draft + odpowiedź; Pełny draft i jedno kolejne pytanie"]
+    draft["Zapis preview — Orkiestrator zapisuje; zaakceptowany stan"]
+    done["Plan done — Sprawdź wymagane pola; Nadaj i zarezerwuj numer"]
+    cancel["Plan cancel — Zakończ sesję; Opcjonalne usunięcie preview"]
+    spec["Numerowana specyfikacja — Features albo fixes; Bez commita; wskazanie load"]
+    new -->|"nowa sesja"| resolve
+    resume --> find
+    resolve --> planner
+    find --> planner
+    planner --> draft
+    draft -->|"kolejna odpowiedź"| planner
+    draft -->|"gotowy zakres"| done
+    draft -->|"przerwanie"| cancel
+    done --> spec

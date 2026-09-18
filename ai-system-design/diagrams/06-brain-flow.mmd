@@ -1,0 +1,20 @@
+flowchart TD
+    event["Odkrycie / korekta / decyzja — Z pracy lub jawnego polecenia"]
+    mode["Czy zapis jest dozwolony? — Read-only → tylko wynik w rozmowie"]
+    find["Wartość i duplikaty — Co warto zachować?; Czy właściwy wpis już istnieje?"]
+    evidence["Dowód i zakres — Potwierdzenie · wersja · system"]
+    fact["Potwierdzone ustalenie — Utwórz lub aktualizuj wpis"]
+    candidate["Brak wystarczających dowodów — Candidate / idea / luka"]
+    conflict["Sprzeczne informacje — Zachowaj oba źródła"]
+    write["Wspólny zapis runtime — Walidacja · blokada · hash wersji; Transakcja i historia lokalna"]
+    result["Wynik capture — Created / updated / candidate; conflict / skipped / queued / failed"]
+    event --> mode
+    mode -->|"zapis dozwolony"| find
+    find -->|"wartość trwała"| evidence
+    evidence -->|"dowód wystarcza"| fact
+    evidence -->|"niepewność"| candidate
+    evidence -->|"sprzeczność"| conflict
+    fact --> write
+    candidate --> write
+    conflict --> write
+    write -->|"po rzeczywistym wyniku"| result

@@ -1,0 +1,4 @@
+# Projects are tracked in this repo by default. A project that lives as its
+# own separate git repo/clone gets an explicit ignore entry below instead —
+# add one line per such project (e.g. `some-external-project/`) rather than
+# ignoring everything up front.

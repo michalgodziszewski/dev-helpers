@@ -1,0 +1,115 @@
+{
+  "repository": "michalgodziszewski/ai-os",
+  "commit": "1e2cb5a9de87f58ec15ccb412d545347a30075b2",
+  "kind": "unchanged reference copies",
+  "files": [
+    {
+      "path": "SKILL.md",
+      "original_path": ".claude/skills/feature/SKILL.md",
+      "sha256": "82ffd6f4987703cff61f9f3d2c4682211ae5e22914c6f0d7175e2eeae1144e2b",
+      "bytes": 4947
+    },
+    {
+      "path": "actions/_common.md",
+      "original_path": ".claude/skills/feature/actions/_common.md",
+      "sha256": "3e0934af444fe0d81a1bddc3f9a53b8214f2a538b059063887b46973ebce12cd",
+      "bytes": 6387
+    },
+    {
+      "path": "actions/abandon.md",
+      "original_path": ".claude/skills/feature/actions/abandon.md",
+      "sha256": "352c9401ad36e390926a57336e01a0ff7d009e35411269a61ba5c8b141e85104",
+      "bytes": 5914
+    },
+    {
+      "path": "actions/backport.md",
+      "original_path": ".claude/skills/feature/actions/backport.md",
+      "sha256": "284fd9895c668bf4158a65c96de947d7e205c47949fee2a698e282ab01f4c8c4",
+      "bytes": 8780
+    },
+    {
+      "path": "actions/clear.md",
+      "original_path": ".claude/skills/feature/actions/clear.md",
+      "sha256": "fd5af1ca2361efe5494408f06027933984753526caa3247d2c728a7e4d42b533",
+      "bytes": 1716
+    },
+    {
+      "path": "actions/complete.md",
+      "original_path": ".claude/skills/feature/actions/complete.md",
+      "sha256": "396d6ce664df090eaa9fc233226cc4b4371920156fdc654912401bde043b8aa8",
+      "bytes": 3363
+    },
+    {
+      "path": "actions/load.md",
+      "original_path": ".claude/skills/feature/actions/load.md",
+      "sha256": "c20909f61abeb005c5a9e8bbddf2c90ba35fb234fcb2507fcca4b14de70b4e2b",
+      "bytes": 4125
+    },
+    {
+      "path": "actions/plan.md",
+      "original_path": ".claude/skills/feature/actions/plan.md",
+      "sha256": "ee47626ee4333d902466020879f0878a69cca70aba2ac351df51955bec148914",
+      "bytes": 13141
+    },
+    {
+      "path": "actions/publish.md",
+      "original_path": ".claude/skills/feature/actions/publish.md",
+      "sha256": "58f5aa9141ceee4b78d77bde092aa89f2912d8a0f1670944c40bae78e1c09869",
+      "bytes": 4322
+    },
+    {
+      "path": "actions/review.md",
+      "original_path": ".claude/skills/feature/actions/review.md",
+      "sha256": "96d20d2af34b44b5cab02a2ba15e9df407c1bcf55879af96143ba8d1b7a9ee8a",
+      "bytes": 1578
+    },
+    {
+      "path": "actions/start.md",
+      "original_path": ".claude/skills/feature/actions/start.md",
+      "sha256": "dd2a47975aca57639595ac4e731e94e38788bab70694f7e92d1901d15cf4d0ec",
+      "bytes": 4521
+    },
+    {
+      "path": "actions/status.md",
+      "original_path": ".claude/skills/feature/actions/status.md",
+      "sha256": "8e9ce5732aad65cef48244a99bd90e24d9d5cee27bb4ff5d305f53859d358b6d",
+      "bytes": 2471
+    },
+    {
+      "path": "actions/test.md",
+      "original_path": ".claude/skills/feature/actions/test.md",
+      "sha256": "c499310832ef6cc0b3b0b660a3813ab1d62ab5a39e52c2fb1d92fb6bf0997671",
+      "bytes": 1592
+    },
+    {
+      "path": "agents/feature-implementer.md",
+      "original_path": ".claude/agents/feature-implementer.md",
+      "sha256": "009012ad75ae2eb5902513545590d37d7e9b66e3f7826f58adae8d7e2efc0a38",
+      "bytes": 3310
+    },
+    {
+      "path": "agents/feature-planner.md",
+      "original_path": ".claude/agents/feature-planner.md",
+      "sha256": "3550a4432ccd73734367cae4339ac2155340ef3e9e21e80b57a387573f4ce213",
+      "bytes": 6595
+    },
+    {
+      "path": "agents/feature-reviewer.md",
+      "original_path": ".claude/agents/feature-reviewer.md",
+      "sha256": "a18b284afa082c29449ccef9574669ea67a0c80fcfb09456dd50cd56c9deec4a",
+      "bytes": 2631
+    },
+    {
+      "path": "agents/feature-tester.md",
+      "original_path": ".claude/agents/feature-tester.md",
+      "sha256": "14d6add5dcdf47ffd0af4ea209092ee8988e3e9e181e307d457b52bd0fa744c8",
+      "bytes": 2068
+    },
+    {
+      "path": "GUIDELINES.md",
+      "original_path": ".claude/GUIDELINES.md",
+      "sha256": "ee7e57aba2dee3ca095a4ad7308ff99144ab470c73578b1d660cdc030b8faef5",
+      "bytes": 3787
+    }
+  ]
+}

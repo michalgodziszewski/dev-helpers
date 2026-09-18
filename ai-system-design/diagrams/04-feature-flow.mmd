@@ -1,0 +1,23 @@
+flowchart TD
+    plan["Plan → plan done — Preview → numerowana specyfikacja"]
+    load["Load — Idle → Not Started"]
+    start["Start — Gałąź kodu i kontekstu; Implementer → In Progress"]
+    checks["Test / review — Raporty bez zmiany statusu"]
+    publish["Publish — Commity kodu i kontekstu; Push tylko kodu projektu remote"]
+    published["Published — Pakiet gotowy do osobnego merge"]
+    clear["Clear — Wpis do Pending Reviews; Aktywny slot → Idle"]
+    backport["Opcjonalny backport — Tylko poprawki trunk i opt-in"]
+    complete["Complete — Zweryfikuj kod, kontekst; i zarejestrowany backport"]
+    idle["Idle / usunięty pending — Zadanie zakończone"]
+    plan --> load
+    load --> start
+    start -->|"sprawdź"| checks
+    start --> publish
+    checks -->|"raporty"| publish
+    publish -->|"wszystkie operacje udane"| published
+    published -->|"zaparkuj"| clear
+    published --> complete
+    published -->|"jeżeli spełnia warunki"| backport
+    clear -->|"wybór po work-branch"| complete
+    backport -->|"po scaleniu backportu"| complete
+    complete -->|"wszystkie wymagane merge"| idle

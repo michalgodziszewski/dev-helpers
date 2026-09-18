@@ -1,0 +1,16 @@
+flowchart TD
+    eligible["Sprawdź warunki — Fix/bugfix/hotfix · trunk; Backport enabled · primary merged"]
+    branch["Gałąź pośrednia — Release lokalny albo origin; Zapis metadanych przed cherry-pick"]
+    approve["Pakiet do zatwierdzenia — Uporządkowane commity; Tryb Git i ewentualny cel push"]
+    pick["Cherry-pick -x — Jeden commit na raz; Zapis nowego SHA po sukcesie"]
+    conflict["Konflikt — Zatrzymaj; zachowaj CHERRY_PICK_HEAD; Pokaż commit i pozostałą listę"]
+    push["Gotowy backport — Po zastosowaniu całej listy; Push wyłącznie w repo remote"]
+    recover["Jawna decyzja użytkownika — Ręczne continue albo; abandon --discard po zatwierdzeniu"]
+    merge["Merge i complete — Sprawdź zarejestrowany backport; w docelowym release"]
+    eligible -->|"warunki spełnione"| branch
+    branch --> approve
+    approve -->|"zatwierdzone"| pick
+    pick -->|"błąd"| conflict
+    pick -->|"cała lista zastosowana"| push
+    conflict -->|"bez automatycznego abort"| recover
+    push --> merge

@@ -1,0 +1,13 @@
+flowchart TD
+    root["system/ — Lokalne repo produktu bez remote"]
+    skills["skills/ — feature · brain-context; brain-capture · brain-ingest; brain-maintain · brain-checkpoint; session-handoff"]
+    roles["roles/ — planner · implementer; tester · reviewer"]
+    adapters["adapters/ — claude/ · kiro/; Przyszli klienci: osobne adaptery"]
+    runtime["runtime/ — Rejestr · stan · walidacja; Blokady · transakcje · diagnostyka"]
+    policy["policies/ i templates/ — Reguły i schematy; Szablony specyfikacji i wpisów"]
+    root -->|"procedury"| skills
+    root -->|"kontrakty ról"| roles
+    root -->|"integracje"| adapters
+    root -->|"operacje"| runtime
+    root -->|"zasady i formaty"| policy
+    adapters -->|"mapuje"| roles

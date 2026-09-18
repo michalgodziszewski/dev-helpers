@@ -1,0 +1,52 @@
+[
+  {
+    "slug": "01-folders",
+    "title": "Katalogi ai-system",
+    "subtitle": "Root bez Git; system/context/brain lokalne bez remote; projekty ze zdalnym origin."
+  },
+  {
+    "slug": "02-system-folders",
+    "title": "Zawartość system/",
+    "subtitle": "Jedno źródło procedur; formaty klientów pochodzą z adapterów."
+  },
+  {
+    "slug": "03-product-flow",
+    "title": "Cały przepływ produktu",
+    "subtitle": "Wspólne źródła pracy i pamięci, niezależnie od klienta."
+  },
+  {
+    "slug": "04-feature-flow",
+    "title": "Cykl feature",
+    "subtitle": "Clear zwalnia slot bez sprawdzenia merge; complete sprawdza wymagane scalenia."
+  },
+  {
+    "slug": "05-planning",
+    "title": "Planowanie i wznawianie",
+    "subtitle": "Wiele preview na dysku; jedna sesja planowania śledzona w danej rozmowie."
+  },
+  {
+    "slug": "06-brain-flow",
+    "title": "Cykl zapisu do braina",
+    "subtitle": "Ocena wartości, dowodu, zakresu i istniejącej notatki poprzedza zapis."
+  },
+  {
+    "slug": "07-publish",
+    "title": "Publikacja kodu i kontekstu",
+    "subtitle": "Push tylko kodu projektu; system i context mają lokalny Git bez remote."
+  },
+  {
+    "slug": "08-backport",
+    "title": "Backport i konflikt",
+    "subtitle": "Warunki backportu zachowane; baza i push zależą od trybu repo kodu."
+  },
+  {
+    "slug": "09-handoff",
+    "title": "Zmiana klienta i wznowienie",
+    "subtitle": "Pamięć i stan zadania są wspólne; historia czatu nie musi być przenoszona."
+  },
+  {
+    "slug": "10-abandon",
+    "title": "Porzucenie zadania",
+    "subtitle": "Usunięcie stanu zadania i usunięcie lokalnych gałęzi to odrębne działania."
+  }
+]

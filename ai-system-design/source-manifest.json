@@ -1,0 +1,469 @@
+{
+  "repository": "michalgodziszewski/ai-os",
+  "commit": "1e2cb5a9de87f58ec15ccb412d545347a30075b2",
+  "scope": "All .claude, context and wiki files plus root README, CLAUDE and gitignore files. Application template source is excluded.",
+  "files": [
+    {
+      "path": ".claude/GUIDELINES.md",
+      "git_blob_sha": "74f2cdd9b967a3826f7e62bc48f9c6b439a9d801",
+      "bytes": 3787,
+      "sha256": "ee7e57aba2dee3ca095a4ad7308ff99144ab470c73578b1d660cdc030b8faef5"
+    },
+    {
+      "path": ".claude/agents/README.md",
+      "git_blob_sha": "696bbb52e37fe68bb40e8104ed208cdb17ab0888",
+      "bytes": 397,
+      "sha256": "bacd6f509220e6d578a4d43ca6ca219653cf9dc4aa936189aa369cec29f1252d"
+    },
+    {
+      "path": ".claude/agents/feature-implementer.md",
+      "git_blob_sha": "36c976dde24edccce2418230e2b486a7e2161f79",
+      "bytes": 3310,
+      "sha256": "009012ad75ae2eb5902513545590d37d7e9b66e3f7826f58adae8d7e2efc0a38"
+    },
+    {
+      "path": ".claude/agents/feature-planner.md",
+      "git_blob_sha": "6ae9b9b2e0888bb8b342230090d4512bbeddd499",
+      "bytes": 6595,
+      "sha256": "3550a4432ccd73734367cae4339ac2155340ef3e9e21e80b57a387573f4ce213"
+    },
+    {
+      "path": ".claude/agents/feature-reviewer.md",
+      "git_blob_sha": "dca2a90bf20c3a31313d06a053bb1613c6d56c8d",
+      "bytes": 2631,
+      "sha256": "a18b284afa082c29449ccef9574669ea67a0c80fcfb09456dd50cd56c9deec4a"
+    },
+    {
+      "path": ".claude/agents/feature-tester.md",
+      "git_blob_sha": "3d93a219d7946cd62ca3feff623a074ac90cb496",
+      "bytes": 2068,
+      "sha256": "14d6add5dcdf47ffd0af4ea209092ee8988e3e9e181e307d457b52bd0fa744c8"
+    },
+    {
+      "path": ".claude/skills/README.md",
+      "git_blob_sha": "eff2a12b4380086bc93283107bb491cd02542a14",
+      "bytes": 374,
+      "sha256": "2f25a6d03b58f26a40053349b885cbcc56dba7da2981ae205df5075e816e1dd9"
+    },
+    {
+      "path": ".claude/skills/feature/SKILL.md",
+      "git_blob_sha": "31eba0ab84fe191e06938bb74109e01db8a23c5f",
+      "bytes": 4947,
+      "sha256": "82ffd6f4987703cff61f9f3d2c4682211ae5e22914c6f0d7175e2eeae1144e2b"
+    },
+    {
+      "path": ".claude/skills/feature/actions/_common.md",
+      "git_blob_sha": "fd5df2f4eb8324ec88ba8cd4ec25dc36164ef88c",
+      "bytes": 6387,
+      "sha256": "3e0934af444fe0d81a1bddc3f9a53b8214f2a538b059063887b46973ebce12cd"
+    },
+    {
+      "path": ".claude/skills/feature/actions/abandon.md",
+      "git_blob_sha": "137d77bd06fd219df01d7c1f730082df5182341e",
+      "bytes": 5914,
+      "sha256": "352c9401ad36e390926a57336e01a0ff7d009e35411269a61ba5c8b141e85104"
+    },
+    {
+      "path": ".claude/skills/feature/actions/backport.md",
+      "git_blob_sha": "adc8e0ddedadc452dd9a00ae08d04a61d7aca281",
+      "bytes": 8780,
+      "sha256": "284fd9895c668bf4158a65c96de947d7e205c47949fee2a698e282ab01f4c8c4"
+    },
+    {
+      "path": ".claude/skills/feature/actions/clear.md",
+      "git_blob_sha": "aa32091506baace586ea85e7bd194f2424a04f7a",
+      "bytes": 1716,
+      "sha256": "fd5af1ca2361efe5494408f06027933984753526caa3247d2c728a7e4d42b533"
+    },
+    {
+      "path": ".claude/skills/feature/actions/complete.md",
+      "git_blob_sha": "5d67dd4875592967d2e6826cb50d70eccb81053c",
+      "bytes": 3363,
+      "sha256": "396d6ce664df090eaa9fc233226cc4b4371920156fdc654912401bde043b8aa8"
+    },
+    {
+      "path": ".claude/skills/feature/actions/load.md",
+      "git_blob_sha": "63b145a521434e62b228c0bfa16006bd7a30bc87",
+      "bytes": 4125,
+      "sha256": "c20909f61abeb005c5a9e8bbddf2c90ba35fb234fcb2507fcca4b14de70b4e2b"
+    },
+    {
+      "path": ".claude/skills/feature/actions/plan.md",
+      "git_blob_sha": "836eda363c860f16d958366a225943138372a04f",
+      "bytes": 13141,
+      "sha256": "ee47626ee4333d902466020879f0878a69cca70aba2ac351df51955bec148914"
+    },
+    {
+      "path": ".claude/skills/feature/actions/publish.md",
+      "git_blob_sha": "2144e77509602b6603785457cff3cd49d9547328",
+      "bytes": 4322,
+      "sha256": "58f5aa9141ceee4b78d77bde092aa89f2912d8a0f1670944c40bae78e1c09869"
+    },
+    {
+      "path": ".claude/skills/feature/actions/review.md",
+      "git_blob_sha": "9575c4fd044bac8fcd8c4769b09bb1b8b265e5ce",
+      "bytes": 1578,
+      "sha256": "96d20d2af34b44b5cab02a2ba15e9df407c1bcf55879af96143ba8d1b7a9ee8a"
+    },
+    {
+      "path": ".claude/skills/feature/actions/start.md",
+      "git_blob_sha": "9cc578be4c67e7c6c540f01a910408d1d4b92936",
+      "bytes": 4521,
+      "sha256": "dd2a47975aca57639595ac4e731e94e38788bab70694f7e92d1901d15cf4d0ec"
+    },
+    {
+      "path": ".claude/skills/feature/actions/status.md",
+      "git_blob_sha": "d1dfa1ff0a4e403930c249d2a782b35921fd2eeb",
+      "bytes": 2471,
+      "sha256": "8e9ce5732aad65cef48244a99bd90e24d9d5cee27bb4ff5d305f53859d358b6d"
+    },
+    {
+      "path": ".claude/skills/feature/actions/test.md",
+      "git_blob_sha": "2b82fa98681a76f3ae1fe7bec8b56b924b94a540",
+      "bytes": 1592,
+      "sha256": "c499310832ef6cc0b3b0b660a3813ab1d62ab5a39e52c2fb1d92fb6bf0997671"
+    },
+    {
+      "path": ".claude/skills/session-handoff/SKILL.md",
+      "git_blob_sha": "98dfb3251e16dfe69d8f53c47859e5c684d52d55",
+      "bytes": 1900,
+      "sha256": "2e7ba52b9e3d4ede17963a92988910fd3c9f02d31bdf87fa263dc73d5ef1ae1f"
+    },
+    {
+      "path": "CLAUDE.md",
+      "git_blob_sha": "24cfac124b6ab79ea12714570299df1ecdad79b8",
+      "bytes": 4027,
+      "sha256": "55bec7d910584ce5d20be3bf932e390e2cb3e8f2b796ef2084c0b3dc4a03e945"
+    },
+    {
+      "path": "README.md",
+      "git_blob_sha": "a1a561099be62a0d0c23f0028c8ec60bc7170a4c",
+      "bytes": 2349,
+      "sha256": "b5dd617f1c5ce18454112861a2b8501ca2ce2c6e18d266e9fd8af421d77a01c5"
+    },
+    {
+      "path": "context/ai-os/features/0014-local-install-update.md",
+      "git_blob_sha": "3386c1bca4a84e62b5b0dc656f2b97a7e53792e6",
+      "bytes": 16636,
+      "sha256": "68c5061983fcc5ce44c6dac0088f3a45abd0b9d9733f3e668329441390b0a683"
+    },
+    {
+      "path": "context/ai-os/fixes/0002-remove-wiki-references-from-feature-skill.md",
+      "git_blob_sha": "b74383352eb06d29a7b3ecedc4530ed1c790c5ef",
+      "bytes": 12032,
+      "sha256": "36684ddc7a5281d3941a04ce81ab49ace166a2c05e93dba08d2f50e422ba6f0c"
+    },
+    {
+      "path": "context/ai-os/project-config.md",
+      "git_blob_sha": "248023d7feb4f04b3341ee84bbd41e284c80ef51",
+      "bytes": 613,
+      "sha256": "1742e31d432ea3cdb3d65d763c865fa470e243fef5a21055591112b5b93db3b8"
+    },
+    {
+      "path": "context/projects/angular-template/project-config.md",
+      "git_blob_sha": "5557e5dacae4b5eaea4fc8d47ea6d61e20f4e048",
+      "bytes": 47,
+      "sha256": "d254f066e514bf9d1fdf59b2b91a00b9f817b608139f57059bc5c29231cbf12d"
+    },
+    {
+      "path": "context/projects/angular-template/project-overview.md",
+      "git_blob_sha": "5b680409c5d5ecef74409c8f7b1fa15cd240263f",
+      "bytes": 1036,
+      "sha256": "dc8729917c48b3a7e05e1a1e8aac3d252db7906e203dea0305ee6a5ccdc388c3"
+    },
+    {
+      "path": "wiki/notes/concepts/second-brain-levels.md",
+      "git_blob_sha": "b9b5840148d6edb1739db473820b9063e719263c",
+      "bytes": 2388,
+      "sha256": "015ddae102421609c0d4360e124119d842e8f19b9ec04ce8b010fa327a032f7b"
+    },
+    {
+      "path": "wiki/notes/principles/philosophy.md",
+      "git_blob_sha": "2cbeb4116d7f7d28d9ee1f1387fd6d12e2bce552",
+      "bytes": 4394,
+      "sha256": "90f7f9f341a4c586e35f3105b731ccbee11ea6dc3888f9cdaa02e1803a4e6d2e"
+    },
+    {
+      "path": ".gitignore",
+      "git_blob_sha": "0e9f13c2a6ce8452e038e6440730102ca0c1ed04",
+      "bytes": 300,
+      "sha256": "9c79b40dca92bf014d7d0fbd9cb93666323b7fc16cb13b6db653dd6e71e6052e"
+    },
+    {
+      "path": "context/about-me.md",
+      "git_blob_sha": "9d47b3dd6d3aeebc3261ab76794227ea79c6749d",
+      "bytes": 197,
+      "sha256": "7eb26326848f661b18b9d280bcad67d419d13702a904559fcdfda75694bdd843"
+    },
+    {
+      "path": "context/ai-os/features/0001-session-handoff.md",
+      "git_blob_sha": "000e82ba75f51b6bd6501e08e97beb5d9564f89b",
+      "bytes": 1957,
+      "sha256": "3dcabe16c16f3f764bd88d256063551de01889b6a8b78c677fc6f7fb4d93632f"
+    },
+    {
+      "path": "context/ai-os/features/0002-multi-system-resolution.md",
+      "git_blob_sha": "03baab152831ec4d8f6335aefeae57ee827a2e4f",
+      "bytes": 5729,
+      "sha256": "e48dbcee8c321acf3fd4c9aaf6bf93e1ea3f8d466da4feff6595b7a0f42086af"
+    },
+    {
+      "path": "context/ai-os/features/0003-delegated-agents.md",
+      "git_blob_sha": "1dff0a16fc9f9a558a54eb1c88aeb34e59e07468",
+      "bytes": 11798,
+      "sha256": "c3d3aac83a37c055632704fe3b480f41cf88aac5ab31f06620dab6ba45aa9308"
+    },
+    {
+      "path": "context/ai-os/features/0004-dual-branch-base-resolution.md",
+      "git_blob_sha": "096a42ccf67f52f55d459165f69e411ee6a87050",
+      "bytes": 8842,
+      "sha256": "f37cc662a70f6aca0515d56d0208fac9684d762e3e72bb1eb14dbc3bca4c8f1e"
+    },
+    {
+      "path": "context/ai-os/features/0005-jira-ticket-support.md",
+      "git_blob_sha": "f0a42ada08f7369694bbbb18ce79d0e8d530f0f6",
+      "bytes": 6889,
+      "sha256": "7d4fd2f4f302b075ab6ab3c173489e5d854b7525c89ad9e7c400c402ecebdf2c"
+    },
+    {
+      "path": "context/ai-os/features/0006-task-visibility-on-delegation.md",
+      "git_blob_sha": "c9f40fa0e8034487317733522429d5fd442f51b5",
+      "bytes": 4209,
+      "sha256": "776cecdbde8db456bfd91e7d46abe74e95b4623984757199cdd62f9bbf6c38b0"
+    },
+    {
+      "path": "context/ai-os/features/0007-ticket-config-and-naming-audit.md",
+      "git_blob_sha": "14951a3db8e7ac914570bb8c297976242e4d5c26",
+      "bytes": 7284,
+      "sha256": "33a27761fdd21aa84ed0f052abdb871ce830eb7761bbbb64829bcde688f4eddd"
+    },
+    {
+      "path": "context/ai-os/features/0008-backport.md",
+      "git_blob_sha": "0397bda180505b5d636a9ae1fafb3d3a3dbef0da",
+      "bytes": 17187,
+      "sha256": "db615f835903afcea2b230ef545a12a89dca42038a6215bfbbe7bd98268123a3"
+    },
+    {
+      "path": "context/ai-os/features/0009-feature-planner.md",
+      "git_blob_sha": "8963154ac0e4eff4dba82ee31971ca57a9cd4bbc",
+      "bytes": 14138,
+      "sha256": "6b63b799729334be17b57f1c58d6503e97e26443c4848836f22aa2fcb5f992d7"
+    },
+    {
+      "path": "context/ai-os/features/0010-plan-resume-status.md",
+      "git_blob_sha": "c1f76b72b461177d7aa4fbaa7cbafd37317bae00",
+      "bytes": 10420,
+      "sha256": "ec488c246cb814c890569a20490b2788f6daa099f0d65c273041635804a0887b"
+    },
+    {
+      "path": "context/ai-os/features/0011-feature-skill-consolidation.md",
+      "git_blob_sha": "5054475eb951c3ea01ce79d348d4bcf31cbc8845",
+      "bytes": 9680,
+      "sha256": "40ad36e1f4e456998d9884e290706ad55281ab33cc32b3878259a2b07ca00e9e"
+    },
+    {
+      "path": "context/ai-os/features/0012-single-claude-md-router.md",
+      "git_blob_sha": "46c300e787d29100ac336f7811c2a8eb7c2bf656",
+      "bytes": 3862,
+      "sha256": "ff2ed1fcc974eece81791c8dd077dbb85d5463813065f5e7214db1c80eaf0695"
+    },
+    {
+      "path": "context/ai-os/features/0013-local-only-mode.md",
+      "git_blob_sha": "7c9de109165b5114244a394f1c35d63e9b0ef567",
+      "bytes": 9187,
+      "sha256": "5d8e1fc52d82e4ab557b0c7f07935393b234f2d2b9d20edec86e9351741eb436"
+    },
+    {
+      "path": "context/ai-os/fixes/0001-explicit-publish-approval-per-call.md",
+      "git_blob_sha": "ea32afa1fa99ff73b08d90afcb82918d9cccc179",
+      "bytes": 3548,
+      "sha256": "aa5aeba5a9b17955eaf755e02920e97a3ba4d39915d05785369239d76d05ba5d"
+    },
+    {
+      "path": "context/ai-os/local-mode-setup.md",
+      "git_blob_sha": "96709ecf41f7e941559315ba306ac7e8cb16fd70",
+      "bytes": 4905,
+      "sha256": "48c2228de6f6c4b1b2627ef0775cbf437cb899800cb1323023f7c6d7011a6660"
+    },
+    {
+      "path": "context/ai-os/project-overview.md",
+      "git_blob_sha": "e032dc14342eb9b5fcec19958ee250d202164350",
+      "bytes": 285,
+      "sha256": "d8bcf66eae038c7ab66d220468d850e18ead5a2e16dd10a5445ed2a0df5c6dba"
+    },
+    {
+      "path": "context/projects/angular-template/coding-standards.md",
+      "git_blob_sha": "53fe643f373ed8e02f67b4ce6c7e91da1ab9a8fa",
+      "bytes": 4663,
+      "sha256": "19c92570bed815668a7f8393f6aa8db98f629779112212388ccbef9b83e61155"
+    },
+    {
+      "path": "context/projects/nestjs-template/coding-standards.md",
+      "git_blob_sha": "7ea9104468116caba48d8df7c186a3a8fe8c8e20",
+      "bytes": 5204,
+      "sha256": "480f38a1eb2377383df5f010907ce698d82bbf659045080728bbc53260ef16b5"
+    },
+    {
+      "path": "context/projects/nestjs-template/project-config.md",
+      "git_blob_sha": "5557e5dacae4b5eaea4fc8d47ea6d61e20f4e048",
+      "bytes": 47,
+      "sha256": "d254f066e514bf9d1fdf59b2b91a00b9f817b608139f57059bc5c29231cbf12d"
+    },
+    {
+      "path": "context/projects/nestjs-template/project-overview.md",
+      "git_blob_sha": "504eb6a068838f1fc02e9085cda2a9e64a7fd48c",
+      "bytes": 1065,
+      "sha256": "831bf184ed41319ecbf16bf5149f3fa28ce5f6f839de3e02db5b7fac1493fd08"
+    },
+    {
+      "path": "context/roadmap.md",
+      "git_blob_sha": "7771a52430a76d12c2f287c5ec8cbcadb9ac2726",
+      "bytes": 7436,
+      "sha256": "7e6cd3a817a91a8a590f9cfbbd2ab5b12467026eafa535945fa299fedf135359"
+    },
+    {
+      "path": "context/stack-and-conventions.md",
+      "git_blob_sha": "76bd3fddf2e02cb2ca3354124a9d98f3bb373062",
+      "bytes": 327,
+      "sha256": "980bfc6070f3c1644936e86b29d95d2c5dc16dcd4349645dce7d021c948bad29"
+    },
+    {
+      "path": "projects/.gitignore",
+      "git_blob_sha": "8ec684d2c4590dd5475e4e969a7917b926175e9d",
+      "bytes": 262,
+      "sha256": "0fc0be2935c9d1894466372c88b1b446a1747ec28cdfa8e201790847c7d5c667"
+    },
+    {
+      "path": "wiki/README.md",
+      "git_blob_sha": "3cc8edd138f76ee4c4fb746026beca42abd1d7f6",
+      "bytes": 815,
+      "sha256": "5f0bd11c874bd54761641bd2e6001a9d0d25b46e759e1b38634684efbb629bf1"
+    },
+    {
+      "path": "wiki/ideas/automation-stack.md",
+      "git_blob_sha": "d70be0a70dbb5eff5edbd04e69cf5d1ef5483b84",
+      "bytes": 809,
+      "sha256": "10c1d5f6e6bb54a500d6ac7d26336d45bb396bc83c298dc64d56fadbea6ae143"
+    },
+    {
+      "path": "wiki/ideas/context-folder.md",
+      "git_blob_sha": "d10a57dea80c8e40a49d29e4f695f8029c377763",
+      "bytes": 1461,
+      "sha256": "94ca07cf4b3c24b7320283648f6e0fa71b58f1ed6e21cbb652311283579be0ee"
+    },
+    {
+      "path": "wiki/ideas/env-secrets-convention.md",
+      "git_blob_sha": "37844a274d18dd4f280b4ec49df4a1ef3b544cd1",
+      "bytes": 728,
+      "sha256": "e7036aa35c16d3b7eb28c3c11ad4337e39fc373bbea9fe0f16d8009f3d93940c"
+    },
+    {
+      "path": "wiki/ideas/feature-skill-consolidation.md",
+      "git_blob_sha": "d41c4280fe078f3d0fe59e8553f88d93cc7d4b1e",
+      "bytes": 3237,
+      "sha256": "7ced730f01bdc93384f45d8c868299b07fc161db6f05bf0fd4cfb3c08e0b9490"
+    },
+    {
+      "path": "wiki/ideas/feature-skill-project-setup-action.md",
+      "git_blob_sha": "76f3d97c75158a60b01b5b4b0b535a4454c5856d",
+      "bytes": 3249,
+      "sha256": "1b271e39cbf02dc2d9c1d39a5c290ea83a224338fe643fabb86eb46e629d1e7e"
+    },
+    {
+      "path": "wiki/ideas/feature-skill-publish-quality-gate.md",
+      "git_blob_sha": "bb3a773055b32f6aa2fdab714de509f551cb11b9",
+      "bytes": 1808,
+      "sha256": "4061a3094162d5b577c693828bea470a3b3ddc700c8cf0d868107678ea7867aa"
+    },
+    {
+      "path": "wiki/ideas/obsidian-web-clipper.md",
+      "git_blob_sha": "508f3de952330950fa814f8febde5bb520a473cf",
+      "bytes": 621,
+      "sha256": "2abf5f17e7e96fa025673d71cac8a70c2f885f2e4f896cf7dae7b377ccf6d2b2"
+    },
+    {
+      "path": "wiki/ideas/project-pensieve.md",
+      "git_blob_sha": "0f736865f8779ba4b765d18e8ebc0c9a15be318e",
+      "bytes": 1330,
+      "sha256": "19529215e7a97f41ce97113134461e0b9b593cf241f68e9a2f127fb295051f2c"
+    },
+    {
+      "path": "wiki/ideas/project-tab-extractor.md",
+      "git_blob_sha": "b33a1325769c45a6b05feefb0dca2d23d65040b6",
+      "bytes": 5719,
+      "sha256": "86304a49475ff36ab32edd60a931185311f30601b8472d2c772d2d00b0e1406c"
+    },
+    {
+      "path": "wiki/ideas/single-claude-md-router.md",
+      "git_blob_sha": "fc6606e05c55fb494081a09e7f934d388ce5eebc",
+      "bytes": 1889,
+      "sha256": "9b5744f55bf6160bba88542a2fb4b035d3fee0a1c8a7905cf065483c58f86a11"
+    },
+    {
+      "path": "wiki/ideas/skill-feature.md",
+      "git_blob_sha": "91fe028c951ab99fa7d5a631bfd7794dcbcdec80",
+      "bytes": 3572,
+      "sha256": "c51ea3d308ecc4074e2c77d3de7bd58a886c1aee284c5446185b193e680054d8"
+    },
+    {
+      "path": "wiki/ideas/skill-grill-me.md",
+      "git_blob_sha": "c4bf459cd602ca0a469c83c5c5dc662a889ef181",
+      "bytes": 1064,
+      "sha256": "28ae2a54b4ce3a028f2b3796da4167863a1b14b18745603f77650ee7b3772b83"
+    },
+    {
+      "path": "wiki/ideas/skill-session-handoff.md",
+      "git_blob_sha": "aa13ffc2db0e23450b7a77241ccb73df37aa9844",
+      "bytes": 650,
+      "sha256": "2d0ffb937e6ad84e735429bebf273708a666d7ff50a476f33e070b7104d79e85"
+    },
+    {
+      "path": "wiki/index.md",
+      "git_blob_sha": "4de25e2a4e4b4ebb01559ea20951ec8ebcb153b5",
+      "bytes": 3000,
+      "sha256": "ff29f8a55e5653928b93c563dfde8e1fc6783a9c238790fbc66e6884122c4686"
+    },
+    {
+      "path": "wiki/log.md",
+      "git_blob_sha": "a514ef35d741222595b3212eeaf27aad63d5dcad",
+      "bytes": 1150,
+      "sha256": "fac1a5377b76803394bc261eda6d554ce0d55dcf73b74a8115f94bb3723d53f9"
+    },
+    {
+      "path": "wiki/notes/concepts/claude-md-as-router.md",
+      "git_blob_sha": "3de84aa0f423a5762426d3e2a0a01b70efe23bb7",
+      "bytes": 2246,
+      "sha256": "2716bf75b59cf336a11615a429df775529d23629f727c56d4776b206cc4ed7c5"
+    },
+    {
+      "path": "wiki/notes/concepts/context-vs-connections.md",
+      "git_blob_sha": "eb9c95766fa86fa144e6ed9ee7993607fb0d1d20",
+      "bytes": 1713,
+      "sha256": "0fd5ef64d09e8f9c5f57276f1d876a1d06373a84591b597e1427afcd816ad11d"
+    },
+    {
+      "path": "wiki/notes/concepts/skills-vs-subagents.md",
+      "git_blob_sha": "def927d5782ff62bfc88f8edf423237ec6386904",
+      "bytes": 2742,
+      "sha256": "fcb8c2eb9640f32abab8d84b5027b65a9e508ad87a1cee9173124dfe6ad70360"
+    },
+    {
+      "path": "wiki/notes/techniques/automation-stack.md",
+      "git_blob_sha": "e35a8555baabc6377e14f9bf08a4358509256658",
+      "bytes": 4749,
+      "sha256": "5953da71ac2ff200aea070b9cd35f5f1c6ce40d56a8e394a4f929467c51b4e7d"
+    },
+    {
+      "path": "wiki/notes/techniques/obsidian-raw-wiki-ingestion.md",
+      "git_blob_sha": "c4c5370cedcf8b1e579fb0ddbb57687897e5acf2",
+      "bytes": 3722,
+      "sha256": "75e528ef113422532c2414a921cdd1fb08a23236166d2b26dacfa242568685d2"
+    },
+    {
+      "path": "wiki/notes/techniques/skill-and-agent-authoring.md",
+      "git_blob_sha": "42387fe3020e924e8da10ee1908a0a578e8a1245",
+      "bytes": 3115,
+      "sha256": "1f6ec08065bae5ca57a20e8f4f4f24aab6c968b22fb5cadc02373f1d8e7b96e7"
+    }
+  ]
+}

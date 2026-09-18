@@ -1,0 +1,648 @@
+{
+  "product": "ai-system design documentation",
+  "version": 4,
+  "packaging_revision": 3,
+  "date": "2026-09-18",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 2773,
+      "sha256": "4fe406198285ed42da27d71136ea4487a00f27d0ebfac42d254562149684213e"
+    },
+    {
+      "path": "ai-system-architecture.md",
+      "bytes": 199412,
+      "sha256": "e15ff94d665b8e40c169e4257daf09aa54adee44f6589047c0e61808b49c8e72"
+    },
+    {
+      "path": "ai-system-documentation.html",
+      "bytes": 301768,
+      "sha256": "a5b6cef7ee7bc542369ddf768975fdde48df8f08e7cf4c7b8942cdfafbe4f835"
+    },
+    {
+      "path": "diagrams/01-folders.mmd",
+      "bytes": 704,
+      "sha256": "9943f277fa8d6ba530e6a2e4563350b8b1027f8f0b95b20f8e1e375ffaefb2aa"
+    },
+    {
+      "path": "diagrams/01-folders.svg",
+      "bytes": 5588,
+      "sha256": "11b7b4dcbc7f5fc76be69b9d600dd0b531fce03cd181f02932dc9bba6d93d6d2"
+    },
+    {
+      "path": "diagrams/02-system-folders.mmd",
+      "bytes": 754,
+      "sha256": "f8bebdc3d22300510c155321fd08948d2fc8f46057e4df5a3b851c525e3b6c47"
+    },
+    {
+      "path": "diagrams/02-system-folders.svg",
+      "bytes": 6069,
+      "sha256": "10da3e81775bb1e07f7b8a5aaadcbc5d73fd779fb6471f6d707c3f9f32cf6c2b"
+    },
+    {
+      "path": "diagrams/03-product-flow.mmd",
+      "bytes": 1054,
+      "sha256": "bf37ddf10357551a8bdf5d9e1153bd9988a6381aa0a2d6ac0694e8aa74590b28"
+    },
+    {
+      "path": "diagrams/03-product-flow.svg",
+      "bytes": 8109,
+      "sha256": "4e2971b8095dd482e76fc4124bc235feddc9be93309a301493fe748cc6d7abea"
+    },
+    {
+      "path": "diagrams/04-feature-flow.mmd",
+      "bytes": 1140,
+      "sha256": "105b14cf82a66e7532e750e15d2d50df2d12f7e067d6b82d2dffaf995a5254d5"
+    },
+    {
+      "path": "diagrams/04-feature-flow.svg",
+      "bytes": 8541,
+      "sha256": "38bcaa81d8553e337e0ab840a6276425d8a558ccc5d6397972259c2bb7f003c3"
+    },
+    {
+      "path": "diagrams/05-planning.mmd",
+      "bytes": 1027,
+      "sha256": "bc13d6a1bbdba6bc321a386b7ae26472388dc3bb665e6ac4a80b168e4102741d"
+    },
+    {
+      "path": "diagrams/05-planning.svg",
+      "bytes": 7403,
+      "sha256": "f8a2e06746efd7ac8dde00555e11a85bf57b8a981db44f904da157662853449b"
+    },
+    {
+      "path": "diagrams/06-brain-flow.mmd",
+      "bytes": 1086,
+      "sha256": "32364e9333af529caf24e742cab32eb140d6f72fac8c7d1861adc456bba7d1c9"
+    },
+    {
+      "path": "diagrams/06-brain-flow.svg",
+      "bytes": 7372,
+      "sha256": "127c96c33dbc1cd351cb3b607164e030dc1b11a79e833f0c73fb59c7e73d982c"
+    },
+    {
+      "path": "diagrams/07-publish.mmd",
+      "bytes": 833,
+      "sha256": "aacf6ba706cc786b64a82b6c26373db48e678ebbe873423993069643c9791d1f"
+    },
+    {
+      "path": "diagrams/07-publish.svg",
+      "bytes": 5481,
+      "sha256": "67560c9df0f0d78f7e3415a66e45a0157200f382fdd4c4ed455658dd5d11c00c"
+    },
+    {
+      "path": "diagrams/08-backport.mmd",
+      "bytes": 1036,
+      "sha256": "b063528c8035b0c0c89dfe8b62c846423c2afd147c28a274c1cdba0ab51cb4b3"
+    },
+    {
+      "path": "diagrams/08-backport.svg",
+      "bytes": 6999,
+      "sha256": "0081ca4e0653d4d3cbb95678640d9707fbe4755604b76bf361e6cc2701a9368e"
+    },
+    {
+      "path": "diagrams/09-handoff.mmd",
+      "bytes": 806,
+      "sha256": "0af3c22bb3099d977b584356183409dc925f2c9d6cd690f5c6cf930fec2d6a39"
+    },
+    {
+      "path": "diagrams/09-handoff.svg",
+      "bytes": 5334,
+      "sha256": "33277232715db89622abb39fc0242133181c22b3d9f8634abd161470450f51e5"
+    },
+    {
+      "path": "diagrams/10-abandon.mmd",
+      "bytes": 932,
+      "sha256": "6254c0b75a24f8a3b7355faaafdee974f2ae7f7dc381280e1359323dbe861d37"
+    },
+    {
+      "path": "diagrams/10-abandon.svg",
+      "bytes": 6689,
+      "sha256": "6bdb482b04525fae1a69186b21af41881220a95d3c87344f5ec83e88b061286a"
+    },
+    {
+      "path": "diagrams/index.json",
+      "bytes": 1677,
+      "sha256": "806ee91d5d6bdc73182241f140cefb88534816e9f86c6379e9e468d11bfc58e7"
+    },
+    {
+      "path": "docs/architecture-base.md",
+      "bytes": 38642,
+      "sha256": "620b6a4bf993fefe89fa673690c1611b48e5d10ebb0fda4a8c6f1722623ffadc"
+    },
+    {
+      "path": "docs/examples-and-boundaries.md",
+      "bytes": 9446,
+      "sha256": "42e687702978fb44da6ae29f6a1f644f8fb2da1b6320e78a44b6539a2dfe49c5"
+    },
+    {
+      "path": "docs/local-git-contract.md",
+      "bytes": 8182,
+      "sha256": "df3d7bd82cd426a45db3c6987be3a493382313b71b509b7e43a8962e3f0fb56a"
+    },
+    {
+      "path": "docs/operating-contracts.md",
+      "bytes": 17392,
+      "sha256": "65f94dc23e9bed7341f7486478ed1f2bdb899a3f59879eca9612df7b9f36ef79"
+    },
+    {
+      "path": "docs/skills-and-contracts.md",
+      "bytes": 14523,
+      "sha256": "787c3f958a8c731dba0d7fa334f8120b1a62fc440e6fe05cd475e4277273b7a4"
+    },
+    {
+      "path": "feature-skill/GUIDELINES.md",
+      "bytes": 3787,
+      "sha256": "ee7e57aba2dee3ca095a4ad7308ff99144ab470c73578b1d660cdc030b8faef5"
+    },
+    {
+      "path": "feature-skill/README.md",
+      "bytes": 2296,
+      "sha256": "fcf7c2877046699d69a924e3957b7df438ec713fd4cad112f36988accd7e9b98"
+    },
+    {
+      "path": "feature-skill/SKILL.md",
+      "bytes": 4947,
+      "sha256": "82ffd6f4987703cff61f9f3d2c4682211ae5e22914c6f0d7175e2eeae1144e2b"
+    },
+    {
+      "path": "feature-skill/actions/_common.md",
+      "bytes": 6387,
+      "sha256": "3e0934af444fe0d81a1bddc3f9a53b8214f2a538b059063887b46973ebce12cd"
+    },
+    {
+      "path": "feature-skill/actions/abandon.md",
+      "bytes": 5914,
+      "sha256": "352c9401ad36e390926a57336e01a0ff7d009e35411269a61ba5c8b141e85104"
+    },
+    {
+      "path": "feature-skill/actions/backport.md",
+      "bytes": 8780,
+      "sha256": "284fd9895c668bf4158a65c96de947d7e205c47949fee2a698e282ab01f4c8c4"
+    },
+    {
+      "path": "feature-skill/actions/clear.md",
+      "bytes": 1716,
+      "sha256": "fd5af1ca2361efe5494408f06027933984753526caa3247d2c728a7e4d42b533"
+    },
+    {
+      "path": "feature-skill/actions/complete.md",
+      "bytes": 3363,
+      "sha256": "396d6ce664df090eaa9fc233226cc4b4371920156fdc654912401bde043b8aa8"
+    },
+    {
+      "path": "feature-skill/actions/load.md",
+      "bytes": 4125,
+      "sha256": "c20909f61abeb005c5a9e8bbddf2c90ba35fb234fcb2507fcca4b14de70b4e2b"
+    },
+    {
+      "path": "feature-skill/actions/plan.md",
+      "bytes": 13141,
+      "sha256": "ee47626ee4333d902466020879f0878a69cca70aba2ac351df51955bec148914"
+    },
+    {
+      "path": "feature-skill/actions/publish.md",
+      "bytes": 4322,
+      "sha256": "58f5aa9141ceee4b78d77bde092aa89f2912d8a0f1670944c40bae78e1c09869"
+    },
+    {
+      "path": "feature-skill/actions/review.md",
+      "bytes": 1578,
+      "sha256": "96d20d2af34b44b5cab02a2ba15e9df407c1bcf55879af96143ba8d1b7a9ee8a"
+    },
+    {
+      "path": "feature-skill/actions/start.md",
+      "bytes": 4521,
+      "sha256": "dd2a47975aca57639595ac4e731e94e38788bab70694f7e92d1901d15cf4d0ec"
+    },
+    {
+      "path": "feature-skill/actions/status.md",
+      "bytes": 2471,
+      "sha256": "8e9ce5732aad65cef48244a99bd90e24d9d5cee27bb4ff5d305f53859d358b6d"
+    },
+    {
+      "path": "feature-skill/actions/test.md",
+      "bytes": 1592,
+      "sha256": "c499310832ef6cc0b3b0b660a3813ab1d62ab5a39e52c2fb1d92fb6bf0997671"
+    },
+    {
+      "path": "feature-skill/agents/feature-implementer.md",
+      "bytes": 3310,
+      "sha256": "009012ad75ae2eb5902513545590d37d7e9b66e3f7826f58adae8d7e2efc0a38"
+    },
+    {
+      "path": "feature-skill/agents/feature-planner.md",
+      "bytes": 6595,
+      "sha256": "3550a4432ccd73734367cae4339ac2155340ef3e9e21e80b57a387573f4ce213"
+    },
+    {
+      "path": "feature-skill/agents/feature-reviewer.md",
+      "bytes": 2631,
+      "sha256": "a18b284afa082c29449ccef9574669ea67a0c80fcfb09456dd50cd56c9deec4a"
+    },
+    {
+      "path": "feature-skill/agents/feature-tester.md",
+      "bytes": 2068,
+      "sha256": "14d6add5dcdf47ffd0af4ea209092ee8988e3e9e181e307d457b52bd0fa744c8"
+    },
+    {
+      "path": "feature-skill/source-map.json",
+      "bytes": 4072,
+      "sha256": "f92e918e7c11f3ed44d27bf5a146a63c60d778f225cef847b5f731999b16e054"
+    },
+    {
+      "path": "reference-ai-os/.claude/GUIDELINES.md",
+      "bytes": 3787,
+      "sha256": "ee7e57aba2dee3ca095a4ad7308ff99144ab470c73578b1d660cdc030b8faef5"
+    },
+    {
+      "path": "reference-ai-os/.claude/agents/README.md",
+      "bytes": 397,
+      "sha256": "bacd6f509220e6d578a4d43ca6ca219653cf9dc4aa936189aa369cec29f1252d"
+    },
+    {
+      "path": "reference-ai-os/.claude/agents/feature-implementer.md",
+      "bytes": 3310,
+      "sha256": "009012ad75ae2eb5902513545590d37d7e9b66e3f7826f58adae8d7e2efc0a38"
+    },
+    {
+      "path": "reference-ai-os/.claude/agents/feature-planner.md",
+      "bytes": 6595,
+      "sha256": "3550a4432ccd73734367cae4339ac2155340ef3e9e21e80b57a387573f4ce213"
+    },
+    {
+      "path": "reference-ai-os/.claude/agents/feature-reviewer.md",
+      "bytes": 2631,
+      "sha256": "a18b284afa082c29449ccef9574669ea67a0c80fcfb09456dd50cd56c9deec4a"
+    },
+    {
+      "path": "reference-ai-os/.claude/agents/feature-tester.md",
+      "bytes": 2068,
+      "sha256": "14d6add5dcdf47ffd0af4ea209092ee8988e3e9e181e307d457b52bd0fa744c8"
+    },
+    {
+      "path": "reference-ai-os/.claude/skills/README.md",
+      "bytes": 374,
+      "sha256": "2f25a6d03b58f26a40053349b885cbcc56dba7da2981ae205df5075e816e1dd9"
+    },
+    {
+      "path": "reference-ai-os/.claude/skills/feature/SKILL.md",
+      "bytes": 4947,
+      "sha256": "82ffd6f4987703cff61f9f3d2c4682211ae5e22914c6f0d7175e2eeae1144e2b"
+    },
+    {
+      "path": "reference-ai-os/.claude/skills/feature/actions/_common.md",
+      "bytes": 6387,
+      "sha256": "3e0934af444fe0d81a1bddc3f9a53b8214f2a538b059063887b46973ebce12cd"
+    },
+    {
+      "path": "reference-ai-os/.claude/skills/feature/actions/abandon.md",
+      "bytes": 5914,
+      "sha256": "352c9401ad36e390926a57336e01a0ff7d009e35411269a61ba5c8b141e85104"
+    },
+    {
+      "path": "reference-ai-os/.claude/skills/feature/actions/backport.md",
+      "bytes": 8780,
+      "sha256": "284fd9895c668bf4158a65c96de947d7e205c47949fee2a698e282ab01f4c8c4"
+    },
+    {
+      "path": "reference-ai-os/.claude/skills/feature/actions/clear.md",
+      "bytes": 1716,
+      "sha256": "fd5af1ca2361efe5494408f06027933984753526caa3247d2c728a7e4d42b533"
+    },
+    {
+      "path": "reference-ai-os/.claude/skills/feature/actions/complete.md",
+      "bytes": 3363,
+      "sha256": "396d6ce664df090eaa9fc233226cc4b4371920156fdc654912401bde043b8aa8"
+    },
+    {
+      "path": "reference-ai-os/.claude/skills/feature/actions/load.md",
+      "bytes": 4125,
+      "sha256": "c20909f61abeb005c5a9e8bbddf2c90ba35fb234fcb2507fcca4b14de70b4e2b"
+    },
+    {
+      "path": "reference-ai-os/.claude/skills/feature/actions/plan.md",
+      "bytes": 13141,
+      "sha256": "ee47626ee4333d902466020879f0878a69cca70aba2ac351df51955bec148914"
+    },
+    {
+      "path": "reference-ai-os/.claude/skills/feature/actions/publish.md",
+      "bytes": 4322,
+      "sha256": "58f5aa9141ceee4b78d77bde092aa89f2912d8a0f1670944c40bae78e1c09869"
+    },
+    {
+      "path": "reference-ai-os/.claude/skills/feature/actions/review.md",
+      "bytes": 1578,
+      "sha256": "96d20d2af34b44b5cab02a2ba15e9df407c1bcf55879af96143ba8d1b7a9ee8a"
+    },
+    {
+      "path": "reference-ai-os/.claude/skills/feature/actions/start.md",
+      "bytes": 4521,
+      "sha256": "dd2a47975aca57639595ac4e731e94e38788bab70694f7e92d1901d15cf4d0ec"
+    },
+    {
+      "path": "reference-ai-os/.claude/skills/feature/actions/status.md",
+      "bytes": 2471,
+      "sha256": "8e9ce5732aad65cef48244a99bd90e24d9d5cee27bb4ff5d305f53859d358b6d"
+    },
+    {
+      "path": "reference-ai-os/.claude/skills/feature/actions/test.md",
+      "bytes": 1592,
+      "sha256": "c499310832ef6cc0b3b0b660a3813ab1d62ab5a39e52c2fb1d92fb6bf0997671"
+    },
+    {
+      "path": "reference-ai-os/.claude/skills/session-handoff/SKILL.md",
+      "bytes": 1900,
+      "sha256": "2e7ba52b9e3d4ede17963a92988910fd3c9f02d31bdf87fa263dc73d5ef1ae1f"
+    },
+    {
+      "path": "reference-ai-os/.gitignore",
+      "bytes": 300,
+      "sha256": "9c79b40dca92bf014d7d0fbd9cb93666323b7fc16cb13b6db653dd6e71e6052e"
+    },
+    {
+      "path": "reference-ai-os/CLAUDE.md",
+      "bytes": 4027,
+      "sha256": "55bec7d910584ce5d20be3bf932e390e2cb3e8f2b796ef2084c0b3dc4a03e945"
+    },
+    {
+      "path": "reference-ai-os/README.md",
+      "bytes": 2349,
+      "sha256": "b5dd617f1c5ce18454112861a2b8501ca2ce2c6e18d266e9fd8af421d77a01c5"
+    },
+    {
+      "path": "reference-ai-os/context/about-me.md",
+      "bytes": 197,
+      "sha256": "7eb26326848f661b18b9d280bcad67d419d13702a904559fcdfda75694bdd843"
+    },
+    {
+      "path": "reference-ai-os/context/ai-os/features/0001-session-handoff.md",
+      "bytes": 1957,
+      "sha256": "3dcabe16c16f3f764bd88d256063551de01889b6a8b78c677fc6f7fb4d93632f"
+    },
+    {
+      "path": "reference-ai-os/context/ai-os/features/0002-multi-system-resolution.md",
+      "bytes": 5729,
+      "sha256": "e48dbcee8c321acf3fd4c9aaf6bf93e1ea3f8d466da4feff6595b7a0f42086af"
+    },
+    {
+      "path": "reference-ai-os/context/ai-os/features/0003-delegated-agents.md",
+      "bytes": 11798,
+      "sha256": "c3d3aac83a37c055632704fe3b480f41cf88aac5ab31f06620dab6ba45aa9308"
+    },
+    {
+      "path": "reference-ai-os/context/ai-os/features/0004-dual-branch-base-resolution.md",
+      "bytes": 8842,
+      "sha256": "f37cc662a70f6aca0515d56d0208fac9684d762e3e72bb1eb14dbc3bca4c8f1e"
+    },
+    {
+      "path": "reference-ai-os/context/ai-os/features/0005-jira-ticket-support.md",
+      "bytes": 6889,
+      "sha256": "7d4fd2f4f302b075ab6ab3c173489e5d854b7525c89ad9e7c400c402ecebdf2c"
+    },
+    {
+      "path": "reference-ai-os/context/ai-os/features/0006-task-visibility-on-delegation.md",
+      "bytes": 4209,
+      "sha256": "776cecdbde8db456bfd91e7d46abe74e95b4623984757199cdd62f9bbf6c38b0"
+    },
+    {
+      "path": "reference-ai-os/context/ai-os/features/0007-ticket-config-and-naming-audit.md",
+      "bytes": 7284,
+      "sha256": "33a27761fdd21aa84ed0f052abdb871ce830eb7761bbbb64829bcde688f4eddd"
+    },
+    {
+      "path": "reference-ai-os/context/ai-os/features/0008-backport.md",
+      "bytes": 17187,
+      "sha256": "db615f835903afcea2b230ef545a12a89dca42038a6215bfbbe7bd98268123a3"
+    },
+    {
+      "path": "reference-ai-os/context/ai-os/features/0009-feature-planner.md",
+      "bytes": 14138,
+      "sha256": "6b63b799729334be17b57f1c58d6503e97e26443c4848836f22aa2fcb5f992d7"
+    },
+    {
+      "path": "reference-ai-os/context/ai-os/features/0010-plan-resume-status.md",
+      "bytes": 10420,
+      "sha256": "ec488c246cb814c890569a20490b2788f6daa099f0d65c273041635804a0887b"
+    },
+    {
+      "path": "reference-ai-os/context/ai-os/features/0011-feature-skill-consolidation.md",
+      "bytes": 9680,
+      "sha256": "40ad36e1f4e456998d9884e290706ad55281ab33cc32b3878259a2b07ca00e9e"
+    },
+    {
+      "path": "reference-ai-os/context/ai-os/features/0012-single-claude-md-router.md",
+      "bytes": 3862,
+      "sha256": "ff2ed1fcc974eece81791c8dd077dbb85d5463813065f5e7214db1c80eaf0695"
+    },
+    {
+      "path": "reference-ai-os/context/ai-os/features/0013-local-only-mode.md",
+      "bytes": 9187,
+      "sha256": "5d8e1fc52d82e4ab557b0c7f07935393b234f2d2b9d20edec86e9351741eb436"
+    },
+    {
+      "path": "reference-ai-os/context/ai-os/features/0014-local-install-update.md",
+      "bytes": 16636,
+      "sha256": "68c5061983fcc5ce44c6dac0088f3a45abd0b9d9733f3e668329441390b0a683"
+    },
+    {
+      "path": "reference-ai-os/context/ai-os/fixes/0001-explicit-publish-approval-per-call.md",
+      "bytes": 3548,
+      "sha256": "aa5aeba5a9b17955eaf755e02920e97a3ba4d39915d05785369239d76d05ba5d"
+    },
+    {
+      "path": "reference-ai-os/context/ai-os/fixes/0002-remove-wiki-references-from-feature-skill.md",
+      "bytes": 12032,
+      "sha256": "36684ddc7a5281d3941a04ce81ab49ace166a2c05e93dba08d2f50e422ba6f0c"
+    },
+    {
+      "path": "reference-ai-os/context/ai-os/local-mode-setup.md",
+      "bytes": 4905,
+      "sha256": "48c2228de6f6c4b1b2627ef0775cbf437cb899800cb1323023f7c6d7011a6660"
+    },
+    {
+      "path": "reference-ai-os/context/ai-os/project-config.md",
+      "bytes": 613,
+      "sha256": "1742e31d432ea3cdb3d65d763c865fa470e243fef5a21055591112b5b93db3b8"
+    },
+    {
+      "path": "reference-ai-os/context/ai-os/project-overview.md",
+      "bytes": 285,
+      "sha256": "d8bcf66eae038c7ab66d220468d850e18ead5a2e16dd10a5445ed2a0df5c6dba"
+    },
+    {
+      "path": "reference-ai-os/context/projects/angular-template/coding-standards.md",
+      "bytes": 4663,
+      "sha256": "19c92570bed815668a7f8393f6aa8db98f629779112212388ccbef9b83e61155"
+    },
+    {
+      "path": "reference-ai-os/context/projects/angular-template/project-config.md",
+      "bytes": 47,
+      "sha256": "d254f066e514bf9d1fdf59b2b91a00b9f817b608139f57059bc5c29231cbf12d"
+    },
+    {
+      "path": "reference-ai-os/context/projects/angular-template/project-overview.md",
+      "bytes": 1036,
+      "sha256": "dc8729917c48b3a7e05e1a1e8aac3d252db7906e203dea0305ee6a5ccdc388c3"
+    },
+    {
+      "path": "reference-ai-os/context/projects/nestjs-template/coding-standards.md",
+      "bytes": 5204,
+      "sha256": "480f38a1eb2377383df5f010907ce698d82bbf659045080728bbc53260ef16b5"
+    },
+    {
+      "path": "reference-ai-os/context/projects/nestjs-template/project-config.md",
+      "bytes": 47,
+      "sha256": "d254f066e514bf9d1fdf59b2b91a00b9f817b608139f57059bc5c29231cbf12d"
+    },
+    {
+      "path": "reference-ai-os/context/projects/nestjs-template/project-overview.md",
+      "bytes": 1065,
+      "sha256": "831bf184ed41319ecbf16bf5149f3fa28ce5f6f839de3e02db5b7fac1493fd08"
+    },
+    {
+      "path": "reference-ai-os/context/roadmap.md",
+      "bytes": 7436,
+      "sha256": "7e6cd3a817a91a8a590f9cfbbd2ab5b12467026eafa535945fa299fedf135359"
+    },
+    {
+      "path": "reference-ai-os/context/stack-and-conventions.md",
+      "bytes": 327,
+      "sha256": "980bfc6070f3c1644936e86b29d95d2c5dc16dcd4349645dce7d021c948bad29"
+    },
+    {
+      "path": "reference-ai-os/projects/.gitignore",
+      "bytes": 262,
+      "sha256": "0fc0be2935c9d1894466372c88b1b446a1747ec28cdfa8e201790847c7d5c667"
+    },
+    {
+      "path": "reference-ai-os/wiki/README.md",
+      "bytes": 815,
+      "sha256": "5f0bd11c874bd54761641bd2e6001a9d0d25b46e759e1b38634684efbb629bf1"
+    },
+    {
+      "path": "reference-ai-os/wiki/ideas/automation-stack.md",
+      "bytes": 809,
+      "sha256": "10c1d5f6e6bb54a500d6ac7d26336d45bb396bc83c298dc64d56fadbea6ae143"
+    },
+    {
+      "path": "reference-ai-os/wiki/ideas/context-folder.md",
+      "bytes": 1461,
+      "sha256": "94ca07cf4b3c24b7320283648f6e0fa71b58f1ed6e21cbb652311283579be0ee"
+    },
+    {
+      "path": "reference-ai-os/wiki/ideas/env-secrets-convention.md",
+      "bytes": 728,
+      "sha256": "e7036aa35c16d3b7eb28c3c11ad4337e39fc373bbea9fe0f16d8009f3d93940c"
+    },
+    {
+      "path": "reference-ai-os/wiki/ideas/feature-skill-consolidation.md",
+      "bytes": 3237,
+      "sha256": "7ced730f01bdc93384f45d8c868299b07fc161db6f05bf0fd4cfb3c08e0b9490"
+    },
+    {
+      "path": "reference-ai-os/wiki/ideas/feature-skill-project-setup-action.md",
+      "bytes": 3249,
+      "sha256": "1b271e39cbf02dc2d9c1d39a5c290ea83a224338fe643fabb86eb46e629d1e7e"
+    },
+    {
+      "path": "reference-ai-os/wiki/ideas/feature-skill-publish-quality-gate.md",
+      "bytes": 1808,
+      "sha256": "4061a3094162d5b577c693828bea470a3b3ddc700c8cf0d868107678ea7867aa"
+    },
+    {
+      "path": "reference-ai-os/wiki/ideas/obsidian-web-clipper.md",
+      "bytes": 621,
+      "sha256": "2abf5f17e7e96fa025673d71cac8a70c2f885f2e4f896cf7dae7b377ccf6d2b2"
+    },
+    {
+      "path": "reference-ai-os/wiki/ideas/project-pensieve.md",
+      "bytes": 1330,
+      "sha256": "19529215e7a97f41ce97113134461e0b9b593cf241f68e9a2f127fb295051f2c"
+    },
+    {
+      "path": "reference-ai-os/wiki/ideas/project-tab-extractor.md",
+      "bytes": 5719,
+      "sha256": "86304a49475ff36ab32edd60a931185311f30601b8472d2c772d2d00b0e1406c"
+    },
+    {
+      "path": "reference-ai-os/wiki/ideas/single-claude-md-router.md",
+      "bytes": 1889,
+      "sha256": "9b5744f55bf6160bba88542a2fb4b035d3fee0a1c8a7905cf065483c58f86a11"
+    },
+    {
+      "path": "reference-ai-os/wiki/ideas/skill-feature.md",
+      "bytes": 3572,
+      "sha256": "c51ea3d308ecc4074e2c77d3de7bd58a886c1aee284c5446185b193e680054d8"
+    },
+    {
+      "path": "reference-ai-os/wiki/ideas/skill-grill-me.md",
+      "bytes": 1064,
+      "sha256": "28ae2a54b4ce3a028f2b3796da4167863a1b14b18745603f77650ee7b3772b83"
+    },
+    {
+      "path": "reference-ai-os/wiki/ideas/skill-session-handoff.md",
+      "bytes": 650,
+      "sha256": "2d0ffb937e6ad84e735429bebf273708a666d7ff50a476f33e070b7104d79e85"
+    },
+    {
+      "path": "reference-ai-os/wiki/index.md",
+      "bytes": 3000,
+      "sha256": "ff29f8a55e5653928b93c563dfde8e1fc6783a9c238790fbc66e6884122c4686"
+    },
+    {
+      "path": "reference-ai-os/wiki/log.md",
+      "bytes": 1150,
+      "sha256": "fac1a5377b76803394bc261eda6d554ce0d55dcf73b74a8115f94bb3723d53f9"
+    },
+    {
+      "path": "reference-ai-os/wiki/notes/concepts/claude-md-as-router.md",
+      "bytes": 2246,
+      "sha256": "2716bf75b59cf336a11615a429df775529d23629f727c56d4776b206cc4ed7c5"
+    },
+    {
+      "path": "reference-ai-os/wiki/notes/concepts/context-vs-connections.md",
+      "bytes": 1713,
+      "sha256": "0fd5ef64d09e8f9c5f57276f1d876a1d06373a84591b597e1427afcd816ad11d"
+    },
+    {
+      "path": "reference-ai-os/wiki/notes/concepts/second-brain-levels.md",
+      "bytes": 2388,
+      "sha256": "015ddae102421609c0d4360e124119d842e8f19b9ec04ce8b010fa327a032f7b"
+    },
+    {
+      "path": "reference-ai-os/wiki/notes/concepts/skills-vs-subagents.md",
+      "bytes": 2742,
+      "sha256": "fcb8c2eb9640f32abab8d84b5027b65a9e508ad87a1cee9173124dfe6ad70360"
+    },
+    {
+      "path": "reference-ai-os/wiki/notes/principles/philosophy.md",
+      "bytes": 4394,
+      "sha256": "90f7f9f341a4c586e35f3105b731ccbee11ea6dc3888f9cdaa02e1803a4e6d2e"
+    },
+    {
+      "path": "reference-ai-os/wiki/notes/techniques/automation-stack.md",
+      "bytes": 4749,
+      "sha256": "5953da71ac2ff200aea070b9cd35f5f1c6ce40d56a8e394a4f929467c51b4e7d"
+    },
+    {
+      "path": "reference-ai-os/wiki/notes/techniques/obsidian-raw-wiki-ingestion.md",
+      "bytes": 3722,
+      "sha256": "75e528ef113422532c2414a921cdd1fb08a23236166d2b26dacfa242568685d2"
+    },
+    {
+      "path": "reference-ai-os/wiki/notes/techniques/skill-and-agent-authoring.md",
+      "bytes": 3115,
+      "sha256": "1f6ec08065bae5ca57a20e8f4f4f24aab6c968b22fb5cadc02373f1d8e7b96e7"
+    },
+    {
+      "path": "reference-materials/second-brain-agent-plan.md",
+      "bytes": 21110,
+      "sha256": "c5f18552be0e0fb82802019c5a7e9144f67945a34da8dbe8e55442140d9bd80f"
+    },
+    {
+      "path": "source-manifest.json",
+      "bytes": 18696,
+      "sha256": "ca6d3d28d3e5b5d43149ca783c15ef15b877ad57cdce457fb40807b3102d296d"
+    }
+  ]
+}

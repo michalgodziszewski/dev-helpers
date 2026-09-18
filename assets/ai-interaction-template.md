@@ -70,3 +70,4 @@ Follow context/feature-config.md. When Jira mode is active, include the validate
 - After two or three failed attempts, stop and explain the issue.
 - Do not try random fixes.
 - Ask when requirements or Git state are ambiguous.
+feat

@@ -1,0 +1,22 @@
+flowchart TD
+    claude["Claude Code — Klient lokalny"]
+    kiro["Kiro — Klient lokalny IDE/CLI"]
+    router["Adapter i router — Rozpoznanie projektu; Tryb akcji i dostęp do plików"]
+    ctx["brain-context — Trafna wiedza, źródła, luki"]
+    work["Feature / zwykłe zadanie — Orkiestrator i wybrane role"]
+    repo["Repo kodu + context — Implementacja i dokumenty zadania"]
+    capture["brain-capture — Ocena odkryć, zakres i dowody"]
+    checkpoint["brain-checkpoint — Ciągłość sesji w .state"]
+    brain["brain/ — Trwała wiedza z historią"]
+    result["Wynik pracy — Kod, raport lub odpowiedź; Ujawniony wynik zapisu pamięci"]
+    claude --> router
+    kiro --> router
+    router -->|"dobierz wiedzę"| ctx
+    ctx -->|"kontekst"| work
+    router -->|"rozpoznaj źródła"| repo
+    repo -->|"stan i kod"| work
+    work -->|"odkrycia; akcja zapisująca"| capture
+    work -->|"koniec kroku"| checkpoint
+    capture -->|"zapis / aktualizacja"| brain
+    checkpoint -->|"wznowienie możliwe"| result
+    work --> result

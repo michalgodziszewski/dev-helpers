@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 817" role="img" aria-label="Katalogi ai-system">
+<defs><marker id="arrow-01-folders" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#83919e"/></marker></defs>
+<rect width="1080" height="817" fill="#ffffff" rx="18"/>
+<text x="38" y="44" font-family="Arial,sans-serif" font-size="26" font-weight="700" fill="#122d38">Katalogi ai-system</text>
+<text x="38" y="74" font-family="Arial,sans-serif" font-size="14" fill="#586b79">Root bez Git; system/context/brain lokalne bez remote; projekty ze zdalnym origin.</text>
+<path d="M 540.0 242 V 266.0 H 179.0 V 287" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-01-folders)"/>
+<rect x="319.85" y="247.0" width="79.3" height="17" fill="white" rx="4"/>
+<text x="359.5" y="259.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" fill="#566977">lokalny Git</text>
+<path d="M 540.0 242 V 266.0 H 540.0 V 287" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-01-folders)"/>
+<rect x="500.35" y="247.0" width="79.3" height="17" fill="white" rx="4"/>
+<text x="540.0" y="259.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" fill="#566977">lokalny Git</text>
+<path d="M 540.0 242 V 266.0 H 901.0 V 287" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-01-folders)"/>
+<rect x="680.85" y="247.0" width="79.3" height="17" fill="white" rx="4"/>
+<text x="720.5" y="259.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" fill="#566977">lokalny Git</text>
+<path d="M 540.0 242 V 261 H 359 V 608 H 179.0 V 627" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-01-folders)"/>
+<rect x="223.05" y="589" width="91.89999999999999" height="17" fill="white" rx="4"/>
+<text x="269.0" y="601" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" fill="#566977">zdalny origin</text>
+<path d="M 540.0 242 V 261 H 721 V 608 H 901.0 V 627" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-01-folders)"/>
+<rect x="743.0" y="589" width="136.0" height="17" fill="white" rx="4"/>
+<text x="811.0" y="601" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" fill="#566977">bez repo nadrzędnego</text>
+<rect x="399" y="120" width="282" height="122" rx="13" fill="#eaf4f3" stroke="#10756e" stroke-width="1.5"/>
+<text x="540.0" y="147" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">ai-system/</text>
+<text x="540.0" y="172" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Workspace bez .git</text>
+<rect x="38" y="290" width="282" height="122" rx="13" fill="#eaf4f3" stroke="#10756e" stroke-width="1.5"/>
+<text x="179.0" y="317" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">system/</text>
+<text x="179.0" y="342" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">skills · roles · policies</text>
+<text x="179.0" y="358" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">adapters · runtime · templates</text>
+<rect x="399" y="290" width="282" height="122" rx="13" fill="#eef2ff" stroke="#4957a3" stroke-width="1.5"/>
+<text x="540.0" y="317" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">context/</text>
+<text x="540.0" y="342" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">profile · registry</text>
+<text x="540.0" y="358" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">projects · specs</text>
+<rect x="760" y="290" width="282" height="122" rx="13" fill="#eef2ff" stroke="#4957a3" stroke-width="1.5"/>
+<text x="901.0" y="317" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">brain/</text>
+<text x="901.0" y="342" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">systems · flows · decisions</text>
+<text x="901.0" y="358" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">lessons · inbox · sources</text>
+<rect x="38" y="630" width="282" height="122" rx="13" fill="#eef5ec" stroke="#50734b" stroke-width="1.5"/>
+<text x="179.0" y="657" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">projects/&lt;name&gt;/</text>
+<text x="179.0" y="682" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Repozytoria kodu z remote</text>
+<text x="179.0" y="698" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Jeden checkout na projekt</text>
+<rect x="760" y="630" width="282" height="122" rx="13" fill="#f0f3f6" stroke="#6a7787" stroke-width="1.5"/>
+<text x="901.0" y="657" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">Katalogi lokalne</text>
+<text x="901.0" y="682" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">.state/ — sesje i sloty</text>
+<text x="901.0" y="698" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">.worktrees/ — checkouty kontekstu</text>
+<text x="901.0" y="714" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">.claude/ i .kiro/ — adaptery</text>
+</svg>

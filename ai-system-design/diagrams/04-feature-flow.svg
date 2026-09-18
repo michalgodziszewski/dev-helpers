@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1667" role="img" aria-label="Cykl feature">
+<defs><marker id="arrow-04-feature-flow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#83919e"/></marker></defs>
+<rect width="1080" height="1667" fill="#ffffff" rx="18"/>
+<text x="38" y="44" font-family="Arial,sans-serif" font-size="26" font-weight="700" fill="#122d38">Cykl feature</text>
+<text x="38" y="74" font-family="Arial,sans-serif" font-size="14" fill="#586b79">Clear zwalnia slot bez sprawdzenia merge; complete sprawdza wymagane scalenia.</text>
+<path d="M 540.0 242 V 266.0 H 540.0 V 287" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-04-feature-flow)"/>
+<path d="M 540.0 412 V 436.0 H 540.0 V 457" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-04-feature-flow)"/>
+<path d="M 540.0 582 V 606.0 H 179.0 V 627" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-04-feature-flow)"/>
+<rect x="332.45" y="587.0" width="54.1" height="17" fill="white" rx="4"/>
+<text x="359.5" y="599.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" fill="#566977">sprawdź</text>
+<path d="M 540.0 582 V 601 H 359 V 778 H 540.0 V 797" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-04-feature-flow)"/>
+<path d="M 179.0 752 V 776.0 H 540.0 V 797" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-04-feature-flow)"/>
+<rect x="332.45" y="757.0" width="54.1" height="17" fill="white" rx="4"/>
+<text x="359.5" y="769.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" fill="#566977">raporty</text>
+<path d="M 540.0 922 V 946.0 H 540.0 V 967" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-04-feature-flow)"/>
+<rect x="459.4" y="927.0" width="161.2" height="17" fill="white" rx="4"/>
+<text x="540.0" y="939.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" fill="#566977">wszystkie operacje udane</text>
+<path d="M 540.0 1092 V 1116.0 H 179.0 V 1137" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-04-feature-flow)"/>
+<rect x="329.3" y="1097.0" width="60.4" height="17" fill="white" rx="4"/>
+<text x="359.5" y="1109.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" fill="#566977">zaparkuj</text>
+<path d="M 540.0 1092 V 1111 H 359 V 1288 H 540.0 V 1307" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-04-feature-flow)"/>
+<path d="M 540.0 1092 V 1116.0 H 901.0 V 1137" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-04-feature-flow)"/>
+<rect x="646.2" y="1097.0" width="148.6" height="17" fill="white" rx="4"/>
+<text x="720.5" y="1109.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" fill="#566977">jeżeli spełnia warunki</text>
+<path d="M 179.0 1262 V 1286.0 H 540.0 V 1307" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-04-feature-flow)"/>
+<rect x="291.5" y="1267.0" width="136.0" height="17" fill="white" rx="4"/>
+<text x="359.5" y="1279.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" fill="#566977">wybór po work-branch</text>
+<path d="M 901.0 1262 V 1286.0 H 540.0 V 1307" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-04-feature-flow)"/>
+<rect x="649.35" y="1267.0" width="142.29999999999998" height="17" fill="white" rx="4"/>
+<text x="720.5" y="1279.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" fill="#566977">po scaleniu backportu</text>
+<path d="M 540.0 1432 V 1456.0 H 540.0 V 1477" fill="none" stroke="#83919e" stroke-width="1.7" marker-end="url(#arrow-04-feature-flow)"/>
+<rect x="459.4" y="1437.0" width="161.2" height="17" fill="white" rx="4"/>
+<text x="540.0" y="1449.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" fill="#566977">wszystkie wymagane merge</text>
+<rect x="399" y="120" width="282" height="122" rx="13" fill="#eaf4f3" stroke="#10756e" stroke-width="1.5"/>
+<text x="540.0" y="147" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">Plan → plan done</text>
+<text x="540.0" y="172" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Preview → numerowana specyfikacja</text>
+<rect x="399" y="290" width="282" height="122" rx="13" fill="#eaf4f3" stroke="#10756e" stroke-width="1.5"/>
+<text x="540.0" y="317" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">Load</text>
+<text x="540.0" y="342" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Idle → Not Started</text>
+<rect x="399" y="460" width="282" height="122" rx="13" fill="#eef5ec" stroke="#50734b" stroke-width="1.5"/>
+<text x="540.0" y="487" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">Start</text>
+<text x="540.0" y="512" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Gałąź kodu i kontekstu</text>
+<text x="540.0" y="528" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Implementer → In Progress</text>
+<rect x="38" y="630" width="282" height="122" rx="13" fill="#f0f3f6" stroke="#6a7787" stroke-width="1.5"/>
+<text x="179.0" y="657" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">Test / review</text>
+<text x="179.0" y="682" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Raporty bez zmiany statusu</text>
+<rect x="399" y="800" width="282" height="122" rx="13" fill="#eaf4f3" stroke="#10756e" stroke-width="1.5"/>
+<text x="540.0" y="827" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">Publish</text>
+<text x="540.0" y="852" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Commity kodu i kontekstu</text>
+<text x="540.0" y="868" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Push tylko kodu projektu remote</text>
+<rect x="399" y="970" width="282" height="122" rx="13" fill="#eef2ff" stroke="#4957a3" stroke-width="1.5"/>
+<text x="540.0" y="997" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">Published</text>
+<text x="540.0" y="1022" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Pakiet gotowy do osobnego merge</text>
+<rect x="38" y="1140" width="282" height="122" rx="13" fill="#eef2ff" stroke="#4957a3" stroke-width="1.5"/>
+<text x="179.0" y="1167" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">Clear</text>
+<text x="179.0" y="1192" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Wpis do Pending Reviews</text>
+<text x="179.0" y="1208" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Aktywny slot → Idle</text>
+<rect x="760" y="1140" width="282" height="122" rx="13" fill="#eef5ec" stroke="#50734b" stroke-width="1.5"/>
+<text x="901.0" y="1167" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">Opcjonalny backport</text>
+<text x="901.0" y="1192" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Tylko poprawki trunk i opt-in</text>
+<rect x="399" y="1310" width="282" height="122" rx="13" fill="#eaf4f3" stroke="#10756e" stroke-width="1.5"/>
+<text x="540.0" y="1337" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">Complete</text>
+<text x="540.0" y="1362" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Zweryfikuj kod, kontekst</text>
+<text x="540.0" y="1378" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">i zarejestrowany backport</text>
+<rect x="399" y="1480" width="282" height="122" rx="13" fill="#eef2ff" stroke="#4957a3" stroke-width="1.5"/>
+<text x="540.0" y="1507" text-anchor="middle" font-family="Arial,sans-serif" font-size="15.5" font-weight="700" fill="#143240">Idle / usunięty pending</text>
+<text x="540.0" y="1532" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.1" fill="#405565">Zadanie zakończone</text>
+</svg>

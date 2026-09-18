@@ -1,0 +1,15 @@
+flowchart TD
+    proposal["Pakiet publikacji — Wiadomości, pliki i commity; Tryb Git oraz cele obu repo"]
+    approval["Zatwierdzenie pakietu — Według zachowanego workflow feature"]
+    code["Repo kodu — Projekt: commit i push; System: commit lokalny"]
+    context["Repo context — Lokalne commity w worktree; Bez origin i bez push"]
+    results["Sprawdzenie obu wyników — Częściowy sukces → jawny stan; Brak deklaracji pełnej publikacji"]
+    merge["Scalenie przez użytkownika — Projekt: PR na serwerze; System/context: lokalny merge"]
+    verify["Complete — Niezależna weryfikacja merge; plus backport, jeśli zapisany"]
+    proposal --> approval
+    approval --> code
+    approval --> context
+    code --> results
+    context --> results
+    results -->|"pakiet gotowy do merge"| merge
+    merge --> verify

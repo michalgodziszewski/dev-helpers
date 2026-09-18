@@ -1,0 +1,14 @@
+flowchart TD
+    a["Praca w Claude — Aktywny feature i checkout"]
+    checkpoint["Checkpoint i odkrycia — Zapis minimum do wznowienia; Wiedza trafia oddzielnie do braina"]
+    release["Zwolnienie własności zadania — Bez cichego przejęcia aktywnej sesji"]
+    b["Otwarcie Kiro — Wybór właściwego zadania; Plan wymaga jawnego resume"]
+    read["Odczyt wspólnego stanu — Specyfikacja · current-feature; checkpoint · brain-context"]
+    verify["Sprawdzenie aktualnego Git — Czy checkout i wersja nadal pasują?"]
+    next["Kontynuacja właściwego kroku — Jeden aktywny właściciel mutacji; Nowy klient używa tego samego feature"]
+    a --> checkpoint
+    checkpoint --> release
+    b --> read
+    read --> verify
+    release -->|"przekazanie"| next
+    verify -->|"zgodny stan"| next
